@@ -1,0 +1,88 @@
+<header class="fixed-top">
+    <nav class="navbar navbar-expand-lg navbar_bg">
+        <div class="container-fluid">
+            <a class="navbar-brand">Smart School</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" routerLink="/home"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                            routerLinkActive="active">Edit</a>
+                    </li>
+                    <li class="nav-item ">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Timetables
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" routerLink="/CreateShiftTiming" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Create Shift Timing</a></li>
+
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Allotments</a></li>
+
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Fix Criteria</a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Set Compained & Continous</a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Define Staff Compained</a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Create Timetable</a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Process Timetable</a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Manual Adjustment </a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Import Timetables </a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Create Temporary Timetable </a></li>
+                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
+                                        routerLinkActive="active">Subscribe Staff </a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/">Timetable Reports</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="">
+                <a class="nav-link" aria-current="page">
+                    <span class="me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                        </svg>
+                    </span>
+                    Bangalore, India</a>
+            </div>
+            <div class="">
+                <a class="nav-link " mat-raised-button color="primary" aria-current="page" routerLink="/"><span class="me-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+                        <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                      </svg>
+                </span> <span class="mt-1">Logout</span></a>
+            </div>
+
+        </div>
+    </nav>
+</header>
+<router-outlet></router-outlet>
+
+<footer class="fixed-bottom bg-white footer_main p-2">
+    <p class="mb-0">Copyright © 2012 Smart School, All Rights Reserved. Powered by <b> Bosco Soft Tech</b></p>
+</footer>

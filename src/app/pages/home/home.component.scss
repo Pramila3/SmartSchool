@@ -1,0 +1,42 @@
+.menu_box_main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.menu_icons_part {
+    height: 179px;
+    width: 154px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    // &:hover{
+
+    // }
+    &:hover .menu_pics {
+        padding: 10px;
+        background-color: #fafafa;
+    }
+
+    .menu_pics {
+        height: 100px;
+        width: 100px;
+        object-fit: contain;
+        transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+    }
+
+    .menu_name {
+        font-weight: 700;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+}
