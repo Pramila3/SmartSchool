@@ -12,6 +12,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import { PagesComponent } from './pages/pages.component';
 import { PagesModule } from './pages/pages.module';
+
 @NgModule({
   declarations: [
     AppComponent,

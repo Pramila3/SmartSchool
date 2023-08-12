@@ -13,8 +13,9 @@ import { TimetableRoutingModule } from './timetable-routing.module';
 import { CreateShiftTimingComponent } from './create-shift-timing/create-shift-timing.component';
 import { AddShiftComponent } from './create-shift-timing/add-shift/add-shift.component';
 import { TimetablesComponent } from './timetables.component';
-
-
+import { ReactiveFormsModule } from '@angular/forms';
+// import { MobiscrollModule } from '@mobiscroll/angular';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,9 @@ import { TimetablesComponent } from './timetables.component';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    TimetableRoutingModule
-
+    TimetableRoutingModule,
+    ReactiveFormsModule,
+    NgxMaterialTimepickerModule
   ]
 })
 export class TimetableModule { }

@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+// import { TimepickerConfig } from 'ngx-material-timepicker';
+
 
 @Component({
   selector: 'app-add-shift',
   templateUrl: './add-shift.component.html',
-  styleUrls: ['./add-shift.component.scss']
+  styleUrls: ['./add-shift.component.scss'],
+  // providers: [
+  //   TimepickerConfig // You might need to provide the TimepickerConfig in your component
+  // ]
 })
 export class AddShiftComponent implements OnInit {
 
@@ -13,3 +18,8 @@ export class AddShiftComponent implements OnInit {
   }
 
 }
+
+// export class TimeRangePickerComponent {
+//   startTime: string;
+//   endTime: string;
+// }

@@ -1,0 +1,48 @@
+.form-group {
+    margin-bottom: 10px;
+
+    label {
+        margin-bottom: 6px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+
+.custum_table {
+    thead {
+        background: dodgerblue;
+        color: white;
+    }
+
+    tbody {
+        vertical-align: middle;
+    }
+}
+
+.custum_table tr th p {
+    margin-bottom: 2px;
+}
+
+.custum_modal_close {
+    position: absolute;
+    right: -46px;
+    top: -47px;
+    background: #ffffff9c;
+}
+
+.modal.fade .modal-dialog.modal-dialog-zoom {
+    -webkit-transform: translate(0, 0)scale(.5);
+    transform: translate(0, 0)scale(.5);
+}
+
+.modal.show .modal-dialog.modal-dialog-zoom {
+    -webkit-transform: translate(0, 0)scale(1);
+    transform: translate(0, 0)scale(1);
+}
+
+.form-check {
+    .form-check-label {
+        font-size: 14px;
+        font-weight: 600;
+    }
+}
