@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,16 +13,19 @@ import { TimetableRoutingModule } from './timetable-routing.module';
 import { CreateShiftTimingComponent } from './create-shift-timing/create-shift-timing.component';
 import { AddShiftComponent } from './create-shift-timing/add-shift/add-shift.component';
 import { TimetablesComponent } from './timetables.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { MobiscrollModule } from '@mobiscroll/angular';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserModule } from '@angular/platform-browser';
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
     CreateShiftTimingComponent,
     AddShiftComponent,
     TimetablesComponent
-   
+
   ],
   imports: [
     CommonModule,
@@ -36,7 +39,14 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     MatInputModule,
     TimetableRoutingModule,
     ReactiveFormsModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    BrowserModule
+    // NgMultiSelectDropDownModule
   ]
 })
 export class TimetableModule { }

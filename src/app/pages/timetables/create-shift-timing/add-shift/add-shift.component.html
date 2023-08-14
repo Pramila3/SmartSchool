@@ -18,76 +18,80 @@
                 </div>
             </div>
 
-            <table class="table custum_table mt-2 mb-2">
-                <thead>
-                    <tr>
-                        <th>Shift</th>
-                        <th>Classes</th>
-                        <th>Start Time </th>
-                        <th>End Time </th>
-                        <th> No of Days</th>
-                        <th>No of Periods</th>
-                        <th>Action</th>
+            <div class="overflow-auto">
+                <table class="table custum_table mt-2 mb-2">
+                    <thead>
+                        <tr>
+                            <th>Shift</th>
+                            <th>Classes</th>
+                            <th>Start Time </th>
+                            <th>End Time </th>
+                            <th> No of Days</th>
+                            <th>No of Periods</th>
+                            <th>Action</th>
 
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Timetable 2023-2024 I-V </td>
-                        <td>test A,I 1,SKG A,I 0,2 A,3 A </td>
-                        <td> 08:00 AM </td>
-                        <td>03:30 PM</td>
-                        <td>5 </td>
-                        <td>11 </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <button mat-icon-button class="text-success" data-bs-toggle="modal"
-                                    data-bs-target="#editCreateShift"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                        height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                    </svg></button>
-                                <button mat-icon-button class="text-danger">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                    </svg>
-                                </button>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Timetable 2023-2024 I-V </td>
+                            <td>test A,I 1,SKG A,I 0,2 A,3 A </td>
+                            <td> 08:00 AM </td>
+                            <td>03:30 PM</td>
+                            <td>5 </td>
+                            <td>11 </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <button mat-icon-button class="text-success" data-bs-toggle="modal"
+                                        data-bs-target="#editCreateShift"><svg xmlns="http://www.w3.org/2000/svg"
+                                            width="16" height="16" fill="currentColor" class="bi bi-pencil-fill"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                        </svg></button>
+                                    <button mat-icon-button class="text-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                        </svg>
+                                    </button>
 
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Timetable 2023-2024 I-V </td>
-                        <td>test A,I 1,SKG A,I 0,2 A,3 A </td>
-                        <td> 08:00 AM </td>
-                        <td>03:30 PM</td>
-                        <td>5 </td>
-                        <td>11 </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <button mat-icon-button class="text-success" data-bs-toggle="modal"
-                                    data-bs-target="#editCreateShift"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                        height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                    </svg></button>
-                                <button mat-icon-button class="text-danger">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                    </svg>
-                                </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Timetable 2023-2024 I-V </td>
+                            <td>test A,I 1,SKG A,I 0,2 A,3 A </td>
+                            <td> 08:00 AM </td>
+                            <td>03:30 PM</td>
+                            <td>5 </td>
+                            <td>11 </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <button mat-icon-button class="text-success" data-bs-toggle="modal"
+                                        data-bs-target="#editCreateShift"><svg xmlns="http://www.w3.org/2000/svg"
+                                            width="16" height="16" fill="currentColor" class="bi bi-pencil-fill"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                        </svg></button>
+                                    <button mat-icon-button class="text-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                        </svg>
+                                    </button>
 
-                            </div>
-                        </td>
+                                </div>
+                            </td>
 
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
 
         </div>
@@ -98,55 +102,134 @@
             <div class="mb-2">
                 <div class="row mt-3">
                     <div class="col-lg-4">
+
                         <div class="form-group">
-                            <label for="">Shift Name</label>
-                            <input type="text" class="form-control" placeholder="Shift Name">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Shift Name</mat-label>
+                                <input matInput placeholder="Shift Name">
+
+                            </mat-form-field>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="">Classes</label>
-                            <input type="text" class="form-control" placeholder="Shift Name">
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Start Time</label>
-                            <input type="time" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">End Time</label>
-                            <input type="time" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">No of Days per Week</label>
-                            <input type="text" class="form-control" placeholder="No of Days per Week">
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">No of Days per Day</label>
-                            <input type="text" class="form-control" placeholder="No of Days per Day">
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="">Starting Day</label>
-                            <select name="" class="form-control" id="">
-                                <option value="">Day 1</option>
-                                <option value="">Day 2</option>
-                                <option value="">Day 3</option>
-                                <option value="">Day 4</option>
-                                <option value="">Day 5</option>
-                                <option value="">Day 6</option>
-                                <option value="">Day 7</option>
+                            <!-- <mat-form-field appearance="outline">
+                                <mat-label>Classes</mat-label>
+                                <mat-select [formControl]="toppings" multiple>
+                                    <mat-select-trigger>
+                                        {{toppings.value?.[0] || ''}}
+                                        <span *ngIf="(toppings.value?.length || 0) > 1"
+                                            class="example-additional-selection">
+                                            (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ?
+                                            'other' : 'others'}})
+                                        </span>
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let topping of toppingList"
+                                        [value]="topping">{{topping}}</mat-option>
+                                </mat-select>
+                            </mat-form-field> -->
+                            <!-- <mat-form-field appearance="outline">
+                                <mat-label>Classes</mat-label>
+                                <mat-select [formControl]="toppings" multiple>
+                                    <mat-select-trigger>
+                                        {{ toppings.value?.[0] || '' }}
+                                        <span *ngIf="(toppings.value?.length || 0) > 1"
+                                            class="example-additional-selection">
+                                            (+{{ (toppings.value?.length || 0) - 1 }} {{ toppings.value?.length === 2 ?
+                                            'other' : 'others' }})
+                                        </span>
+                                    </mat-select-trigger>
+                                    <mat-select-search>
+                                        <input matInput [formControl]="searchControl"
+                                            placeholder="Search for a topping">
+                                    </mat-select-search>
+                                    <mat-option *ngFor="let topping of filteredToppingList" [value]="topping">
+                                        {{ topping }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field> -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Classes</mat-label>
+                                <mat-select [formControl]="toppings" multiple>
+                                    <mat-select-trigger>
+                                        {{ selectedToppingsText }}
+                                    </mat-select-trigger>
+                                    <input matInput placeholder="Search Classes" (input)="applyFilter($event)"
+                                        class="search-mat-option">
+                                    <mat-option *ngFor="let topping of filteredToppingList" [value]="topping">
+                                        {{ topping }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
 
 
-                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <!-- <mat-form-field appearance="outline">
+                                <mat-label>Start Time</mat-label>
+                                <input matInput placeholder="Start Time">
+
+                            </mat-form-field> -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Start Time</mat-label>
+                                <input matInput [ngxTimepicker]="picker" placeholder="Select time">
+                                <ngx-material-timepicker #picker></ngx-material-timepicker>
+                            </mat-form-field>
+
+                            <!-- <div class="toggle-example">
+                                <input [ngxTimepicker]="toggleTimepicker" readonly>
+                                <ngx-material-timepicker-toggle [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
+                                <ngx-material-timepicker #toggleTimepicker></ngx-material-timepicker>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Start Time</mat-label>
+                                <input matInput [ngxTimepicker]="picker1" placeholder="Select time">
+                                <ngx-material-timepicker #picker1></ngx-material-timepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline">
+                                <mat-label>No of Days per Week</mat-label>
+                                <input matInput placeholder="No of Days per Week">
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline">
+                                <mat-label>No of Days per Day</mat-label>
+                                <input matInput placeholder="No of Days per Day">
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+
+                        <div class="form-group">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Starting Day</mat-label>
+                                <mat-select>
+                                    <mat-option value="1">Day 7</mat-option>
+                                    <mat-option value="2">Day 1</mat-option>
+                                    <mat-option value="3">Day 2</mat-option>
+                                    <mat-option value="4">Day 3</mat-option>
+                                    <mat-option value="5">Day 4</mat-option>
+                                    <mat-option value="6">Day 5</mat-option>
+                                    <mat-option value="7">Day 6</mat-option>
+
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                     </div>
                 </div>
@@ -154,138 +237,140 @@
             </div>
 
 
-            <table class="table custum_table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Days/ Periods</th>
-                        <th>
-                            <p>Period 1</p>
-                        </th>
-                        <th>
-                            <p>Period 2</p>
-                        </th>
-                        <th class="break">
-                            <p>Period 3</p>
-                        </th>
-                        <th>
-                            <p>Period 4</p>
-                        </th>
-                        <th class="break">
-                            <p>Period 5</p>
-                        </th>
-                        <th>
-                            <p>Period 6</p>
-                        </th>
-                        <th>
-                            <p>Period 7</p>
-                        </th>
-                        <th>
-                            <p>Period 8</p>
-                        </th>
-                        <th>
-                            <p>Period 9</p>
-                        </th>
-                        <th>
-                            <p>Period 10</p>
-                        </th>
-                        <th>
-                            <p>Period 11</p>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="days_coloumn">Monday</td>
-                        <td data-bs-toggle="modal" data-bs-target="#addtimings"></td>
-                        <td></td>
-                        <td class="break"></td>
-                        <td></td>
-                        <td class="break"> </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td> </td>
-                        <td></td>
-                        <td></td>
+            <div class="overflow-auto">
+                <table class="table custum_table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Days/ Periods</th>
+                            <th>
+                                <p>Period 1</p>
+                            </th>
+                            <th>
+                                <p>Period 2</p>
+                            </th>
+                            <th class="break">
+                                <p>Period 3</p>
+                            </th>
+                            <th>
+                                <p>Period 4</p>
+                            </th>
+                            <th class="break">
+                                <p>Period 5</p>
+                            </th>
+                            <th>
+                                <p>Period 6</p>
+                            </th>
+                            <th>
+                                <p>Period 7</p>
+                            </th>
+                            <th>
+                                <p>Period 8</p>
+                            </th>
+                            <th>
+                                <p>Period 9</p>
+                            </th>
+                            <th>
+                                <p>Period 10</p>
+                            </th>
+                            <th>
+                                <p>Period 11</p>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="days_coloumn">Monday</td>
+                            <td data-bs-toggle="modal" data-bs-target="#addtimings"></td>
+                            <td></td>
+                            <td class="break"></td>
+                            <td></td>
+                            <td class="break"> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td> </td>
+                            <td></td>
+                            <td></td>
 
-                    </tr>
-                    <tr>
-                        <td class="days_coloumn">Monday</td>
-                        <td>08:00 AM - 09:00 AM </td>
-                        <td>09:00 AM - 10:00 AM</td>
-                        <td class="break">10:00 AM - 10:15 AM</td>
-                        <td>10:15 AM - 11:15 AM</td>
-                        <td class="break">11:15 AM - 12:15 PM </td>
-                        <td>12:15 PM - 01:15 PM </td>
-                        <td>01:15 PM - 01:30 PM </td>
-                        <td>01:30 PM - 02:00 PM </td>
-                        <td>02:00 PM - 02:15 PM </td>
-                        <td>02:15 PM - 02:20 PM </td>
-                        <td>02:20 PM - 03:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Monday</td>
+                            <td>08:00 AM - 09:00 AM </td>
+                            <td>09:00 AM - 10:00 AM</td>
+                            <td class="break">10:00 AM - 10:15 AM</td>
+                            <td>10:15 AM - 11:15 AM</td>
+                            <td class="break">11:15 AM - 12:15 PM </td>
+                            <td>12:15 PM - 01:15 PM </td>
+                            <td>01:15 PM - 01:30 PM </td>
+                            <td>01:30 PM - 02:00 PM </td>
+                            <td>02:00 PM - 02:15 PM </td>
+                            <td>02:15 PM - 02:20 PM </td>
+                            <td>02:20 PM - 03:30 PM</td>
 
-                    </tr>
-                    <tr>
-                        <td class="days_coloumn">Tuesday</td>
-                        <td>08:00 AM - 09:00 AM </td>
-                        <td>09:00 AM - 10:00 AM</td>
-                        <td class="break">10:00 AM - 10:15 AM</td>
-                        <td>10:15 AM - 11:15 AM</td>
-                        <td class="break">11:15 AM - 12:15 PM </td>
-                        <td>12:15 PM - 01:15 PM </td>
-                        <td>01:15 PM - 01:30 PM </td>
-                        <td>01:30 PM - 02:00 PM </td>
-                        <td>02:00 PM - 02:15 PM </td>
-                        <td>02:15 PM - 02:20 PM </td>
-                        <td>02:20 PM - 03:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Tuesday</td>
+                            <td>08:00 AM - 09:00 AM </td>
+                            <td>09:00 AM - 10:00 AM</td>
+                            <td class="break">10:00 AM - 10:15 AM</td>
+                            <td>10:15 AM - 11:15 AM</td>
+                            <td class="break">11:15 AM - 12:15 PM </td>
+                            <td>12:15 PM - 01:15 PM </td>
+                            <td>01:15 PM - 01:30 PM </td>
+                            <td>01:30 PM - 02:00 PM </td>
+                            <td>02:00 PM - 02:15 PM </td>
+                            <td>02:15 PM - 02:20 PM </td>
+                            <td>02:20 PM - 03:30 PM</td>
 
-                    </tr>
-                    <tr>
-                        <td class="days_coloumn">Wednesday</td>
-                        <td>08:00 AM - 09:00 AM </td>
-                        <td>09:00 AM - 10:00 AM</td>
-                        <td class="break">10:00 AM - 10:15 AM</td>
-                        <td>10:15 AM - 11:15 AM</td>
-                        <td class="break">11:15 AM - 12:15 PM </td>
-                        <td>12:15 PM - 01:15 PM </td>
-                        <td>01:15 PM - 01:30 PM </td>
-                        <td>01:30 PM - 02:00 PM </td>
-                        <td>02:00 PM - 02:15 PM </td>
-                        <td>02:15 PM - 02:20 PM </td>
-                        <td>02:20 PM - 03:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Wednesday</td>
+                            <td>08:00 AM - 09:00 AM </td>
+                            <td>09:00 AM - 10:00 AM</td>
+                            <td class="break">10:00 AM - 10:15 AM</td>
+                            <td>10:15 AM - 11:15 AM</td>
+                            <td class="break">11:15 AM - 12:15 PM </td>
+                            <td>12:15 PM - 01:15 PM </td>
+                            <td>01:15 PM - 01:30 PM </td>
+                            <td>01:30 PM - 02:00 PM </td>
+                            <td>02:00 PM - 02:15 PM </td>
+                            <td>02:15 PM - 02:20 PM </td>
+                            <td>02:20 PM - 03:30 PM</td>
 
-                    </tr>
-                    <tr>
-                        <td class="days_coloumn">Thursday</td>
-                        <td>08:00 AM - 09:00 AM </td>
-                        <td>09:00 AM - 10:00 AM</td>
-                        <td class="break">10:00 AM - 10:15 AM</td>
-                        <td>10:15 AM - 11:15 AM</td>
-                        <td class="break">11:15 AM - 12:15 PM </td>
-                        <td>12:15 PM - 01:15 PM </td>
-                        <td>01:15 PM - 01:30 PM </td>
-                        <td>01:30 PM - 02:00 PM </td>
-                        <td>02:00 PM - 02:15 PM </td>
-                        <td>02:15 PM - 02:20 PM </td>
-                        <td>02:20 PM - 03:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Thursday</td>
+                            <td>08:00 AM - 09:00 AM </td>
+                            <td>09:00 AM - 10:00 AM</td>
+                            <td class="break">10:00 AM - 10:15 AM</td>
+                            <td>10:15 AM - 11:15 AM</td>
+                            <td class="break">11:15 AM - 12:15 PM </td>
+                            <td>12:15 PM - 01:15 PM </td>
+                            <td>01:15 PM - 01:30 PM </td>
+                            <td>01:30 PM - 02:00 PM </td>
+                            <td>02:00 PM - 02:15 PM </td>
+                            <td>02:15 PM - 02:20 PM </td>
+                            <td>02:20 PM - 03:30 PM</td>
 
-                    </tr>
-                    <tr>
-                        <td class="days_coloumn">Friday</td>
-                        <td>08:00 AM - 09:00 AM </td>
-                        <td>09:00 AM - 10:00 AM</td>
-                        <td class="break">10:00 AM - 10:15 AM</td>
-                        <td>10:15 AM - 11:15 AM</td>
-                        <td class="break">11:15 AM - 12:15 PM </td>
-                        <td>12:15 PM - 01:15 PM </td>
-                        <td>01:15 PM - 01:30 PM </td>
-                        <td>01:30 PM - 02:00 PM </td>
-                        <td>02:00 PM - 02:15 PM </td>
-                        <td>02:15 PM - 02:20 PM </td>
-                        <td>02:20 PM - 03:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Friday</td>
+                            <td>08:00 AM - 09:00 AM </td>
+                            <td>09:00 AM - 10:00 AM</td>
+                            <td class="break">10:00 AM - 10:15 AM</td>
+                            <td>10:15 AM - 11:15 AM</td>
+                            <td class="break">11:15 AM - 12:15 PM </td>
+                            <td>12:15 PM - 01:15 PM </td>
+                            <td>01:15 PM - 01:30 PM </td>
+                            <td>01:30 PM - 02:00 PM </td>
+                            <td>02:00 PM - 02:15 PM </td>
+                            <td>02:15 PM - 02:20 PM </td>
+                            <td>02:20 PM - 03:30 PM</td>
 
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="final_submit_btns card-footer">
             <button class="btn btn-success ">
