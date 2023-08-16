@@ -10,7 +10,8 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    localStorage['set']('schoolcode', 'testonline');
+    localStorage.setItem('schoolcode', 'testonline');
+    localStorage.setItem('academicYear', new Date().getFullYear().toString());
   }
 
 }

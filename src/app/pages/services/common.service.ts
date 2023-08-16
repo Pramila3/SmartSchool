@@ -11,7 +11,7 @@ import { URI } from './restURI';
 export class CommonService {
 
   baseUrl = `${environment.apiBaseUrl}`;
-  token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3RvbmxpbmUiLCJyb2xlIjoiMCIsIm5iZiI6MTY5MjAwODcxOSwiZXhwIjoxNjkyMDk1MTE5LCJpYXQiOjE2OTIwMDg3MTl9.JpP2bwBg-jKx3DWDqhqiFuCRiTB-wFL3B0eciNko6vc'
+  token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3RvbmxpbmUiLCJyb2xlIjoiMCIsIm5iZiI6MTY5MjE2MzE2MSwiZXhwIjoxNjkyMjQ5NTYxLCJpYXQiOjE2OTIxNjMxNjF9.y4r6VyThgJzMBbRTp0up6W6Su-O_jxMM-tKaWpTaQ3M'
   constructor(private http: HttpClient, private router: Router,) { }
 
   private handleError(error: HttpErrorResponse) {
@@ -27,7 +27,7 @@ export class CommonService {
     );
   };
 
-  postHttpService(data:any,  method: any) {
+  postHttpService(data: any, method: any) {
     var url = this.baseUrl + URI[method as keyof typeof URI];
     const httpOptions = {
       headers: new HttpHeaders({
@@ -39,11 +39,12 @@ export class CommonService {
       return data;
     }), catchError(this.handleError));
   }
+  
 
-  getHttpServiceWithId(data:any,  method: any, key: any) {
+  getHttpServiceWithId(data: any, method: any, key: any) {
     console.log(key);
-    
-    var url = this.baseUrl + URI[method as keyof typeof URI] +'?'+ key + '=' + data;
+
+    var url = this.baseUrl + URI[method as keyof typeof URI] + '?' + key + '=' + data;
     const httpOptions = {
       headers: new HttpHeaders({
         'Accept': 'application/json',
@@ -56,7 +57,21 @@ export class CommonService {
     }), catchError(this.handleError));
   }
 
-  putHttpService(data:any,  method: any) {
+  getHttpServiceWithDynamicParams(data: any, method: any) {
+    var url = this.baseUrl + URI[method as keyof typeof URI];
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'content-type': 'application/json',
+        'Authorization': this.token,
+      }),
+      params: data
+    };
+    return this.http.get<any>(url, httpOptions).pipe(map(data => {
+      return data;
+    }), catchError(this.handleError));
+  }
+  putHttpService(data: any, method: any) {
     var url = this.baseUrl + URI[method as keyof typeof URI];
     const httpOptions = {
       headers: new HttpHeaders({
@@ -84,33 +99,17 @@ export class CommonService {
     }), catchError(this.handleError));
   }
 
-  ImageUpload(file: any[], method: any) {
-    var url = this.baseUrl + URI[method as keyof typeof URI];
-    if (file && file.length <= 0)
-      return of("");
-    try {
-      let formData = new FormData();
-      formData.append('file', file[0]);
-      return this.http.post<any>(url, formData).pipe(map((res: any) => {
-        if (res.responseData)
-          return res.responseData.location;
-        else {
-          return "";
-        }
-      }));
-    } catch (error) {
-      return of("");
-    }
-  }
-
-  postHttpServiceWithoutJson(data:any,  method: any) {
+  deleteHttpService(data: any, method: any) {
     var url = this.baseUrl + URI[method as keyof typeof URI];
     const httpOptions = {
       headers: new HttpHeaders({
-       
-      })
+        'Accept': 'application/json',
+        'content-type': 'application/json',
+        'Authorization': this.token,
+      }),
+      params: data
     };
-    return this.http.post<any>(url, data, httpOptions).pipe(map(data => {
+    return this.http.delete<any>(url, httpOptions).pipe(map(data => {
       return data;
     }), catchError(this.handleError));
   }

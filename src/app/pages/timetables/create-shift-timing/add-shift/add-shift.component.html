@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-body">
             <div class=" d-flex justify-content-between align-items-center">
-                <p class="fw-bold">Timetable Name : <span class="text-primary">TT 2023</span></p>
+                <p class="fw-bold">Timetable Name : <span class="text-primary">{{timetableName || '-'}}</span></p>
 
 
                 <div class="d-flex align-items-center">
@@ -14,7 +14,7 @@
                         <input type="checkbox" class="form-check-input">
                         <label for="" class="form-check-label">Set as Active </label>
                     </div>
-                    <button class="btn btn-success btn-sm">Add Shift</button>
+                    <button class="btn btn-success btn-sm" (click)="addShift()">Add Shift</button>
                 </div>
             </div>
 
@@ -22,25 +22,25 @@
                 <table class="table custum_table mt-2 mb-2">
                     <thead>
                         <tr>
-                            <th>Shift</th>
+                            <th style="width: 8%;">Shift</th>
                             <th>Classes</th>
-                            <th>Start Time </th>
-                            <th>End Time </th>
-                            <th> No of Days</th>
-                            <th>No of Periods</th>
-                            <th>Action</th>
+                            <th style="width: 8%;">Start Time </th>
+                            <th style="width: 8%;">End Time </th>
+                            <th style="width: 8%;"> No of Days</th>
+                            <th style="width: 9%;">No of Periods</th>
+                            <th style="width: 8%;">Action</th>
 
 
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Timetable 2023-2024 I-V </td>
-                            <td>test A,I 1,SKG A,I 0,2 A,3 A </td>
-                            <td> 08:00 AM </td>
-                            <td>03:30 PM</td>
-                            <td>5 </td>
-                            <td>11 </td>
+                    <tbody *ngIf="shiftTimingList.length > 0">
+                        <tr *ngFor="let item of shiftTimingList">
+                            <td>{{item.shift}}</td>
+                            <td>{{item.classes}}</td>
+                            <td>{{item.start_Time}}</td>
+                            <td>{{item.end_Time}}</td>
+                            <td>{{item.no_of_Days}}</td>
+                            <td>{{item.no_of_Periods}}</td>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <button mat-icon-button class="text-success" data-bs-toggle="modal"
@@ -61,33 +61,10 @@
                                 </div>
                             </td>
                         </tr>
+                    </tbody>
+                    <tbody *ngIf="shiftTimingList.length == 0">
                         <tr>
-                            <td>Timetable 2023-2024 I-V </td>
-                            <td>test A,I 1,SKG A,I 0,2 A,3 A </td>
-                            <td> 08:00 AM </td>
-                            <td>03:30 PM</td>
-                            <td>5 </td>
-                            <td>11 </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <button mat-icon-button class="text-success" data-bs-toggle="modal"
-                                        data-bs-target="#editCreateShift"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" class="bi bi-pencil-fill"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                        </svg></button>
-                                    <button mat-icon-button class="text-danger">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                                        </svg>
-                                    </button>
-
-                                </div>
-                            </td>
-
+                            <td colspan="7" style="text-align: center;">No data found!</td>
                         </tr>
                     </tbody>
                 </table>
@@ -97,8 +74,10 @@
         </div>
     </div>
 
-    <div class="card mt-3">
+    <div class="card mt-3" *ngIf="isAddShiftShow">
         <div class="card-body">
+            <h2>Create Shift</h2>
+            <hr>
             <div class="mb-2">
                 <div class="row mt-3">
                     <div class="col-lg-4">
@@ -156,8 +135,8 @@
                                     </mat-select-trigger>
                                     <input matInput placeholder="Search Classes" (input)="applyFilter($event)"
                                         class="search-mat-option">
-                                    <mat-option *ngFor="let topping of filteredToppingList" [value]="topping">
-                                        {{ topping }}
+                                    <mat-option *ngFor="let item of filteredClassList" [value]="item.classid">
+                                        {{ item.class }}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -232,8 +211,10 @@
                             </mat-form-field>
                         </div>
                     </div>
+                    <div class="col-lg-4">
+                        <button class="btn btn-primary mt-2">Show Periods</button>
+                    </div>
                 </div>
-                <button class="btn btn-primary btn-sm">Show Periods</button>
             </div>
 
 
