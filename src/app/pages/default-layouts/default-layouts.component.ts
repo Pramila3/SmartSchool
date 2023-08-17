@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-default-layouts',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DefaultLayoutsComponent implements OnInit {
 
-  constructor() { }
+  moduleName!: any
+  constructor(private router: Router) {
 
-  ngOnInit(): void {
   }
 
+  ngOnInit(): void {
+   
+  }
+  navigationFunction() {
+    this.moduleName = localStorage.getItem('modulName');
+    this.router.navigate(['/timetables'])
+    console.log(this.moduleName);
+  }
 }

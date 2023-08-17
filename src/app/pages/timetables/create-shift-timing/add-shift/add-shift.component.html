@@ -78,21 +78,23 @@
         <div class="card-body">
             <h2>Create Shift</h2>
             <hr>
+            <form action="" [formGroup]="shiftForm">
             <div class="mb-2">
-                <div class="row mt-3">
-                    <div class="col-lg-4">
+               
+                    <div class="row mt-3">
+                        <div class="col-lg-4">
 
-                        <div class="form-group">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Shift Name</mat-label>
-                                <input matInput placeholder="Shift Name">
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Shift Name</mat-label>
+                                    <input matInput placeholder="Shift Name" formControlName="shiftName">
 
-                            </mat-form-field>
+                                </mat-form-field>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <!-- <mat-form-field appearance="outline">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <!-- <mat-form-field appearance="outline">
                                 <mat-label>Classes</mat-label>
                                 <mat-select [formControl]="toppings" multiple>
                                     <mat-select-trigger>
@@ -107,7 +109,7 @@
                                         [value]="topping">{{topping}}</mat-option>
                                 </mat-select>
                             </mat-form-field> -->
-                            <!-- <mat-form-field appearance="outline">
+                                <!-- <mat-form-field appearance="outline">
                                 <mat-label>Classes</mat-label>
                                 <mat-select [formControl]="toppings" multiple>
                                     <mat-select-trigger>
@@ -127,142 +129,117 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field> -->
-                            <mat-form-field appearance="outline">
-                                <mat-label>Classes</mat-label>
-                                <mat-select [formControl]="toppings" multiple>
-                                    <mat-select-trigger>
-                                        {{ selectedToppingsText }}
-                                    </mat-select-trigger>
-                                    <input matInput placeholder="Search Classes" (input)="applyFilter($event)"
-                                        class="search-mat-option">
-                                    <mat-option *ngFor="let item of filteredClassList" [value]="item.classid">
-                                        {{ item.class }}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Classes</mat-label>
+                                    <mat-select [formControl]="toppings" multiple>
+                                        <mat-select-trigger>
+                                            {{ selectedToppingsText }}
+                                        </mat-select-trigger>
+                                        <input matInput placeholder="Search Class" formControlName="class"
+                                            (input)="applyFilter($event)" class="search-mat-option">
+                                        <mat-option *ngFor="let item of filteredClassList" [value]="item.class">
+                                            {{ item.class }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
 
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <!-- <mat-form-field appearance="outline">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <!-- <mat-form-field appearance="outline">
                                 <mat-label>Start Time</mat-label>
                                 <input matInput placeholder="Start Time">
 
                             </mat-form-field> -->
-                            <mat-form-field appearance="outline">
-                                <mat-label>Start Time</mat-label>
-                                <input matInput [ngxTimepicker]="picker" placeholder="Select time">
-                                <ngx-material-timepicker #picker></ngx-material-timepicker>
-                            </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Start Time</mat-label>
+                                    <input matInput [ngxTimepicker]="picker" formControlName="startTime"
+                                        placeholder="Select time">
+                                    <ngx-material-timepicker #picker></ngx-material-timepicker>
+                                </mat-form-field>
 
-                            <!-- <div class="toggle-example">
+                                <!-- <div class="toggle-example">
                                 <input [ngxTimepicker]="toggleTimepicker" readonly>
                                 <ngx-material-timepicker-toggle [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
                                 <ngx-material-timepicker #toggleTimepicker></ngx-material-timepicker>
                             </div> -->
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>End Time</mat-label>
+                                    <input matInput [ngxTimepicker]="picker1" formControlName="endTime"
+                                        placeholder="Select time">
+                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>No of Days per Week</mat-label>
+                                    <input matInput placeholder="No of Days per Week" formControlName="noOfdaysPerWeek">
+
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>No of Periods per Day</mat-label>
+                                    <input matInput placeholder="No of Periods per Day"
+                                        formControlName="noOfPeriodsPerDay" (change)="onChangePeriod()">
+
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Starting Day</mat-label>
+                                    <mat-select formControlName="startingDay">
+                                        <mat-option value="7">Day 7</mat-option>
+                                        <mat-option value="1">Day 1</mat-option>
+                                        <mat-option value="2">Day 2</mat-option>
+                                        <mat-option value="3">Day 3</mat-option>
+                                        <mat-option value="4">Day 4</mat-option>
+                                        <mat-option value="5">Day 5</mat-option>
+                                        <mat-option value="6">Day 6</mat-option>
+
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <button class="btn btn-primary mt-2" (click)="showPeriods()">Show Periods</button>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Start Time</mat-label>
-                                <input matInput [ngxTimepicker]="picker1" placeholder="Select time">
-                                <ngx-material-timepicker #picker1></ngx-material-timepicker>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-
-                        <div class="form-group">
-                            <mat-form-field appearance="outline">
-                                <mat-label>No of Days per Week</mat-label>
-                                <input matInput placeholder="No of Days per Week">
-
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-
-                        <div class="form-group">
-                            <mat-form-field appearance="outline">
-                                <mat-label>No of Days per Day</mat-label>
-                                <input matInput placeholder="No of Days per Day">
-
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-
-                        <div class="form-group">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Starting Day</mat-label>
-                                <mat-select>
-                                    <mat-option value="1">Day 7</mat-option>
-                                    <mat-option value="2">Day 1</mat-option>
-                                    <mat-option value="3">Day 2</mat-option>
-                                    <mat-option value="4">Day 3</mat-option>
-                                    <mat-option value="5">Day 4</mat-option>
-                                    <mat-option value="6">Day 5</mat-option>
-                                    <mat-option value="7">Day 6</mat-option>
-
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <button class="btn btn-primary mt-2">Show Periods</button>
-                    </div>
-                </div>
+                
             </div>
 
 
-            <div class="overflow-auto">
+            <div class="overflow-auto" *ngIf="formControl.length > 0">
                 <table class="table custum_table table-bordered">
                     <thead>
                         <tr>
                             <th>Days/ Periods</th>
-                            <th>
-                                <p>Period 1</p>
-                            </th>
-                            <th>
-                                <p>Period 2</p>
-                            </th>
-                            <th class="break">
-                                <p>Period 3</p>
-                            </th>
-                            <th>
-                                <p>Period 4</p>
-                            </th>
-                            <th class="break">
-                                <p>Period 5</p>
-                            </th>
-                            <th>
-                                <p>Period 6</p>
-                            </th>
-                            <th>
-                                <p>Period 7</p>
-                            </th>
-                            <th>
-                                <p>Period 8</p>
-                            </th>
-                            <th>
-                                <p>Period 9</p>
-                            </th>
-                            <th>
-                                <p>Period 10</p>
-                            </th>
-                            <th>
-                                <p>Period 11</p>
-                            </th>
+                            <th *ngFor="let item of colvalues; let i = index">
+                                Period {{i+1}}</th>
+
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="days_coloumn">Monday</td>
-                            <td data-bs-toggle="modal" data-bs-target="#addtimings"></td>
-                            <td></td>
+                    <tbody formArrayName="shiftFormArr"
+                        *ngFor="let item of formControl; let i = index">
+                        <tr [formGroupName]="i">
+                            <td class="days_coloumn">{{item.value.day}}</td>
+                            <td *ngFor="let data of colvalues; let j = index" data-bs-toggle="modal" data-bs-target="#addtimings">{{item.value[data.col]}}</td>
+                            <!-- <td></td>
                             <td class="break"></td>
                             <td></td>
                             <td class="break"> </td>
@@ -271,10 +248,10 @@
                             <td></td>
                             <td> </td>
                             <td></td>
-                            <td></td>
+                            <td></td> -->
 
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td class="days_coloumn">Monday</td>
                             <td>08:00 AM - 09:00 AM </td>
                             <td>09:00 AM - 10:00 AM</td>
@@ -348,12 +325,13 @@
                             <td>02:15 PM - 02:20 PM </td>
                             <td>02:20 PM - 03:30 PM</td>
 
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
+        </form>
         </div>
-        <div class="final_submit_btns card-footer">
+        <div class="final_submit_btns card-footer" *ngIf="formControl.length > 0">
             <button class="btn btn-success ">
                 Save
             </button>

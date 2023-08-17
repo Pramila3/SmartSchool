@@ -15,7 +15,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" [matMenuTriggerFor]="Edit">Edit</a>
-                        <mat-menu #Edit="matMenu" class="mt-3" (closed)="onMenuClosed('Edit')">
+                        <mat-menu #Edit="matMenu" class="mt-3" >
                             <a mat-menu-item [matMenuTriggerFor]="Admin">Admin</a>
                             <a mat-menu-item>Academic Year</a>
                             <a mat-menu-item>Calendar</a>
@@ -47,7 +47,7 @@
 
 
 
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
                         <a class="nav-link" [matMenuTriggerFor]="Module">Module</a>
                     </li>
                     <mat-menu #Module="matMenu" class="mt-3">
@@ -70,7 +70,7 @@
 
 
                     </mat-menu>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
                         <a class="nav-link" [matMenuTriggerFor]="Tools">Tools</a>
                     </li>
                     <mat-menu #Tools="matMenu" class="mt-3">
@@ -82,7 +82,7 @@
                         <a mat-menu-item>Staff Address Book</a>
 
                     </mat-menu>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
                         <a class="nav-link" [matMenuTriggerFor]="Reports">Reports</a>
                     </li>
                     <mat-menu #Reports="matMenu" class="mt-3">
@@ -94,7 +94,7 @@
                         <a mat-menu-item>Process Timetable</a>
 
                     </mat-menu>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
                         <a class="nav-link" [matMenuTriggerFor]="Helps">Helps</a>
                     </li>
                     <mat-menu #Helps="matMenu" class="mt-3">
@@ -106,7 +106,7 @@
                         <a mat-menu-item>Process Timetable</a>
 
                     </mat-menu>
-                    <!-- <li class="nav-item">
+                    <li class="nav-item" *ngIf="moduleName == 'Timtable'">
                         <a class="nav-link" [matMenuTriggerFor]="Timetables">Timetables</a>
                     </li>
 
@@ -139,10 +139,10 @@
                         <a mat-menu-item>Allot Staff</a>
                         <a mat-menu-item>Classwise Staff Alotment</a>
                         
-                    </mat-menu> -->
+                    </mat-menu>
 
 
-                    <!-- <li class="nav-item ">
+                    <!-- <li class="nav-item " *ngIf="moduleName == 'Timtable'">
                         <div class="dropdown">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -191,10 +191,10 @@
                             </ul>
                         </div>
 
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/">Timetable Reports</a>
                     </li> -->
+                    <li class="nav-item" *ngIf="moduleName == 'Timtable'">
+                        <a class="nav-link" routerLink="/">Timetable Reports</a>
+                    </li>
                 </ul>
 
             </div>
