@@ -15,13 +15,15 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { TimetableModule } from './timetables/timetable.module';
 import {MatMenuModule} from '@angular/material/menu';
+import { LoaderComponent } from './common/loading/loader.component';
 
 @NgModule({
   declarations: [
     DefaultLayoutsComponent,
     // TimetablesComponent,
     HomeComponent,
-   StudentsComponent
+   StudentsComponent,
+   LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatInputModule,
     TimetableModule,
     MatMenuModule
-  ]
+  ],
+  exports: [LoaderComponent]
 })
 export class PagesModule { }

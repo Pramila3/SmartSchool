@@ -14,11 +14,15 @@ export class DefaultLayoutsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+    this.moduleName = localStorage.getItem('modulName');
   }
   navigationFunction() {
     this.moduleName = localStorage.getItem('modulName');
     this.router.navigate(['/timetables'])
     console.log(this.moduleName);
+  }
+  logout(){
+    this.router.navigate(['/'])
+    localStorage.removeItem('modulName');
   }
 }

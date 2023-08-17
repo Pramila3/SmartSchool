@@ -6,13 +6,14 @@ import { MatSort } from '@angular/material/sort';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { LoaderService } from '../../common/loading/loader.service';
 @Component({
   selector: 'app-create-shift-timing',
   templateUrl: './create-shift-timing.component.html',
   styleUrls: ['./create-shift-timing.component.scss']
 })
 
-export class CreateShiftTimingComponent implements AfterViewInit {
+export class CreateShiftTimingComponent implements OnInit {
   displayedColumns: string[] = ['Name', 'Active', 'Action'];
   dataSource: any;
 
@@ -22,7 +23,7 @@ export class CreateShiftTimingComponent implements AfterViewInit {
   form: FormGroup | any;
   submitted!: boolean;
   constructor(private service: CommonService, private cdr: ChangeDetectorRef,
-    private fb: FormBuilder, private router: Router) { }
+    private fb: FormBuilder, private router: Router, private loader: LoaderService) { }
 
   ngOnInit(): void {
 
@@ -41,9 +42,7 @@ export class CreateShiftTimingComponent implements AfterViewInit {
   get formControl() {
     return this.form.controls;
   }
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-  }
+ 
   editRowIndex: number = -1;
 
   startEdit(index: number) {
@@ -61,15 +60,21 @@ export class CreateShiftTimingComponent implements AfterViewInit {
 
 
   getShiftTimingList() {
+    this.loader.show()
     this.dataSource = new MatTableDataSource([]);
     this.service.getHttpServiceWithId(localStorage.getItem('schoolcode'), 'getShiftTimingList', 'schoolcode').subscribe((response: any) => {
       if (response.status) {
+        this.loader.hide();
         this.dataSource = new MatTableDataSource(response.resultData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
+      } else {
+        this.loader.hide();
       }
-    })
+    }, error => {
+      this.loader.hide();
+    });
   }
   onFilter(event: Event) {
     let filterValue = (event.target as HTMLInputElement)?.value
@@ -181,6 +186,6 @@ export class CreateShiftTimingComponent implements AfterViewInit {
     }
   }
   onAddShift(id: number, timtableName: string) {
-    this.router.navigate(['/Addshift'], { state: { id: id , timetableName: timtableName} })
+    this.router.navigate(['/Addshift'], { state: { id: id, timetableName: timtableName } })
   }
 }
