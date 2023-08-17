@@ -82,7 +82,7 @@
                     </tr>
                 </table>
 
-                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons
                     aria-label="Select page of periodic elements">
                 </mat-paginator>
             </div>
@@ -114,9 +114,9 @@
                             <div class="form-group">
                                 <label for="">Timetable Name <span style="color: red;">*</span></label>
                                 <input type="text" class="form-control" placeholder="Timetable Name"
-                                    formControlName="CLSTNAME">
+                                    formControlName="timetable_Name">
                                 <span style="color: red;"
-                                    *ngIf="(formControl.CLSTNAME.touched || submitted) && formControl.CLSTNAME.errors?.required">
+                                    *ngIf="(formControl.timetable_Name.touched || submitted) && formControl.timetable_Name.errors?.required">
                                     Timetable Name is required
                                 </span>
                             </div>

@@ -11,7 +11,7 @@
 
                 <div class="d-flex align-items-center">
                     <div class="form-check me-3">
-                        <input type="checkbox" class="form-check-input">
+                        <input type="checkbox" class="form-check-input" [(ngModel)]="activeStatus" [disabled]="ischecked" (change)="onChangeStatus()" >
                         <label for="" class="form-check-label">Set as Active </label>
                     </div>
                     <button class="btn btn-success btn-sm" (click)="addShift()">Add Shift</button>

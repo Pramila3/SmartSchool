@@ -11,7 +11,7 @@ import { URI } from './restURI';
 export class CommonService {
 
   baseUrl = `${environment.apiBaseUrl}`;
-  token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3RvbmxpbmUiLCJyb2xlIjoiMCIsIm5iZiI6MTY5MjE2MzE2MSwiZXhwIjoxNjkyMjQ5NTYxLCJpYXQiOjE2OTIxNjMxNjF9.y4r6VyThgJzMBbRTp0up6W6Su-O_jxMM-tKaWpTaQ3M'
+  token = "Bearer " + localStorage.getItem("Access-Token");
   constructor(private http: HttpClient, private router: Router,) { }
 
   private handleError(error: HttpErrorResponse) {
@@ -31,8 +31,9 @@ export class CommonService {
     var url = this.baseUrl + URI[method as keyof typeof URI];
     const httpOptions = {
       headers: new HttpHeaders({
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': ' ',
+        'Authorization': this.token,
       })
     };
     return this.http.post<any>(url, data, httpOptions).pipe(map(data => {

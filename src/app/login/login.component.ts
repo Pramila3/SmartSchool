@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { LoaderService } from '../pages/common/loading/loader.service';
 
 @Component({
   selector: 'app-login',
@@ -7,11 +12,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
   hide = true;
-  constructor() { }
+  loginForm!: FormGroup;
+  submitted = false;
+  Error!: boolean;
+  logInError: any;
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private loader: LoaderService) { }
 
   ngOnInit(): void {
-    localStorage.setItem('schoolcode', 'testonline');
-    localStorage.setItem('academicYear', new Date().getFullYear().toString());
+    this.formGroup();
+  }
+  formGroup() {
+    this.loginForm = this.fb.group({
+      userName: [null, Validators.required],
+      password: [null, Validators.required],
+      schoolCode: [null]
+    })
   }
 
+  get f() {
+    return this.loginForm.controls;
+  }
+  login() {
+    this.submitted = true
+    let body = { ...this.loginForm.value }
+    body.schoolCode = body.userName
+    if (this.loginForm.valid) {
+      this.loader.show();
+      this.authService.postHttpServicesighIn(body, 'usersLogin').subscribe((res: any) => {
+        if (res.status) {
+          this.loader.hide();
+          Swal.fire({
+            title: "Signed in successfully",
+            icon: 'success',
+          });
+          this.router.navigate(['/home'])
+        } else {
+          this.loader.hide();
+          this.Error = true;
+          this.logInError = res.statusMessage
+        }
+
+      })
+    }
+  }
 }

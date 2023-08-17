@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
 
 
@@ -17,6 +18,9 @@ export class AddShiftComponent implements OnInit {
   timetableName!: string;
   isAddShiftShow = false
   classList: any = [];
+  activeStatus!: any;
+  ischecked!: any;
+
 
   shiftForm!: FormGroup;
   shiftFormArr!: FormArray;
@@ -50,7 +54,7 @@ export class AddShiftComponent implements OnInit {
 
   }
   constructor(private service: CommonService, private router: Router,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder, private loader: LoaderService) { }
 
   ngOnInit() {
     this.shiftTimingId = history.state.id
@@ -81,21 +85,27 @@ export class AddShiftComponent implements OnInit {
     // Now TypeScript recognizes the 'controls' property
   }
   getShiftList(id: number) {
+    this.loader.show();
     let postData = {
-      classid: id,
+      timetableid: id,
       schoolcode: localStorage.getItem('schoolcode')
     }
     this.service.getHttpServiceWithDynamicParams(postData, 'getShiftList').subscribe((response: any) => {
       if (response.status) {
+        this.loader.hide();
         this.shiftTimingList = response.resultData
+      } else {
+        this.loader.hide();
       }
-    })
+    }, error => {
+      this.loader.hide();
+    });
   }
   getClassList() {
     let postData = {
       shiftclassid: this.shiftTimingId,
       schoolcode: localStorage.getItem('schoolcode'),
-      academicyear: "2022"
+      academicyear: localStorage.getItem('academicYear')
     }
     this.service.getHttpServiceWithDynamicParams(postData, 'getClassDropDownList').subscribe((response: any) => {
       if (response.status) {
@@ -106,9 +116,9 @@ export class AddShiftComponent implements OnInit {
   addShift() {
     this.isAddShiftShow = true;
   }
-  onChangePeriod(){
+  onChangePeriod() {
     for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
-      this.colvalues.push({ col: "period" + j})
+      this.colvalues.push({ col: "period" + j })
     }
   }
   showPeriods() {
@@ -131,15 +141,15 @@ export class AddShiftComponent implements OnInit {
           obj[item] = '';
         });
         let ind = i + +(this.shiftForm.value.startingDay);
-        if(ind==7){
-          ind = ind - ind +1;
-        }else if(i ==1){
-           ind = +(this.shiftForm.value.startingDay) + 1
-        }else{
+        if (ind == 7) {
+          ind = ind - ind + 1;
+        } else if (i == 1) {
+          ind = +(this.shiftForm.value.startingDay) + 1
+        } else {
           ind = ind + 1;
         }
         const newFormGroup = this.fb.group({
-          day: (i==0 ? "day " +this.shiftForm.value.startingDay : "day " + ind), ...obj
+          day: (i == 0 ? "day " + this.shiftForm.value.startingDay : "day " + ind), ...obj
         });
         const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
         formArray.push(newFormGroup);
@@ -147,6 +157,18 @@ export class AddShiftComponent implements OnInit {
       console.log(this.shiftForm.value);
 
     }
+  }
+  onChangeStatus() {
+    console.log(this.ischecked);
+    let postData = {
+      clstid: this.shiftTimingId,
+      schoolcode: localStorage.getItem('schoolcode'),
+    }
+    this.service.postHttpService(postData, 'shiftActiveStatus').subscribe((response: any) => {
+      if (response.status) {
+        this.ischecked = true
+      }
+    })
   }
 }
 

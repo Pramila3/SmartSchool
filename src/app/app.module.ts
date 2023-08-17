@@ -15,6 +15,7 @@ import { PagesModule } from './pages/pages.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoaderService } from './pages/common/loading/loader.service';
+import { AuthService } from '../app/auth/auth.service';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { LoaderService } from './pages/common/loading/loader.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [LoaderService],
+  providers: [LoaderService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

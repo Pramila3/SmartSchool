@@ -34,9 +34,8 @@ export class CreateShiftTimingComponent implements OnInit {
     this.form = this.fb.group({
       clstid: [null],
       schoolcode: localStorage.getItem('schoolcode'),
-      CLSTNAME: [null, Validators.required],
-      CLSTISACTIVE: "0",
-      CLSTACAYEAR: localStorage.getItem('academicYear')
+      timetable_Name: [null, Validators.required],
+      clstacayear: localStorage.getItem('academicYear')
     })
   }
   get formControl() {
@@ -99,9 +98,8 @@ export class CreateShiftTimingComponent implements OnInit {
         this.form.patchValue({
           clstid: response.resultData[0].clstid,
           schoolcode: localStorage.getItem('schoolcode'),
-          CLSTNAME: response.resultData[0].timetable_Name,
-          CLSTISACTIVE: response.resultData[0].is_Active,
-          CLSTACAYEAR: localStorage.getItem('academicYear')
+          timetable_Name: response.resultData[0].timetable_Name,
+          clstacayear: localStorage.getItem('academicYear')
         })
       }
     })
@@ -166,7 +164,12 @@ export class CreateShiftTimingComponent implements OnInit {
           }
         })
       } else {
-        this.service.putHttpService(body, 'updateShiftTiming').subscribe((response: any) => {
+        let postData = {
+          clstid: body.clstid,
+          schoolcode: localStorage.getItem('schoolcode'),
+          timetable_Name: body.timetable_Name,
+        }
+        this.service.postHttpService(postData, 'updateShiftTiming').subscribe((response: any) => {
           if (response.status) {
             this.getShiftTimingList()
             Swal.fire({
