@@ -49,3 +49,22 @@ body {
 .custum_modal_dialog {
   border-radius: 12px !important;
 }
+
+.table {
+  thead{
+    font-size: 13px !important;
+  }
+  tbody{
+    font-size: 12px !important;
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0;
+  margin-bottom: 1rem;
+  list-style: none;
+  font-size: 16px;
+  font-weight: 600;
+}

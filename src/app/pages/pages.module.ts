@@ -14,6 +14,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { TimetableModule } from './timetables/timetable.module';
+import {MatMenuModule} from '@angular/material/menu';
+
 @NgModule({
   declarations: [
     DefaultLayoutsComponent,
@@ -32,7 +34,8 @@ import { TimetableModule } from './timetables/timetable.module';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    TimetableModule
+    TimetableModule,
+    MatMenuModule
   ]
 })
 export class PagesModule { }

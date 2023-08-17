@@ -2,12 +2,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
+    justify-content: flex-start;
+    margin: auto;
 }
 
 .menu_icons_part {
-    height: 179px;
-    width: 154px; 
+    height: 147px;
+    width: 147px;
     background: #fff;
     padding: 10px;
     border-radius: 20px;
@@ -27,16 +28,17 @@
     }
 
     .menu_pics {
-        height: 100px;
-        width: 100px;
+        height: 72px;
+        width: 72px;
         object-fit: contain;
         transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
     }
 
     .menu_name {
-        font-weight: 700;
-        font-size: 14px;
+        font-weight: 500;
+        font-size: 12px;
         margin-top: 10px;
+        color: #000;
     }
 }
