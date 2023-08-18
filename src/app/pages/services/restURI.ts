@@ -11,7 +11,7 @@ let URI = {
     'deleteShiftTiming' : 'CreateShift/DeleteClassTimetable',
 
     'getShiftList': 'AllotShift/TimeTableAccess',
-    'getClassDropDownList': 'AllotSubject/BindClass',
+    'getClassDropDownList': 'AllotShift/BindClass',
     'shiftActiveStatus': 'AllotShift/SetActive'
 }
 

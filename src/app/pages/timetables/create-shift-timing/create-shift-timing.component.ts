@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonService } from '../../services/common.service';
@@ -19,6 +19,8 @@ export class CreateShiftTimingComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Make sure to import MatPaginator
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
+
+  @ViewChild('closeModal') closeModal!: ElementRef
   input: any
   form: FormGroup | any;
   submitted!: boolean;
@@ -41,7 +43,7 @@ export class CreateShiftTimingComponent implements OnInit {
   get formControl() {
     return this.form.controls;
   }
- 
+
   editRowIndex: number = -1;
 
   startEdit(index: number) {
@@ -107,7 +109,8 @@ export class CreateShiftTimingComponent implements OnInit {
   onDelete(id: number) {
     let postData = {
       CLSTID: id,
-      schoolcode: localStorage.getItem('schoolcode')
+      schoolcode: localStorage.getItem('schoolcode'),
+      academicyear: localStorage.getItem('academicYear')
     }
     Swal.fire({
       title: "Are you sure?",
@@ -116,6 +119,7 @@ export class CreateShiftTimingComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: "Yes",
       cancelButtonText: "No",
+      width: '350px',
     }).then((result) => {
       if (result.value) {
         this.service.deleteHttpService(postData, 'deleteShiftTiming').subscribe((response) => {
@@ -129,6 +133,8 @@ export class CreateShiftTimingComponent implements OnInit {
               timer: 1500,
               title: "Successfully deleted!",
               icon: "success",
+              width: '350px',
+              heightAuto: false
             });
             this.getShiftTimingList()
             this.cdr.markForCheck();
@@ -149,18 +155,24 @@ export class CreateShiftTimingComponent implements OnInit {
       if (body.clstid == '' || body.clstid == null) {
         this.service.postHttpService(body, 'createShiftTiming').subscribe((response: any) => {
           if (response.status) {
-            this.getShiftTimingList()
+            this.closeModal.nativeElement.click()
             Swal.fire({
-              title: "this.successTitle",
-              text: "this.addmessage",
+              title: "Success",
+              text: "Record saved successfully",
               icon: 'success',
+              width: '350px',
+              heightAuto: false
+            }).then(() => {
+              this.getShiftTimingList()
             });
           } else {
             Swal.fire({
-              title: "this.errorTitle",
-              text: "res.message",
+              title: "Error",
+              text: response.statusMessage,
               icon: 'warning',
-            });
+              width: '350px',
+              heightAuto: false
+            })
           }
         })
       } else {
@@ -171,19 +183,27 @@ export class CreateShiftTimingComponent implements OnInit {
         }
         this.service.postHttpService(postData, 'updateShiftTiming').subscribe((response: any) => {
           if (response.status) {
-            this.getShiftTimingList()
+            this.closeModal.nativeElement.click()
             Swal.fire({
-              title: "this.successTitle",
-              text: "this.addmessage",
+              title: "Success",
+              text: "Record saved successfully",
               icon: 'success',
+              width: '350px',
+              heightAuto: false
+            }).then(() => {
+              this.getShiftTimingList()
             });
+
           } else {
             Swal.fire({
-              title: "this.errorTitle",
-              text: "res.message",
+              title: "Error",
+              text: response.statusMessage,
               icon: 'warning',
+              width: '350px',
+              heightAuto: false
             });
           }
+
         })
       }
     }
