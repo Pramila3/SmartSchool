@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
@@ -24,12 +24,18 @@ export class AddShiftComponent implements OnInit {
 
   shiftForm!: FormGroup;
   shiftFormArr!: FormArray;
+  periodForm!: FormGroup;
 
   toppings = new FormControl([]);
   searchValue = '';
   toppingList = ['LKG', '1 A', '1 B', '2 A', '2 B'];
   submitted!: boolean;
   colvalues: any = [];
+  status: any;
+  dayList: any = [];
+
+  @ViewChild('openModal') openModal!: ElementRef;
+  @ViewChild('closeModal') closeModal!: ElementRef;
 
   get filteredClassList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
@@ -59,13 +65,22 @@ export class AddShiftComponent implements OnInit {
   ngOnInit() {
     this.shiftTimingId = history.state.id
     this.timetableName = history.state.timetableName
+    this.status = history.state.status
+    console.log(this.status);
+
     if (this.shiftTimingId) {
       this.getShiftList(this.shiftTimingId);
       this.getClassList();
       this.formGroup();
+      this.getDayList();
+      if (this.status == 'Active') {
+        this.ischecked = true
+        this.activeStatus = true
+      }
     } else {
       this.router.navigate(['/CreateShiftTiming'])
     }
+    this.periodFormGroup()
   }
   formGroup() {
     this.shiftForm = this.fb.group({
@@ -77,6 +92,15 @@ export class AddShiftComponent implements OnInit {
       noOfPeriodsPerDay: [null, Validators.required],
       startingDay: [null, Validators.required],
       shiftFormArr: this.fb.array([])
+    })
+  }
+  periodFormGroup() {
+    this.periodForm = this.fb.group({
+      startTime: [null, Validators.required],
+      endTime: [null, Validators.required],
+      periodType: ["Period", Validators.required],
+      periodName: [null],
+      periodIndex: [null]
     })
   }
   get formControl() {
@@ -121,7 +145,19 @@ export class AddShiftComponent implements OnInit {
       this.colvalues.push({ col: "period" + j })
     }
   }
+  getDayList() {
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode'),
+    }
+    this.service.getHttpServiceWithDynamicParams(postData, 'getDayList').subscribe((response: any) => {
+      if (response.status) {
+        this.dayList = response.resultData
+      }
+    })
+  }
   showPeriods() {
+    let formArray = this.shiftForm.get('shiftFormArr') as FormArray;
+    formArray.clear()
     const arrayValue = this.toppings.value;
     if (Array.isArray(arrayValue)) {
       const arrayAsString = arrayValue.join(', ');
@@ -130,6 +166,9 @@ export class AddShiftComponent implements OnInit {
     }
     this.submitted = true;
     if (this.shiftForm.valid) {
+      let dayArr = (this.shiftForm.value.startingDay).split('@')
+      console.log(dayArr);
+
       for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
         let arr = []
         let obj: { [key: string]: any } = {};
@@ -138,18 +177,11 @@ export class AddShiftComponent implements OnInit {
           arr.push(period);
         }
         arr.forEach(item => {
-          obj[item] = '';
+          obj[item] = this.fb.array([this.fb.group({ startTime: '', endTime: '', periodType: '' })]);
         });
-        let ind = i + +(this.shiftForm.value.startingDay);
-        if (ind == 7) {
-          ind = ind - ind + 1;
-        } else if (i == 1) {
-          ind = +(this.shiftForm.value.startingDay) + 1
-        } else {
-          ind = ind + 1;
-        }
+
         const newFormGroup = this.fb.group({
-          day: (i == 0 ? "day " + this.shiftForm.value.startingDay : "day " + ind), ...obj
+          day: dayArr[i], ...obj
         });
         const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
         formArray.push(newFormGroup);
@@ -169,6 +201,46 @@ export class AddShiftComponent implements OnInit {
         this.ischecked = true
       }
     })
+  }
+  addPeriods(formValue: any, colValue: any, i: number) {
+    console.log(formValue);
+    console.log(colValue);
+    console.log(i);
+    this.periodForm.patchValue({
+      periodName: colValue,
+      periodIndex: i,
+      startTime: formValue.value[colValue][0].startTime,
+      endTime: formValue.value[colValue][0].endTime,
+      periodType: formValue.value[colValue][0].periodType ? formValue.value[colValue][0].periodType : 'Period',
+    })
+  }
+  createTiming() {
+    console.log(this.periodForm.value);
+    const nestedArray = this.shiftForm.get('shiftFormArr') as FormArray;
+
+    let shiftObject = this.shiftForm.value.shiftFormArr[this.periodForm.value.periodIndex];
+    console.log(shiftObject);
+    if (shiftObject) {
+      
+      let periodObj = shiftObject[this.periodForm.value.periodName][0];     
+
+      if (periodObj.startTime && periodObj.endTime) {
+        periodObj.startTime = this.periodForm.value.startTime
+        periodObj.periodType = this.periodForm.value.periodType
+        periodObj.endTime = this.periodForm.value.endTime
+        const period2Controls = (nestedArray.at(this.periodForm.value.periodIndex).get(this.periodForm.value.periodName) as FormArray).at(0) as FormGroup;
+        period2Controls.patchValue(periodObj);
+      } else {
+        periodObj.startTime = this.periodForm.value.startTime
+        periodObj.periodType = this.periodForm.value.periodType
+        periodObj.endTime = this.periodForm.value.endTime
+        for (let i = 0; i < +(this.shiftForm.value.noOfdaysPerWeek); i++) {
+          const period2Controls = (nestedArray.at(i).get(this.periodForm.value.periodName) as FormArray).at(0) as FormGroup;
+          period2Controls.patchValue(periodObj);
+        }
+      }
+      this.closeModal.nativeElement.click()
+    }
   }
 }
 

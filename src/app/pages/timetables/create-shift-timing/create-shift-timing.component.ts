@@ -123,23 +123,25 @@ export class CreateShiftTimingComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteHttpService(postData, 'deleteShiftTiming').subscribe((response) => {
-          const responseData = JSON.parse(response);
-          console.log("delete", responseData);
-
-          if (responseData.status) {
+          if (response.status) {
             Swal.fire({
-              toast: true,
-              showConfirmButton: false,
-              timer: 1500,
-              title: "Successfully deleted!",
-              icon: "success",
+              title: "Success",
+              text: "Successfully deleted!",
+              icon: 'success',
               width: '350px',
               heightAuto: false
+            }).then(() => {
+              this.getShiftTimingList()
             });
-            this.getShiftTimingList()
             this.cdr.markForCheck();
           } else {
-            Swal.fire({ text: responseData.information.description });
+            Swal.fire({
+              title: "Error",
+              text: response.statusMessage,
+              icon: 'warning',
+              width: '350px',
+              heightAuto: false
+            })
             this.getShiftTimingList();
           }
         });
@@ -208,7 +210,7 @@ export class CreateShiftTimingComponent implements OnInit {
       }
     }
   }
-  onAddShift(id: number, timtableName: string) {
-    this.router.navigate(['/Addshift'], { state: { id: id, timetableName: timtableName } })
+  onAddShift(id: number, timtableName: string, status: any) {
+    this.router.navigate(['/Addshift'], { state: { id: id, timetableName: timtableName, status: status } })
   }
 }

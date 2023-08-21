@@ -16,7 +16,11 @@ export class LoginComponent implements OnInit {
   submitted = false;
   Error!: boolean;
   logInError: any;
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private loader: LoaderService) { }
+  randomNumber!: number;
+  userInput!: any;
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private loader: LoaderService) {
+    this.generateRandomNumber();
+  }
 
   ngOnInit(): void {
     this.formGroup();
@@ -36,23 +40,42 @@ export class LoginComponent implements OnInit {
     this.submitted = true
     let body = { ...this.loginForm.value }
     body.schoolCode = body.userName
-    if (this.loginForm.valid) {
-      this.loader.show();
-      this.authService.postHttpServicesighIn(body, 'usersLogin').subscribe((res: any) => {
-        if (res.status) {
-          this.loader.hide();
-          Swal.fire({
-            title: "Signed in successfully",
-            icon: 'success',
-          });
-          this.router.navigate(['/home'])
-        } else {
-          this.loader.hide();
-          this.Error = true;
-          this.logInError = res.statusMessage
-        }
+    if (this.userInput) {
+      if (+(this.userInput) === this.randomNumber) {
+        if (this.loginForm.valid) {
+          this.loader.show();
+          this.authService.postHttpServicesighIn(body, 'usersLogin').subscribe((res: any) => {
+            if (res.status) {
+              this.loader.hide();
+              Swal.fire({
+                title: "Signed in successfully",
+                icon: 'success',
+              });
+              this.router.navigate(['/home'])
+            } else {
+              this.loader.hide();
+              this.Error = true;
+              this.logInError = res.statusMessage
+            }
 
-      })
+          })
+        }
+      } else {
+        alert("Invalid Captcha")
+      }
+    } else {
+      alert("Please Enter Captcha")
     }
+  }
+
+  generateRandomNumber() {
+    this.randomNumber = Math.floor(Math.random() * 9000) + 1000 // Generate a number between 1 and 100
+    if(this.userInput){
+      this.userInput = null;
+    }
+  }
+
+  preventAction(event: ClipboardEvent) {
+    event.preventDefault();
   }
 }
