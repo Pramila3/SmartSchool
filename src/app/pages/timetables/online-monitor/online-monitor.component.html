@@ -1,0 +1,54 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        Online Monitor
+    </div>
+
+</div>
+
+<div class="content-wrapper p-3">
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="d-flex  align-items-center">
+                <div class="col-lg-6 row align-items-end">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Days</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" name="food">
+                                <mat-option *ngFor="let food of foods" [value]="food.value">
+                                    {{food.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="row">
+                <div class="col-lg-12 border-1 h-100">
+                   <div class="card border-0">
+                    <div class="card-body"></div>
+                   </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+</div>

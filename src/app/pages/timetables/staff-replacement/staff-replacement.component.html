@@ -1,0 +1,67 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        Staff Replacement
+    </div>
+
+</div>
+
+<div class="content-wrapper p-3">
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-lg-5">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Staff</mat-label>
+                        <mat-select [(ngModel)]="selectedValue" name="food">
+                            <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-5">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Staff Replace </mat-label>
+                        <mat-select [(ngModel)]="selectedValue" name="food">
+                            <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-info mb-3">Replace</button>
+                </div>
+            </div>
+
+
+            <table class="table custum_table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Subject Code</th>
+                        <th>Period</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>I Class Mary A </td>
+                        <td>ENGCM</td>
+                        <td>7</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+
+
+
+</div>

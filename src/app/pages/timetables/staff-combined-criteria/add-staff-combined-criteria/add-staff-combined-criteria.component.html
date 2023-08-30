@@ -1,0 +1,124 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        <a routerLink="/StaffCombinedCriteria"> Staff Combined Criteria </a> <span class="ms-1 me-1">/</span>
+        Add Staff Combined Criteria
+    </div>
+
+</div>
+
+<div class="content-wrapper p-3">
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Class <span class="text-danger">*</span></mat-label>
+                        <mat-select [(ngModel)]="selectedValue1" name="classes">
+                            <mat-option *ngFor="let classes of classes" [value]="classes.value">
+                                {{classes.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Subject <span class="text-danger">*</span></mat-label>
+                        <mat-select [(ngModel)]="selectedValue2" name="subjects">
+                            <mat-option *ngFor="let subjects of subjects" [value]="subjects.value">
+                                {{subjects.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Staff <span class="text-danger">*</span></mat-label>
+                        <mat-select [formControl]="toppings" multiple>
+                            <mat-select-trigger>
+                                {{toppings.value?.[0] || ''}}
+                                <span *ngIf="(toppings.value?.length || 0) > 1" class="example-additional-selection">
+                                    (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' :
+                                    'others'}})
+                                </span>
+                            </mat-select-trigger>
+                            <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+
+            <div class="">
+                <table class="table custum_table">
+                    <thead>
+                        <tr>
+                            <th>Days/ Periods </th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Day 1
+                            </td>
+                            <td>UKG AA-sub1-BKMS0100</td>
+                            <td> </td>
+                            <td>UKG AA-sub2-BKMS0107</td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Day 2
+                            </td>
+                            <td>UKG AA-sub1-BKMS0100</td>
+                            <td> </td>
+                            <td>UKG AA-sub2-BKMS0107</td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Day 3
+                            </td>
+                            <td>UKG AA-sub1-BKMS0100</td>
+                            <td> </td>
+                            <td>UKG AA-sub2-BKMS0107</td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Day 4
+                            </td>
+                            <td class="text-success">R</td>
+                            <td> </td>
+                            <td>UKG AA-sub2-BKMS0107</td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Day 5
+                            </td>
+                            <td>UKG AA-sub1-BKMS0100</td>
+                            <td> </td>
+                            <td class="text-success">R</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+            <div class="btns text-end">
+                <button class="btn btn-primary ">Save</button>
+                <button class="btn btn-secondary ms-2" routerLink="/StaffCombinedCriteria">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

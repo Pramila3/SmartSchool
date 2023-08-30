@@ -1,0 +1,365 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        Manual Adjustment
+    </div>
+
+</div>
+
+<div class="content-wrapper">
+
+
+    <div class="container-fluid pt-2">
+
+        <div class="card ">
+            <div class="card-body">
+                <div class="text-end">
+                    <p class="text-warning"><b>HINTS:</b> Double click on the cell to highlight the free periods of the
+                        staff
+                    </p>
+                </div>
+                <table class="table custum_table table-bordered ">
+                    <thead>
+                        <tr>
+                            <th>Days/ Periods</th>
+                            <th>
+                                <p>Period 1</p> (9:00 AM to 9:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 2</p> (9:45 AM to 10:30 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 3</p> (10:30 AM to 10:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 4</p> (10:45 AM to 11:20 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 5</p> (12:30 PM to 01:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 6</p> (02:45 PM to 03:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 7</p> (03:15 PM to 3:50 PM)
+                            </th>
+                            <th>
+                                <p>Period 8</p> (03:15 PM to 3:50 PM)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr cdkDropList cdkDropListOrientation="horizontal" #day1List="cdkDropList"
+                            [cdkDropListData]="day1" [cdkDropListConnectedTo]="[day1List,day2List,day3List, day4List , day5List,day6List]"
+                            (cdkDropListDropped)="drop($event)">
+                            <td *ngFor="let item of day1" [style]="item.color" [cdkDragDisabled]="item.disabled"
+                                cdkDrag>{{item.name}}</td>
+                        </tr>
+                        <tr cdkDropList cdkDropListOrientation="horizontal" #day2List="cdkDropList"
+                            [cdkDropListData]="day2" [cdkDropListConnectedTo]="[day1List,day2List,day3List, day4List , day5List,day6List]"
+                            (cdkDropListDropped)="drop($event)">
+                            <td *ngFor="let item of day2" [style]="item.color" [cdkDragDisabled]="item.disabled"
+                                cdkDrag>{{item.name}}</td>
+                        </tr>
+                        <tr cdkDropList cdkDropListOrientation="horizontal" #day3List="cdkDropList"
+                            [cdkDropListData]="day3" [cdkDropListConnectedTo]="[day1List,day2List,day3List, day4List , day5List,day6List]"
+                            (cdkDropListDropped)="drop($event)">
+                            <td *ngFor="let item of day3" [style]="item.color" [cdkDragDisabled]="item.disabled"
+                                cdkDrag>{{item.name}}</td>
+                        </tr>
+                        <tr cdkDropList cdkDropListOrientation="horizontal" #day4List="cdkDropList"
+                            [cdkDropListData]="day4" [cdkDropListConnectedTo]="[day1List,day2List,day3List, day4List , day5List,day6List]"
+                            (cdkDropListDropped)="drop($event)">
+                            <td *ngFor="let item of day4" [style]="item.color" [cdkDragDisabled]="item.disabled"
+                                cdkDrag>{{item.name}}</td>
+                        </tr>
+                        <tr cdkDropList cdkDropListOrientation="horizontal" #day5List="cdkDropList"
+                            [cdkDropListData]="day5" [cdkDropListConnectedTo]="[day1List,day2List,day3List, day4List , day5List,day6List]"
+                            (cdkDropListDropped)="drop($event)">
+                            <td *ngFor="let item of day5" [style]="item.color" [cdkDragDisabled]="item.disabled"
+                                cdkDrag>{{item.name}}</td>
+                        </tr>
+                        <tr cdkDropList cdkDropListOrientation="horizontal" #day6List="cdkDropList"
+                            [cdkDropListData]="day6"
+                            [cdkDropListConnectedTo]="[day1List,day2List,day3List, day4List , day5List,day6List]"
+                            (cdkDropListDropped)="drop($event)">
+                            <td *ngFor="let item of day6" [style]="item.color" [cdkDragDisabled]="item.disabled"
+                                cdkDrag>{{item.name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <table class="table custum_table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Days/ Periods</th>
+                            <th>
+                                <p>Period 1</p> (9:00 AM to 9:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 2</p> (9:45 AM to 10:30 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 3</p> (10:30 AM to 10:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 4</p> (10:45 AM to 11:20 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 5</p> (12:30 PM to 01:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 6</p> (02:45 PM to 03:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 7</p> (03:15 PM to 3:50 PM)
+                            </th>
+                            <th>
+                                <p>Period 8</p> (03:15 PM to 3:50 PM)
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody>
+                        <tr *ngFor="let row of tableData; let rowIndex = index">
+
+                            <td class="cells-clr" *ngFor="let cell of row; let cellIndex = index" cdkDrag
+                                (cdkDragDropped)="onDragDrop($event, rowIndex)">
+                                {{ cell }}
+                            </td>
+                        </tr>
+                    </tbody> -->
+
+                </table>
+
+
+
+
+
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Break</th>
+                            <th>Reserved</th>
+                            <th>Combined & Continuous
+                            </th>
+                            <th>Staff Combined</th>
+                            <th>Staff Substituted
+                            </th>
+
+                        </tr>
+                    </thead>
+
+                </table>
+                <div class="">
+                    <p class="text-primary fw-bold">3 A</p>
+                </div>
+
+                <table class="table custum_table ">
+                    <thead>
+                        <tr>
+                            <th>Days/ Periods</th>
+                            <th>
+                                <p>Period 1</p> (9:00 AM to 9:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 2</p> (9:45 AM to 10:30 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 3</p> (10:30 AM to 10:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 4</p> (10:45 AM to 11:20 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 5</p> (12:30 PM to 01:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 6</p> (02:45 PM to 03:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 7</p> (03:15 PM to 3:50 PM)
+                            </th>
+                            <th>
+                                <p>Period 8</p> (03:15 PM to 3:50 PM)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="days_coloumn">Monday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Tuesday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Wednesday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break"> Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break"> Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Thursday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Friday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Saturday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="">
+                    <p class="text-primary fw-bold">I 0</p>
+                </div>
+
+                <table class="table custum_table ">
+                    <thead>
+                        <tr>
+                            <th>Days/ Periods</th>
+                            <th>
+                                <p>Period 1</p> (9:00 AM to 9:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 2</p> (9:45 AM to 10:30 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 3</p> (10:30 AM to 10:45 AM)
+                            </th>
+                            <th>
+                                <p>Period 4</p> (10:45 AM to 11:20 AM)
+                            </th>
+                            <th class="break">
+                                <p>Period 5</p> (12:30 PM to 01:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 6</p> (02:45 PM to 03:15 PM)
+                            </th>
+                            <th>
+                                <p>Period 7</p> (03:15 PM to 3:50 PM)
+                            </th>
+                            <th>
+                                <p>Period 8</p> (03:15 PM to 3:50 PM)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="days_coloumn">Monday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Tuesday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Wednesday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break"> Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break"> Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Thursday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Friday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+                        <tr>
+                            <td class="days_coloumn">Saturday</td>
+                            <td>I 0 - ENG (12345) </td>
+                            <td>I 0 - EVS (BKMHSS140) </td>
+                            <td class="break">Morning Break </td>
+                            <td>I 0 - MAT (12345) </td>
+                            <td class="break">Lunch Break </td>
+                            <td>I 0 - TAM (BKMS0107) </td>
+                            <td>I 0 - READ (BKMS0020) </td>
+                            <td>I 0 - BIO (12345) </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

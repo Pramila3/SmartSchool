@@ -1,0 +1,195 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        <a routerLink="/StaffAllotment">Staff Allotments </a> <span class="ms-1 me-1">/</span> Staff Allotment for Class
+    </div>
+    <!-- <div class="back_action me-3">
+        <button class="btn-outline-danger btn btn-sm" routerLink="/StaffAllotment"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+            </svg> Back </button>
+    </div> -->
+</div>
+
+<div class="content-wrapper p-3">
+    <!-- 
+ <div class="mb-2 text-end">
+    <button class="btn btn-success" routerLink="/AddStaffAllotment">
+        Add
+    </button>
+ </div> -->
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="col-lg-2">
+
+                    <div class="">
+                        <mat-form-field>
+                            <mat-label>Class</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" name="food">
+                                <mat-option *ngFor="let food of foods" [value]="food.value">
+                                    {{food.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="overflow-auto">
+                <table class="table custum_table  ">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Edit</th>
+                            <th>Total Periods</th>
+                            <th>Alloted Periods</th>
+                            <th>Staff</th>
+                            <th>Hours</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ACCOUNTANCY</td>
+                            <td>
+                                <div class="d-flex ">
+                                    <button mat-icon-button class="text-success" routerLink="/AllottingStaff">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                        </svg>
+                                    </button>
+                                    <button mat-icon-button color="accent" routerLink="/AllottingStaff">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                        </svg>
+                                    </button>
+
+                                </div>
+
+                            </td>
+                            <td>54</td>
+                            <td>0</td>
+                            <td></td>
+                            <td>0</td>
+
+                        </tr>
+                        <tr>
+                            <td>Hindi-II </td>
+                            <td>
+                                <div class="d-flex ">
+                                    <button mat-icon-button class="text-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                        </svg>
+                                    </button>
+                                    <button mat-icon-button color="accent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                        </svg>
+                                    </button>
+
+                                </div>
+
+                            </td>
+                            <td>54</td>
+                            <td>0</td>
+                            <td></td>
+                            <td>0</td>
+
+                        </tr>
+                        <tr>
+                            <td>MATHS</td>
+                            <td>
+                                <div class="d-flex ">
+                                    <button mat-icon-button class="text-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                        </svg>
+                                    </button>
+                                    <button mat-icon-button color="accent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                        </svg>
+                                    </button>
+
+                                </div>
+
+                            </td>
+                            <td>54</td>
+                            <td>0</td>
+                            <td></td>
+                            <td>0</td>
+
+                        </tr>
+                        <tr>
+                            <td>BIOLOGY</td>
+                            <td>
+                                <div class="d-flex ">
+                                    <button mat-icon-button class="text-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                        </svg>
+                                    </button>
+                                    <button mat-icon-button color="accent">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                        </svg>
+                                    </button>
+
+                                </div>
+
+                            </td>
+                            <td>54</td>
+                            <td>0</td>
+                            <td></td>
+                            <td>0</td>
+
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total</td>
+                            <td> </td>
+                            <td>197 </td>
+                            <td>0</td>
+                            <td> </td>
+                            <td>0</td>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>

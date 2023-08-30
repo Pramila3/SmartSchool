@@ -1,0 +1,30 @@
+.mat-form-field {
+    width: 100% !important;
+}
+
+.mat-button-toggle-checked {
+    background-color: #009688;
+    color: #fff !important;
+}
+.mat-button-toggle-standalone, .mat-button-toggle-group {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 35px;
+    border-radius: 2px;
+    -webkit-tap-highlight-color: transparent;
+    transform: translateZ(0);
+    align-items: center;
+}
+.counts {
+    p {
+        color: #4843ff;
+    }
+    span {
+        color: #b900e0;
+    font-weight: bold;
+    }
+
+}

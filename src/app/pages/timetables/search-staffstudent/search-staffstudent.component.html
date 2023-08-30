@@ -1,0 +1,61 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        Search Students/Staff
+    </div>
+
+</div>
+
+<div class="content-wrapper p-3">
+    <div class="col-lg-2 mb-2 ">
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle value="bold" checked="true">Student</mat-button-toggle>
+            <mat-button-toggle value="bold">Staff</mat-button-toggle>
+
+        </mat-button-toggle-group>
+
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row ">
+
+                <div class="col-lg-4">
+                    <mat-form-field>
+                        <mat-label>Students</mat-label>
+                        <mat-select [(ngModel)]="selectedValuestudents" name="students">
+                            <mat-option *ngFor="let students of students" [value]="students.value">
+                                {{students.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field>
+                        <mat-label>Days </mat-label>
+                        <mat-select [(ngModel)]="selectedValue" name="food">
+                            <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+            <div class="counts mt-3">
+                <p>Student Name : <span>SUNIL KUMAR. I</span></p>
+                <p>Class : <span>IX F</span></p>
+
+            </div>
+            <p class="text-info mt-2">Active timetable does not contain details about the selected student's Class
+            </p>
+        </div>
+
+
+    </div>
+
+
+
+
+
+</div>

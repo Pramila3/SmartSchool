@@ -5,6 +5,27 @@ import { AddShiftComponent } from './create-shift-timing/add-shift/add-shift.com
 import { RouterModule, Routes } from '@angular/router';
 import { TimetablesComponent } from './timetables.component';
 import { DefaultLayoutsComponent } from '../default-layouts/default-layouts.component';
+import { AllotSubjectComponent } from './allot-subject/allot-subject.component';
+import { StaffAllotmentComponent } from './staff-allotment/staff-allotment.component';
+import { AddStaffAllotmentComponent } from './staff-allotment/add-staff-allotment/add-staff-allotment.component';
+import { AllottingStaffComponent } from './staff-allotment/allotting-staff/allotting-staff.component';
+import { ClasswiseStaffAllotmentComponent } from './classwise-staff-allotment/classwise-staff-allotment.component';
+import { FixCriteriaComponent } from './fix-criteria/fix-criteria.component';
+import { AddFixCriteriaComponent } from './fix-criteria/add-fix-criteria/add-fix-criteria.component';
+import { SetCombinedContinuousComponent } from './set-combined-continuous/set-combined-continuous.component';
+import { AddSetCombinedContinuousComponent } from './set-combined-continuous/add-set-combined-continuous/add-set-combined-continuous.component';
+import { StaffCombinedCriteriaComponent } from './staff-combined-criteria/staff-combined-criteria.component';
+import { AddStaffCombinedCriteriaComponent } from './staff-combined-criteria/add-staff-combined-criteria/add-staff-combined-criteria.component';
+import { ImportTimeTableComponent } from './import-time-table/import-time-table.component';
+import { ManualAdjustmentComponent } from './manual-adjustment/manual-adjustment.component';
+import { TemporaryTimetableComponent } from './temporary-timetable/temporary-timetable.component';
+import { StaffSubstitudeComponent } from './staff-substitude/staff-substitude.component';
+import { AddStaffSubstitudeComponent } from './staff-substitude/add-staff-substitude/add-staff-substitude.component';
+import { OnlineMonitorComponent } from './online-monitor/online-monitor.component';
+import { StaffReplacementComponent } from './staff-replacement/staff-replacement.component';
+import { SearchStaffstudentComponent } from './search-staffstudent/search-staffstudent.component';
+import { CustomizationComponent } from './customization/customization.component';
+
 
 const routes: Routes = [
 
@@ -22,7 +43,86 @@ const routes: Routes = [
         path: "Addshift",
         component: AddShiftComponent,
       },
-
+      {
+        path: "AllotSubject",
+        component: AllotSubjectComponent
+      },
+      {
+        path: "StaffAllotment",
+        component: StaffAllotmentComponent
+      },
+      {
+        path: "AddStaffAllotment",
+        component: AddStaffAllotmentComponent
+      },
+      {
+        path: "AllottingStaff",
+        component: AllottingStaffComponent
+      },
+      {
+        path: "ClasswiseStaffAllotment",
+        component: ClasswiseStaffAllotmentComponent
+      },
+      {
+        path: "FixCriteria",
+        component: FixCriteriaComponent
+      },
+      {
+        path: "AddFixCriteria",
+        component: AddFixCriteriaComponent
+      },
+      {
+        path: "SetCombinedContinuous",
+        component: SetCombinedContinuousComponent
+      },
+      {
+        path: "AddSetCombinedContinuous",
+        component: AddSetCombinedContinuousComponent
+      },
+      {
+        path: "StaffCombinedCriteria",
+        component: StaffCombinedCriteriaComponent
+      },
+      {
+        path: "AddStaffCombinedCriteria",
+        component: AddStaffCombinedCriteriaComponent
+      },
+      {
+        path: "ManualAdjustment",
+        component: ManualAdjustmentComponent
+      },
+      {
+        path: "ImportTimeTable",
+        component: ImportTimeTableComponent
+      },
+      {
+        path: "TemporaryTimetable",
+        component: TemporaryTimetableComponent
+      },
+      {
+        path: "StaffSubstitude",
+        component: StaffSubstitudeComponent
+      },
+      {
+        path: "AddStaffSubstitude",
+        component: AddStaffSubstitudeComponent
+      },
+      {
+        path: "OnlineMonitor",
+        component: OnlineMonitorComponent
+      },
+      {
+        path: "StaffReplacement",
+        component: StaffReplacementComponent
+      },
+      {
+        path: "SearchStaffstudent",
+        component: SearchStaffstudentComponent
+      },
+      {
+        path: "Customization",
+        component: CustomizationComponent
+      },
     ],
 
   },

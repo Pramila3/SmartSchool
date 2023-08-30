@@ -1,6 +1,9 @@
 .navbar_bg {
-    background-color: #5A5BAA;
-    box-shadow: -2px 3px 6px 2px #5a5baa6b;
+    // background: #5A5BAA;
+    // background :linear-gradient(175deg, #fc3a3a, #6dd71f);
+    // background: linear-gradient(45deg, #6768c7, #aa2fbf);
+    // background: linear-gradient(45deg, #6768c7, #db6eee);
+    background: #4748ad !important;
 
     .navbar-brand {
         color: #fff;
@@ -36,12 +39,16 @@
     display: block;
 }
 
-.dropdown-menu .active {
-    background-color: #2196F3 !important;
-    color: #fff !important;
+// .dropdown-menu .active {
+//     background-color: #2196F3 !important;
+//     color: #fff !important;
+
+// }
+.active {
+    background: #4749ae !important;
+    color: white !important;
 
 }
-
 .dropdown-menu {
     border: 0px solid rgba(0, 0, 0, .15);
     border-radius: 6px;
@@ -65,8 +72,8 @@
 
 
     .active {
-        background-color: #fff;
-        color: black;
+        background-color: #fff !important;
+        color: black !important;
         border-radius: 5px;
     }
 }
@@ -93,12 +100,14 @@
     font-size: 12px !important;
     align-items: center;
 }
+
 ::ng-deep.mat-menu-panel {
-   font-size: 12px !important;
+    font-size: 12px !important;
     z-index: 2000;
+    max-height: calc(100vh - 100px) !important;
 }
 
-a{
+a {
     cursor: pointer;
 }
 
@@ -110,4 +119,14 @@ a{
     width: 5px;
     height: 10px;
     fill: currentColor;
+}
+@media (max-width: 980px) { 
+    .mobile_nav_toggle{
+        display: initial !important;
+    }  
+}
+
+
+.mobile_nav_toggle{
+    display: none;
 }

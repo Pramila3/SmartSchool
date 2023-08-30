@@ -23,7 +23,7 @@
                             <!-- <mat-hint>Hint</mat-hint> -->
 
                         </mat-form-field>
-                        <span style="color: red;"
+                        <span style="color: red;" class="form-check-under-mat"
                             *ngIf="(f.userName.touched || submitted) && f.userName.errors?.required">
                             Username is required
                         </span>
@@ -38,7 +38,7 @@
                             </button>
 
                         </mat-form-field>
-                        <span style="color: red;"
+                        <span style="color: red;" class="form-check-under-mat"
                             *ngIf="(f.password.touched || submitted) && f.password.errors?.required">
                             Password is required
                         </span>

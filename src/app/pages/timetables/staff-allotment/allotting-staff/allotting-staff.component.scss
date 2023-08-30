@@ -1,0 +1,45 @@
+.mat-form-field {
+    width: 100% !important;
+}
+
+tr.mat-mdc-footer-row td {
+    font-weight: bold;
+}
+
+.table {
+    vertical-align: middle;
+}
+
+.custum_table {
+
+    tr {
+        border-bottom: #f2f2f2;
+    }
+
+    thead {
+        background: linear-gradient(264deg, #4748ad, #df62f4) !important;
+        color: #fff;
+
+    }
+
+    tbody {
+        border-bottom: none !important;
+        border-color: #f2f2f2;
+    }
+
+    tfoot {
+        background-color: #f2f2f2;
+        border-color: none;
+        font-weight: 700;
+    }
+}
+
+.counts {
+    p {
+        color: #4843ff;
+    }
+    span {
+        color: #b900e0;
+    }
+}
+

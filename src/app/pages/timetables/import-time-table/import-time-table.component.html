@@ -1,0 +1,88 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        Import Timetable
+    </div>
+
+</div>
+
+<div class="content-wrapper p-3">
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Import setting from <span class="text-danger">*</span></mat-label>
+                        <mat-select [(ngModel)]="selectedValue1" name="classes">
+                            <mat-option *ngFor="let classes of classes" [value]="classes.value">
+                                {{classes.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Timetable Name <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Timetable Name">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-4 ">
+                    <div class="d-flex mt-3">
+                        <div class="">
+                            <div class="form-check">
+                                <input type="radio" name="Reserve" class="form-check-input" id="Reserve">
+                                <label for="Reserve" class="form-check-label">Process New Timetable
+                                </label>
+                            </div>
+                        </div>
+                        <div class="ms-4">
+                            <div class="form-check">
+                                <input type="radio" name="Reserve" class="form-check-input" id="Avoid">
+                                <label for="Avoid" class="form-check-label">Copy Timetable</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex align-items-center">
+                    <div class="form-check">
+                        <input type="checkbox" name="" class="form-check-input " id="">
+                        <label for="" class="form-check-label">Reserve Avoid Criteria</label>
+                    </div>
+                    <div class="form-check ms-2">
+                        <input type="checkbox" name="" class="form-check-input " id="">
+                        <label for="" class="form-check-label">Combined and Continuous</label>
+                    </div>
+                    <div class="form-check  ms-2">
+                        <input type="checkbox" name="" class="form-check-input " id="">
+                        <label for="" class="form-check-label">Staff Combined</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 d-flex align-items-center">
+                    <div class="form-check ">
+                        <input type="checkbox" name="" class="form-check-input " id="">
+                        <label for="" class="form-check-label">Set as Active</label>
+                    </div>
+                    <div class="form-check  ms-2">
+                        <input type="checkbox" name="" class="form-check-input " id="">
+                        <label for="" class="form-check-label">Can Overwrite</label>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="card-footer">
+            <div class="btns text-end">
+                <button class="btn btn-primary ">Save</button>
+
+                <button class="btn btn-secondary ms-2">Clear</button>
+
+            </div>
+        </div>
+    </div>
+</div>

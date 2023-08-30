@@ -1,0 +1,86 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        Customization
+    </div>
+
+</div>
+
+<div class="content-wrapper p-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="row ">
+
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Title Font</mat-label>
+                        <mat-select [(ngModel)]="selectedValuestudents" name="students">
+                            <mat-option *ngFor="let students of students" [value]="students.value">
+                                {{students.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Font </mat-label>
+                        <mat-select [(ngModel)]="selectedValue" name="food">
+                            <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Break Color</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Reserve Color</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Staff Combined Color	</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Combined & Continuous Color</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Substitution Color</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="">Highlight Color</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                </div>
+               
+                
+            </div>
+
+
+        </div>
+        <div class="card-footer text-end">
+            <button class="btn btn-success">Save</button>
+            <button class="btn btn-secondary ms-2">Default</button>
+        </div>
+    </div>
+</div>
