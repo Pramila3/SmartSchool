@@ -192,6 +192,8 @@ th.mat-header-cell {
   color: white;
   font-size: 14px;
   width: 0%;
+  white-space: nowrap;
+  margin-right: 10px;
 }
 
 // tr.mat-header-row {
@@ -278,4 +280,36 @@ tr.mat-header-row {
   tbody {
       vertical-align: middle;
   }
+}
+
+@media (max-width: 425px){
+  .content-wrapper-no-bredcrumb{
+    margin-top: 86px;
+    padding-bottom: 60px !important;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .content-wrapper {
+    margin-top: 145px;
+    padding-bottom: 60px !important;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .breadcrumb_with_back_option {
+    background-color: #fff;
+    height: 40px;
+    box-shadow: -2px 3px 6px 2px rgba(209, 209, 209, 0.4196078431);
+    position: fixed;
+    top: 93px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    justify-content: space-between;
+}
+
+thead{
+  white-space: nowrap;
+}
 }

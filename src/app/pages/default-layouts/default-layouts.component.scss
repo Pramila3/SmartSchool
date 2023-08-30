@@ -130,3 +130,26 @@ a {
 .mobile_nav_toggle{
     display: none;
 }
+
+.btn_close{
+    background-color: red;
+    border-radius: 50px;
+padding: 5px;
+    svg{
+        height: 20px;
+        width: 24px;
+        color: white;
+    }
+}
+
+.offcanvas{
+    background-color: #4748ad;
+
+    .nav-item a{
+        color: white;
+        padding: 10px !important;
+    }
+    .nav-item .active{
+        color: rgb(218, 25, 25);
+    }
+}
