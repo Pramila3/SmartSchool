@@ -56,3 +56,15 @@
     margin: 0.25em 0 !important;
     padding-bottom: 10px !important;
 }
+@media (max-width: 689px) { 
+    .left_part{
+        display: none !important;
+    }  
+
+    .login_main{
+        align-items: center;
+        justify-content: center;
+        height: 100vh !important;
+    }
+}
+
