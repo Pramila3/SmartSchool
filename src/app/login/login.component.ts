@@ -50,6 +50,8 @@ export class LoginComponent implements OnInit {
               Swal.fire({
                 title: "Signed in successfully",
                 icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
               });
               this.router.navigate(['/home'])
             } else {

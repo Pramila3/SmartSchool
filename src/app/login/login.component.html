@@ -9,8 +9,8 @@
             <div class="title mb-4">
                 Login to your account
             </div>
-            <div *ngIf="Error" class="mb-10 alert alert-custom alert-light-danger alert-dismissible">
-                <div class="alert-text">Login details are incorrect!</div>
+            <div *ngIf="Error" class="text-center mb-2 ">
+                <div class="text-danger">Login details are incorrect!</div>
             </div>
                 <div class="">
                     <form class="form" [formGroup]="loginForm">

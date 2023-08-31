@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoaderService } from './pages/common/loading/loader.service';
 import { AuthService } from '../app/auth/auth.service';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -38,7 +39,7 @@ import { AuthService } from '../app/auth/auth.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [LoaderService, AuthService],
+  providers: [LoaderService, AuthService,  {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
