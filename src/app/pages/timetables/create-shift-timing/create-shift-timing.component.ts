@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../common/loading/loader.service';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-create-shift-timing',
   templateUrl: './create-shift-timing.component.html',
@@ -25,7 +26,7 @@ export class CreateShiftTimingComponent implements OnInit {
   form: FormGroup | any;
   submitted!: boolean;
   constructor(private service: CommonService, private cdr: ChangeDetectorRef,
-    private fb: FormBuilder, private router: Router, private loader: LoaderService) { }
+    private fb: FormBuilder, private router: Router, private loader: LoaderService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -213,4 +214,46 @@ export class CreateShiftTimingComponent implements OnInit {
   onAddShift(id: number, timtableName: string, status: any) {
     this.router.navigate(['/Addshift'], { state: { id: id, timetableName: timtableName, status: status } })
   }
+
+
+  openDialog() {
+    this.dialog.open(ImportShiftTimingModal);
+  }
+
+}
+
+
+@Component({
+  selector: 'Import-Shift-Timing-Modal',
+  templateUrl: './ImportShiftTimingModal.html',
+  styleUrls: ['./create-shift-timing.component.scss']
+  // standalone: true,
+  // imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, ],
+  
+})
+export class ImportShiftTimingModal {
+
+  selectedValue: string | undefined;
+  input: any
+  constructor(public dialog: MatDialog) { }
+
+  ngOnInit(): void {
+  }
+  foods: Food[] = [
+    { value: '1', viewValue: 'TT ClassMary' },
+    { value: '2', viewValue: 'TTL List Test' },
+    { value: '3', viewValue: 'bcg' },
+    { value: '4', viewValue: 'test 1 timetables1' },
+    { value: '5', viewValue: 'test 1 timetables' },
+    { value: '6', viewValue: 'test timetable' },
+    { value: '7', viewValue: 'tt45' },
+    { value: '8', viewValue: 'Timetable 2023-2024' },
+    { value: '9', viewValue: 'TT 2023-2024 II' },
+  ];
+ 
+}
+
+interface Food {
+  value: string;
+  viewValue: string;
 }

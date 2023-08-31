@@ -22,22 +22,38 @@ export class CustomizationComponent implements OnInit {
   ngOnInit(): void {
   }
   foods: Food[] = [
-    { value: 'Day1', viewValue: 'Day1' },
-    { value: 'Day2', viewValue: 'Day2' },
-    { value: 'Day3', viewValue: 'Day3' },
-    { value: 'Day4', viewValue: 'Day4' },
-    { value: 'Day5', viewValue: 'Day5' },
-    { value: 'Day6', viewValue: 'Day6' },
-    { value: 'Day7', viewValue: 'Day7' },
+    { value: '1', viewValue: 'Arial' },
+    { value: '2', viewValue: 'Arial Black' },
+    { value: '3	', viewValue: 'Arial Unicode MS' },
+    { value: '4', viewValue: 'Bahnschrift	' },
+    { value: '5	', viewValue: 'Bahnschrift Condensed' },
+    { value: '6', viewValue: 'Bahnschrift Light' },
+    { value: '7', viewValue: 'Bahnschrift Light Condensed' },
+    { value: '8', viewValue: 'Bahnschrift Light SemiCondensed' },
+    { value: '9', viewValue: 'Bahnschrift SemiBold' },
+    { value: '10', viewValue: 'Bahnschrift SemiBold Condensed' },
+    { value: '11', viewValue: 'Bahnschrift SemiBold SemiConden' },
+    { value: '12', viewValue: 'Bahnschrift SemiCondensed' },
+    { value: '13', viewValue: 'Bahnschrift SemiLight' },
+    { value: '14', viewValue: 'Bahnschrift SemiLight Condensed' },
+
   ];
   students: students[] = [
-    { value: 'THARUN SINGH D.S	', viewValue: 'THARUN SINGH D.S	' },
-    { value: 'SIVA SIDDHARTH. R	', viewValue: 'SIVA SIDDHARTH. R	' },
-    { value: 'LUMINRAJA.C	', viewValue: 'LUMINRAJA.C	' },
-    { value: 'SIJAN S	', viewValue: 'SIJAN S	' },
-    { value: 'VINAY JESUA.J	', viewValue: 'VINAY JESUA.J	' },
-    { value: 'SUBEEN R	', viewValue: 'SUBEEN R	' },
-    { value: 'VINITHIN.P	', viewValue: 'VINITHIN.P	' },
+    { value: '1', viewValue: 'Arial' },
+    { value: '2', viewValue: 'Arial Black' },
+    { value: '3	', viewValue: 'Arial Unicode MS' },
+    { value: '4', viewValue: 'Bahnschrift	' },
+    { value: '5	', viewValue: 'Bahnschrift Condensed' },
+    { value: '6', viewValue: 'Bahnschrift Light' },
+    { value: '7', viewValue: 'Bahnschrift Light Condensed' },
+    { value: '8', viewValue: 'Bahnschrift Light SemiCondensed' },
+    { value: '9', viewValue: 'Bahnschrift SemiBold' },
+    { value: '10', viewValue: 'Bahnschrift SemiBold Condensed' },
+    { value: '11', viewValue: 'Bahnschrift SemiBold SemiConden' },
+    { value: '12', viewValue: 'Bahnschrift SemiCondensed' },
+    { value: '13', viewValue: 'Bahnschrift SemiLight' },
+    { value: '14', viewValue: 'Bahnschrift SemiLight Condensed' },
+
   ];
 
 }

@@ -25,6 +25,10 @@ import { OnlineMonitorComponent } from './online-monitor/online-monitor.componen
 import { StaffReplacementComponent } from './staff-replacement/staff-replacement.component';
 import { SearchStaffstudentComponent } from './search-staffstudent/search-staffstudent.component';
 import { CustomizationComponent } from './customization/customization.component';
+import { ProcessTimetableComponent } from './process-timetable/process-timetable.component';
+import { ByClassComponent } from './by-class/by-class.component';
+import { ByStaffComponent } from './by-staff/by-staff.component';
+import { BySubjectComponent } from './by-subject/by-subject.component';
 
 
 const routes: Routes = [
@@ -122,6 +126,22 @@ const routes: Routes = [
       {
         path: "Customization",
         component: CustomizationComponent
+      },
+      {
+        path: "ProcessTimetable",
+        component: ProcessTimetableComponent
+      },
+      {
+        path: "timetablebyclass",
+        component: ByClassComponent
+      },
+      {
+        path: "timetablebystaff",
+        component: ByStaffComponent
+      },
+      {
+        path: "timetablebysubject",
+        component: BySubjectComponent
       },
     ],
 

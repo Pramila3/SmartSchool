@@ -1,14 +1,15 @@
 <header class="fixed-top">
     <nav class="navbar navbar-expand-lg navbar_bg">
         <div class="container-fluid">
-         <div class="d-flex align-items-center">
-            <div class="mobile_nav_toggle">
-                <button class="btn text-dark bg-white btn-sm" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                    <mat-icon>menu</mat-icon>
-                </button>
+            <div class="d-flex align-items-center">
+                <div class="mobile_nav_toggle">
+                    <button class="btn text-dark bg-white btn-sm" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                </div>
+                <a class="navbar-brand ms-2">Smart School</a>
             </div>
-            <a class="navbar-brand ms-2">Smart School</a>
-         </div>
             <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -126,7 +127,8 @@
                             routerLinkActive="active">Define Staff Compained</a>
                         <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
                             Timetable</a>
-                        <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Process
+                        <a mat-menu-item routerLink="/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
+                            routerLinkActive="active">Process
                             Timetable</a>
                         <a mat-menu-item routerLink="/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Manual Adjustment</a>
@@ -146,6 +148,7 @@
                             routerLinkActive="active">Customize</a>
                         <a mat-menu-item [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">View</a>
+
                     </mat-menu>
 
                     <mat-menu #Allotment="matMenu">
@@ -159,11 +162,16 @@
 
                     </mat-menu>
                     <mat-menu #View="matMenu">
-                        <a mat-menu-item>Allot Subject</a>
-                        <a mat-menu-item>Allot Staff</a>
-                        <a mat-menu-item>Classwise Staff Alotment</a>
-
+                        <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }"
+                            routerLinkActive="active">General Timetable</a>
+                        <a mat-menu-item routerLink="/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                            Class</a>
+                        <a mat-menu-item  routerLink="/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                            Subject</a>
+                        <a mat-menu-item routerLink="/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                            Staff</a>
                     </mat-menu>
+    
 
 
                     <!-- <li class="nav-item " *ngIf="moduleName == 'Timtable'">
@@ -250,12 +258,13 @@
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header d-flex justify-content-end">
-         
-          <button type="button" class="btn btn_close text-reset" data-bs-dismiss="offcanvas" >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-              </svg>
-          </button>
+
+            <button type="button" class="btn btn_close text-reset" data-bs-dismiss="offcanvas">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path
+                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                </svg>
+            </button>
         </div>
         <div class="offcanvas-body">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -369,7 +378,8 @@
                         routerLinkActive="active">Define Staff Compained</a>
                     <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
                         Timetable</a>
-                    <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Process
+                    <a mat-menu-item routerLink="/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
+                        routerLinkActive="active">Process
                         Timetable</a>
                     <a mat-menu-item routerLink="/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Manual Adjustment</a>
@@ -389,6 +399,7 @@
                         routerLinkActive="active">Customize</a>
                     <a mat-menu-item [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">View</a>
+
                 </mat-menu>
 
                 <mat-menu #Allotment="matMenu">
@@ -396,16 +407,20 @@
                         routerLinkActive="active">Allot Subject</a>
                     <a mat-menu-item routerLink="/StaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active"> Staff Allotment</a>
-                    <a mat-menu-item routerLink="/ClasswiseStaffAllotment"
-                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Classwise Staff
+                    <a mat-menu-item routerLink="/ClasswiseStaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
+                        routerLinkActive="active">Classwise Staff
                         Alotment</a>
 
                 </mat-menu>
                 <mat-menu #View="matMenu">
-                    <a mat-menu-item>Allot Subject</a>
-                    <a mat-menu-item>Allot Staff</a>
-                    <a mat-menu-item>Classwise Staff Alotment</a>
-
+                    <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }"
+                        routerLinkActive="active">General Timetable</a>
+                    <a mat-menu-item routerLink="/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        Class</a>
+                    <a mat-menu-item  routerLink="/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        Subject</a>
+                    <a mat-menu-item routerLink="/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        Staff</a>
                 </mat-menu>
 
 
@@ -464,7 +479,7 @@
                 </li>
             </ul>
         </div>
-      </div>
+    </div>
 </header>
 <router-outlet></router-outlet>
 

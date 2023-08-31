@@ -4,7 +4,7 @@
     </div>
 </div>
 <div class="content-wrapper p-3">
-  
+
     <div class="d-flex justify-content-between align-items-center">
         <div class="col-lg-2">
             <mat-form-field>
@@ -19,6 +19,9 @@
     </div>
     <div class="card">
         <div class="card-body">
+            <div class="text-end">
+                <button mat-button color="primary" (click)="openDialog()" class="mb-2">Import Shift Timing </button>
+            </div>
             <div class="overflow-auto">
                 <table mat-table [dataSource]="dataSource">
 
@@ -60,7 +63,8 @@
                                             d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                     </svg>
                                 </button>
-                                <button mat-icon-button class="text-info" (click)="onAddShift(element.clstid, element.timetable_Name, element.is_Active)" >
+                                <button mat-icon-button class="text-info"
+                                    (click)="onAddShift(element.clstid, element.timetable_Name, element.is_Active)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path
@@ -98,7 +102,7 @@
         <div class="modal-content custum_modal_dialog">
             <div class="modal-header">
                 <h2 *ngIf="!form.value.clstid" class="modal-title mb-0" id="exampleModalLabel">Add Shift Timing </h2>
-                <h2 *ngIf="form.value.clstid" class="modal-title mb-0" id="exampleModalLabel">Update Shift Timing </h2>                
+                <h2 *ngIf="form.value.clstid" class="modal-title mb-0" id="exampleModalLabel">Update Shift Timing </h2>
                 <button type="button" mat-mini-fab color="secondary" data-bs-dismiss="modal" class="custum_modal_close">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-x-lg" viewBox="0 0 16 16">

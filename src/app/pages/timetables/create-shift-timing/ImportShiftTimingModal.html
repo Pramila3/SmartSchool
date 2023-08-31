@@ -1,0 +1,43 @@
+<h2 mat-dialog-title class="position-relative">Import Shift Timing	 <button type="button" mat-dialog-close mat-mini-fab
+        color="secondary" class="custum_modal_close_mat">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
+            viewBox="0 0 16 16">
+            <path
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+        </svg>
+    </button></h2>
+<div mat-dialog-content>
+    <div class="row">
+        <div class="col-lg-6">
+            <mat-form-field appearance="outline">
+                <mat-label>Import setting from </mat-label>
+                <mat-select [(ngModel)]="selectedValue" name="food">
+                    <mat-option *ngFor="let food of foods" [value]="food.value">
+                        {{food.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-lg-6">
+            <mat-form-field appearance="outline">
+                <mat-label>Timetable Name</mat-label>
+                <input matInput type="text">
+            </mat-form-field>
+        </div>
+        <div class="col-lg-6 d-flex align-items-center">
+            <div class="form-check">
+                <input type="checkbox" name="Overwrite" class="form-check-input" id="Overwrite">
+                <label for="Overwrite" class="form-check-label">Can Overwrite</label>
+            </div>
+            <div class="form-check ms-2">
+                <input type="checkbox" name="Active" class="form-check-input" id="Active">
+                <label for="Active" class="form-check-label">Set as Active</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-end">
+    <button mat-button mat-dialog-close class="bg-secondary text-white">Close</button>
+    <button mat-button class="bg-primary text-white">Ok</button>
+
+</div>

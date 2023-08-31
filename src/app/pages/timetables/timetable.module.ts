@@ -10,7 +10,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TimetableRoutingModule } from './timetable-routing.module';
-import { CreateShiftTimingComponent } from './create-shift-timing/create-shift-timing.component';
+import { CreateShiftTimingComponent, ImportShiftTimingModal } from './create-shift-timing/create-shift-timing.component';
 import { AddShiftComponent } from './create-shift-timing/add-shift/add-shift.component';
 import { TimetablesComponent } from './timetables.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +44,10 @@ import { OnlineMonitorComponent } from './online-monitor/online-monitor.componen
 import { StaffReplacementComponent } from './staff-replacement/staff-replacement.component';
 import { SearchStaffstudentComponent } from './search-staffstudent/search-staffstudent.component';
 import { CustomizationComponent } from './customization/customization.component';
+import { ProcessTimetableComponent } from './process-timetable/process-timetable.component';
+import { ByClassComponent } from './by-class/by-class.component';
+import { ByStaffComponent } from './by-staff/by-staff.component';
+import { BySubjectComponent } from './by-subject/by-subject.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +59,7 @@ import { CustomizationComponent } from './customization/customization.component'
     AddStaffAllotmentComponent,
     AllottingStaffComponent,
     NewSingleStaffallotmentmodal,
+    ImportShiftTimingModal,
     ClasswiseStaffAllotmentComponent,
     FixCriteriaComponent,
     AddFixCriteriaComponent,
@@ -71,7 +76,13 @@ import { CustomizationComponent } from './customization/customization.component'
     OnlineMonitorComponent,
     StaffReplacementComponent,
     SearchStaffstudentComponent,
-    CustomizationComponent
+    CustomizationComponent,
+    ProcessTimetableComponent,
+    ByClassComponent,
+    ByStaffComponent,
+    BySubjectComponent,
+    
+
   ],
   imports: [
     CommonModule,
