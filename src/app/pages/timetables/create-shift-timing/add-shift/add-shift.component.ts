@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
 import Swal from 'sweetalert2';
+import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 
 
 @Component({
@@ -40,6 +41,8 @@ export class AddShiftComponent implements OnInit {
   @ViewChild('openModal') openModal!: ElementRef;
   @ViewChild('closeModal') closeModal!: ElementRef;
   @ViewChild('modalPopup', { static: true }) modalPopup!: TemplateRef<any>;
+  @ViewChild('picker') picker!: NgxMaterialTimepickerComponent;
+  @ViewChild('picker1') picker1!: NgxMaterialTimepickerComponent;
 
   dayValue: any;
   timeErr!: boolean;
@@ -60,7 +63,12 @@ export class AddShiftComponent implements OnInit {
       return `${selectedToppings[0]} (+${selectedToppings.length - 1} others)`;
     }
   }
-
+  openTimePicker() {
+    this.picker.open();
+  }
+  openTimePickerend(){
+    this.picker1.open();
+  }
   applyFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
     this.searchValue = inputValue;

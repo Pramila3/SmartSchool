@@ -92,4 +92,38 @@
 .timepicker-backdrop-overlay {
     z-index: 10000000 !important;
 }
-.hidden { display: none; }
+
+.hidden {
+    display: none;
+}
+
+::ng-deep.ngx-timepicker-control__arrow {
+    font-size: 9px !important;
+    color: #0006;
+    cursor: pointer;
+    transition: color .2s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+::ng-deep.ngx-timepicker {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border: 1px solid rgba(0,0,0,.12) !important;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+::ng-deep.ngx-timepicker-control__arrows{
+    right: -2px;
+    top: -5px;
+}
+
+.time-icon {
+    position: absolute; /* Adjust positioning as needed */
+    top: 45%; /* Adjust positioning as needed */
+    transform: translateY(-50%); /* Adjust positioning as needed */
+    right: 0;
+    color: #333; /* Adjust icon color as needed */
+  }

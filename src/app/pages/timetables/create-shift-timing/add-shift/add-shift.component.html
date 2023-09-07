@@ -94,7 +94,7 @@
                                     <input matInput placeholder="Shift Name" formControlName="shiftName">
 
                                 </mat-form-field>
-                                <span class="text-danger"
+                                <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.shiftName.touched || submitted) && shiftFormControl.shiftName.errors?.required">
                                     Shift Name is required
                                 </span>
@@ -150,7 +150,7 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <span class="text-danger"
+                                <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.class.touched || submitted) && shiftFormControl.class.errors?.required">
                                     Classes is required
                                 </span>
@@ -168,9 +168,12 @@
                                     <mat-label>Start Time</mat-label>
                                     <input matInput [ngxTimepicker]="picker" formControlName="startTime"
                                         placeholder="Select time">
+                                      <button mat-icon-button class="time-icon" (click)="openTimePicker()">
+                                        <mat-icon  >access_time</mat-icon>
+                                      </button> 
                                     <ngx-material-timepicker #picker></ngx-material-timepicker>
                                 </mat-form-field>
-                                <span class="text-danger"
+                                <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.startTime.touched || submitted) && shiftFormControl.startTime.errors?.required">
                                     Start Time is required
                                 </span>
@@ -187,14 +190,18 @@
                                     <mat-label>End Time</mat-label>
                                     <input matInput [ngxTimepicker]="picker1" formControlName="endTime"
                                         placeholder="Select time" (change)="validateTimes()">
+                                        <button mat-icon-button class="time-icon" (click)="openTimePickerend()">
+                                            <mat-icon  >access_time</mat-icon>
+                                          </button> 
+                                      
                                     <ngx-material-timepicker #picker1
                                         (timeSet)="validateTimes()"></ngx-material-timepicker>
                                 </mat-form-field>
-                                <span class="text-danger"
+                                <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.endTime.touched || submitted) && shiftFormControl.endTime.errors?.required">
                                     End Time is required
                                 </span>
-                                <div *ngIf="shiftForm.hasError('invalidTimeRange')" class="text-danger">
+                                <div *ngIf="shiftForm.hasError('invalidTimeRange')" class="text-danger form-check-under-mat">
                                     End time must be later than start time.
                                 </div>
                             </div>
@@ -209,7 +216,7 @@
                                         formControlName="noOfdaysPerWeek" [readonly]="shiftForm.value.shiftId">
 
                                 </mat-form-field>
-                                <span class="text-danger"
+                                <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.noOfdaysPerWeek.touched || submitted) && shiftFormControl.noOfdaysPerWeek.errors?.required">
                                     No of Days per Week is required
                                 </span>
@@ -224,7 +231,7 @@
                                         formControlName="noOfPeriodsPerDay" (change)="onChangePeriod()">
 
                                 </mat-form-field>
-                                <span class="text-danger"
+                                <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.noOfPeriodsPerDay.touched || submitted) && shiftFormControl.noOfPeriodsPerDay.errors?.required">
                                     No of Periods per Day is required
                                 </span>
@@ -248,7 +255,7 @@
 
                                     </mat-select>
                                 </mat-form-field>
-                                <span class="text-danger"
+                                <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.startingDay.touched || submitted) && shiftFormControl.startingDay.errors?.required">
                                     Starting Day is required
                                 </span>
@@ -303,7 +310,7 @@
 
 <div class="modal fade" id="addtimings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom " role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom " role="document">
         <div class="modal-content custum_modal_dialog">
             <div class="modal-header">
                 <h2 class="modal-title mb-0" id="exampleModalLabel">Add Timings </h2>
@@ -338,7 +345,7 @@
                                     [owlDateTime]="dt2">
                                 <owl-date-time [pickerType]="'timer'" #dt2 [hour12Timer]="true"></owl-date-time> -->
                             </div>
-                            <div *ngIf="periodForm.hasError('invalidTimeRange')" class="text-danger">
+                            <div *ngIf="periodForm.hasError('invalidTimeRange')"  class="text-danger ">
                                 End time must be later than start time.
                             </div>
                         </div>
