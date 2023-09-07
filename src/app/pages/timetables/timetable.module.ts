@@ -48,6 +48,8 @@ import { ProcessTimetableComponent } from './process-timetable/process-timetable
 import { ByClassComponent } from './by-class/by-class.component';
 import { ByStaffComponent } from './by-staff/by-staff.component';
 import { BySubjectComponent } from './by-subject/by-subject.component';
+import { DatePipe } from '@angular/common';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 @NgModule({
   declarations: [
@@ -106,8 +108,11 @@ import { BySubjectComponent } from './by-subject/by-subject.component';
     MatDatepickerModule, MatNativeDateModule,
     MatDialogModule,
     DragDropModule,
-    
-    
-  ]
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+  ],
+  providers: [
+    DatePipe, // Add DatePipe to the providers array
+  ],
 })
 export class TimetableModule { }

@@ -34,6 +34,7 @@ $sspfrontend-theme: mat.define-light-theme((color: (primary: $sspfrontend-primar
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($sspfrontend-theme);
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 
 /* You can add global styles to this file, and also import other style files */
 

@@ -1,8 +1,8 @@
 <div class="breadcrumb_with_back_option ">
     <div class="breadcrumb ms-3 mb-0">
-     <a routerLink="/CreateShiftTiming">Create Shift Timing</a> <span class="ms-1 me-1">/</span>  Add Shift
+        <a routerLink="/CreateShiftTiming">Create Shift Timing</a> <span class="ms-1 me-1">/</span> Add Shift
     </div>
-    
+
 </div>
 <div class="content-wrapper p-3">
 
@@ -15,7 +15,8 @@
 
                 <div class="d-flex align-items-center">
                     <div class="form-check me-3">
-                        <input type="checkbox" class="form-check-input" [(ngModel)]="activeStatus" [disabled]="ischecked" (change)="onChangeStatus()" >
+                        <input type="checkbox" class="form-check-input" [(ngModel)]="activeStatus"
+                            [disabled]="ischecked" (change)="onChangeStatus()">
                         <label for="" class="form-check-label">Set as Active </label>
                     </div>
                     <button class="btn btn-success btn-sm" (click)="addShift()">Add Shift</button>
@@ -26,13 +27,13 @@
                 <table class="table custum_table mt-2 mb-2">
                     <thead>
                         <tr>
-                            <th >Shift</th>
+                            <th>Shift</th>
                             <th>Classes</th>
-                            <th >Start Time </th>
-                            <th >End Time </th>
+                            <th>Start Time </th>
+                            <th>End Time </th>
                             <th> No of Days</th>
-                            <th >No of Periods</th>
-                            <th >Action</th>
+                            <th>No of Periods</th>
+                            <th>Action</th>
 
 
                         </tr>
@@ -47,14 +48,13 @@
                             <td>{{item.no_of_Periods}}</td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <button mat-icon-button class="text-success" data-bs-toggle="modal"
-                                        data-bs-target="#editCreateShift"><svg xmlns="http://www.w3.org/2000/svg"
+                                    <button mat-icon-button class="text-success" (click)="onEditShift(item.sftid)"><svg xmlns="http://www.w3.org/2000/svg"
                                             width="16" height="16" fill="currentColor" class="bi bi-pencil-fill"
                                             viewBox="0 0 16 16">
                                             <path
                                                 d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                         </svg></button>
-                                    <button mat-icon-button class="text-danger">
+                                    <button mat-icon-button class="text-danger" (click)="onDeleteShift(item.sftid)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                             <path
@@ -83,8 +83,8 @@
             <h2>Create Shift</h2>
             <hr>
             <form action="" [formGroup]="shiftForm">
-            <div class="mb-2">
-               
+                <div class="mb-2">
+
                     <div class="row mt-3">
                         <div class="col-lg-4">
 
@@ -94,6 +94,10 @@
                                     <input matInput placeholder="Shift Name" formControlName="shiftName">
 
                                 </mat-form-field>
+                                <span class="text-danger"
+                                    *ngIf="(shiftFormControl.shiftName.touched || submitted) && shiftFormControl.shiftName.errors?.required">
+                                    Shift Name is required
+                                </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -146,7 +150,10 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-
+                                <span class="text-danger"
+                                    *ngIf="(shiftFormControl.class.touched || submitted) && shiftFormControl.class.errors?.required">
+                                    Classes is required
+                                </span>
 
                             </div>
                         </div>
@@ -163,7 +170,10 @@
                                         placeholder="Select time">
                                     <ngx-material-timepicker #picker></ngx-material-timepicker>
                                 </mat-form-field>
-
+                                <span class="text-danger"
+                                    *ngIf="(shiftFormControl.startTime.touched || submitted) && shiftFormControl.startTime.errors?.required">
+                                    Start Time is required
+                                </span>
                                 <!-- <div class="toggle-example">
                                 <input [ngxTimepicker]="toggleTimepicker" readonly>
                                 <ngx-material-timepicker-toggle [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
@@ -176,19 +186,33 @@
                                 <mat-form-field appearance="outline">
                                     <mat-label>End Time</mat-label>
                                     <input matInput [ngxTimepicker]="picker1" formControlName="endTime"
-                                        placeholder="Select time">
-                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
+                                        placeholder="Select time" (change)="validateTimes()">
+                                    <ngx-material-timepicker #picker1
+                                        (timeSet)="validateTimes()"></ngx-material-timepicker>
                                 </mat-form-field>
+                                <span class="text-danger"
+                                    *ngIf="(shiftFormControl.endTime.touched || submitted) && shiftFormControl.endTime.errors?.required">
+                                    End Time is required
+                                </span>
+                                <div *ngIf="shiftForm.hasError('invalidTimeRange')" class="text-danger">
+                                    End time must be later than start time.
+                                </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4">
 
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
                                     <mat-label>No of Days per Week</mat-label>
-                                    <input matInput placeholder="No of Days per Week" formControlName="noOfdaysPerWeek">
+                                    <input matInput type="number" maxlength="1" placeholder="No of Days per Week"
+                                        formControlName="noOfdaysPerWeek" [readonly]="shiftForm.value.shiftId">
 
                                 </mat-form-field>
+                                <span class="text-danger"
+                                    *ngIf="(shiftFormControl.noOfdaysPerWeek.touched || submitted) && shiftFormControl.noOfdaysPerWeek.errors?.required">
+                                    No of Days per Week is required
+                                </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -196,10 +220,14 @@
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
                                     <mat-label>No of Periods per Day</mat-label>
-                                    <input matInput placeholder="No of Periods per Day"
+                                    <input matInput type="number" maxlength="2" placeholder="No of Periods per Day" [readonly]="shiftForm.value.shiftId"
                                         formControlName="noOfPeriodsPerDay" (change)="onChangePeriod()">
 
                                 </mat-form-field>
+                                <span class="text-danger"
+                                    *ngIf="(shiftFormControl.noOfPeriodsPerDay.touched || submitted) && shiftFormControl.noOfPeriodsPerDay.errors?.required">
+                                    No of Periods per Day is required
+                                </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -207,8 +235,9 @@
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Starting Day</mat-label>
-                                    <mat-select formControlName="startingDay">
-                                        <mat-option *ngFor="let item of dayList"  value="{{item.weekDays}}">{{item.dayName}}</mat-option>
+                                    <mat-select formControlName="startingDay" (selectionChange)="onDayChange($event)"  [disabled]="shiftForm.value.shiftId">
+                                        <mat-option *ngFor="let item of dayList"
+                                            value="{{item.weekDays}}">{{item.dayName}}</mat-option>
                                         <!-- <mat-option value="7">Day 7</mat-option>
                                         <mat-option value="1">Day 1</mat-option>
                                         <mat-option value="2">Day 2</mat-option>
@@ -219,125 +248,47 @@
 
                                     </mat-select>
                                 </mat-form-field>
+                                <span class="text-danger"
+                                    *ngIf="(shiftFormControl.startingDay.touched || submitted) && shiftFormControl.startingDay.errors?.required">
+                                    Starting Day is required
+                                </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <button class="btn btn-primary mt-2" (click)="showPeriods()">Show Periods</button>
                         </div>
                     </div>
-                
-            </div>
+
+                </div>
 
 
-            <div class="overflow-auto" *ngIf="formControl.length > 0">
-                <table class="table custum_table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Days/ Periods</th>
-                            <th *ngFor="let item of colvalues; let i = index">
-                                Period {{i+1}}</th>
+                <div class="overflow-auto" *ngIf="shiftForm.value.shiftFormArr.length > 0">
+                    <table class="table custum_table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Days/ Periods</th>
+                                <th *ngFor="let item of colvalues; let i = index">
+                                    Period {{i+1}}</th>
 
-                        </tr>
-                    </thead>
-                    <tbody formArrayName="shiftFormArr"
-                        *ngFor="let item of formControl; let i = index">
-                        <tr [formGroupName]="i">
-                            <td class="days_coloumn">{{item.value.day}}</td>
-                            <td *ngFor="let data of colvalues; let j = index" data-bs-toggle="modal" #openModal (click)="addPeriods(item, data.col, i)" data-bs-target="#addtimings" [ngStyle]="{'background-color': item.value[data.col][0].periodType == 'Break' ? 'gainsboro' : ''}">{{item.value[data.col][0].startTime}} - {{item.value[data.col][0].endTime}}</td>
-                            <!-- <td></td>
-                            <td class="break"></td>
-                            <td></td>
-                            <td class="break"> </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td> </td>
-                            <td></td>
-                            <td></td> -->
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="shiftFormArr" *ngFor="let item of formControl; let i = index">
+                            <tr [formGroupName]="i">
+                                <td class="days_coloumn">{{item.value.day}}</td>
+                                <td *ngFor="let data of colvalues; let j = index" data-bs-toggle="modal" #openModal
+                                    (click)="addPeriods(item, data.col, i)" data-bs-target="#addtimings"
+                                    [ngStyle]="{'background-color': item?.value[data?.col][0]?.periodType == 'Break' ? 'gainsboro' : ''}">
+                                    {{item.value[data.col][0].startTime}} - {{item.value[data.col][0].endTime}}</td>
 
-                        </tr>
-                        <!-- <tr>
-                            <td class="days_coloumn">Monday</td>
-                            <td>08:00 AM - 09:00 AM </td>
-                            <td>09:00 AM - 10:00 AM</td>
-                            <td class="break">10:00 AM - 10:15 AM</td>
-                            <td>10:15 AM - 11:15 AM</td>
-                            <td class="break">11:15 AM - 12:15 PM </td>
-                            <td>12:15 PM - 01:15 PM </td>
-                            <td>01:15 PM - 01:30 PM </td>
-                            <td>01:30 PM - 02:00 PM </td>
-                            <td>02:00 PM - 02:15 PM </td>
-                            <td>02:15 PM - 02:20 PM </td>
-                            <td>02:20 PM - 03:30 PM</td>
-
-                        </tr>
-                        <tr>
-                            <td class="days_coloumn">Tuesday</td>
-                            <td>08:00 AM - 09:00 AM </td>
-                            <td>09:00 AM - 10:00 AM</td>
-                            <td class="break">10:00 AM - 10:15 AM</td>
-                            <td>10:15 AM - 11:15 AM</td>
-                            <td class="break">11:15 AM - 12:15 PM </td>
-                            <td>12:15 PM - 01:15 PM </td>
-                            <td>01:15 PM - 01:30 PM </td>
-                            <td>01:30 PM - 02:00 PM </td>
-                            <td>02:00 PM - 02:15 PM </td>
-                            <td>02:15 PM - 02:20 PM </td>
-                            <td>02:20 PM - 03:30 PM</td>
-
-                        </tr>
-                        <tr>
-                            <td class="days_coloumn">Wednesday</td>
-                            <td>08:00 AM - 09:00 AM </td>
-                            <td>09:00 AM - 10:00 AM</td>
-                            <td class="break">10:00 AM - 10:15 AM</td>
-                            <td>10:15 AM - 11:15 AM</td>
-                            <td class="break">11:15 AM - 12:15 PM </td>
-                            <td>12:15 PM - 01:15 PM </td>
-                            <td>01:15 PM - 01:30 PM </td>
-                            <td>01:30 PM - 02:00 PM </td>
-                            <td>02:00 PM - 02:15 PM </td>
-                            <td>02:15 PM - 02:20 PM </td>
-                            <td>02:20 PM - 03:30 PM</td>
-
-                        </tr>
-                        <tr>
-                            <td class="days_coloumn">Thursday</td>
-                            <td>08:00 AM - 09:00 AM </td>
-                            <td>09:00 AM - 10:00 AM</td>
-                            <td class="break">10:00 AM - 10:15 AM</td>
-                            <td>10:15 AM - 11:15 AM</td>
-                            <td class="break">11:15 AM - 12:15 PM </td>
-                            <td>12:15 PM - 01:15 PM </td>
-                            <td>01:15 PM - 01:30 PM </td>
-                            <td>01:30 PM - 02:00 PM </td>
-                            <td>02:00 PM - 02:15 PM </td>
-                            <td>02:15 PM - 02:20 PM </td>
-                            <td>02:20 PM - 03:30 PM</td>
-
-                        </tr>
-                        <tr>
-                            <td class="days_coloumn">Friday</td>
-                            <td>08:00 AM - 09:00 AM </td>
-                            <td>09:00 AM - 10:00 AM</td>
-                            <td class="break">10:00 AM - 10:15 AM</td>
-                            <td>10:15 AM - 11:15 AM</td>
-                            <td class="break">11:15 AM - 12:15 PM </td>
-                            <td>12:15 PM - 01:15 PM </td>
-                            <td>01:15 PM - 01:30 PM </td>
-                            <td>01:30 PM - 02:00 PM </td>
-                            <td>02:00 PM - 02:15 PM </td>
-                            <td>02:15 PM - 02:20 PM </td>
-                            <td>02:20 PM - 03:30 PM</td>
-
-                        </tr> -->
-                    </tbody>
-                </table>
-            </div>
-        </form>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </form>
         </div>
-        <div class="final_submit_btns card-footer" *ngIf="formControl.length > 0">
-            <button class="btn btn-success ">
+        <div class="final_submit_btns card-footer" *ngIf="shiftForm.value.shiftFormArr.length > 0">
+            <button class="btn btn-success " (click)="onSubmit()" [disabled]="shiftForm.invalid">
                 Save
             </button>
             <button class="btn btn-secondary ms-2">
@@ -366,37 +317,51 @@
             </div>
             <div class="modal-body">
                 <form action="" [formGroup]="periodForm">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="">Start Time</label>
-                            <input type="time" class="form-control" formControlName="startTime">
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="">End Time</label>
-                            <input type="time" class="form-control" formControlName="endTime">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">Start Time <span class="text-danger">*</span></label>
+                                <ngx-timepicker-field [format]="12" [defaultTime]="'11:11 am'" formControlName="startTime" [controlOnly]="true"></ngx-timepicker-field>
 
+                                <!-- <input type="time" class="form-control" formControlName="startTime"> -->
+                                <!-- <input placeholder="Time:" formControlName="startTime" [owlDateTimeTrigger]="dt1"
+                                    [owlDateTime]="dt1">
+                                <owl-date-time [pickerType]="'timer'" #dt1 [hour12Timer]="true"></owl-date-time> -->
+                            </div>
                         </div>
-                    </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="">End Time <span class="text-danger">*</span></label>
+                                <ngx-timepicker-field [format]="12" formControlName="endTime" [defaultTime]="this.periodForm.value.endTime" [controlOnly]="true"></ngx-timepicker-field>
+                                <!-- <input type="time" format="HH:mm:aa" class="form-control" formControlName="endTime"> -->
+                                <!-- <input placeholder="Time:" formControlName="endTime" [owlDateTimeTrigger]="dt2"
+                                    [owlDateTime]="dt2">
+                                <owl-date-time [pickerType]="'timer'" #dt2 [hour12Timer]="true"></owl-date-time> -->
+                            </div>
+                            <div *ngIf="periodForm.hasError('invalidTimeRange')" class="text-danger">
+                                End time must be later than start time.
+                            </div>
+                        </div>
 
-                    <div class="col-lg-6 d-flex align-items-center ">
-                        <div class="form-check mt-2">
-                            <input type="radio" name="periodType" value="Period" class="form-check-input" id="Period" formControlName="periodType">
-                            <label for="Period" class="form-check-label">Period</label>
-                        </div>
-                        <div class="form-check mt-2 ms-2">
-                            <input type="radio" name="periodType" value="Break" class="form-check-input" id="Break" formControlName="periodType">
-                            <label for="Break" class="form-check-label">Break</label>
+                        <div class="col-lg-6 d-flex align-items-center ">
+                            <div class="form-check mt-2">
+                                <input type="radio" name="periodType" value="Period" class="form-check-input"
+                                    id="Period" formControlName="periodType">
+                                <label for="Period" class="form-check-label">Period</label>
+                            </div>
+                            <div class="form-check mt-2 ms-2">
+                                <input type="radio" name="periodType" value="Break" class="form-check-input" id="Break"
+                                    formControlName="periodType">
+                                <label for="Break" class="form-check-label">Break</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeModal>Cancel</button>
-                <button type="button" mat-raised-button color="primary" class="ms-2"  (click)="createTiming()">Save</button>
+                <button type="button" mat-raised-button color="primary" class="ms-2"
+                    (click)="createTiming()" [disabled]="periodForm.invalid">Save</button>
             </div>
         </div>
     </div>

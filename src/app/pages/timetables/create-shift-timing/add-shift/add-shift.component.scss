@@ -1,3 +1,6 @@
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+
 .form-group {
     margin-bottom: 10px;
 
@@ -81,3 +84,12 @@
     border: 2px solid #1c19cf;
     color: #1c19cf;
 }
+
+.timepicker-overlay {
+    z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+    z-index: 10000000 !important;
+}
+.hidden { display: none; }

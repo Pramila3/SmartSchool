@@ -1,9 +1,11 @@
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -12,6 +14,7 @@ import { CommonService } from 'src/app/pages/services/common.service';
   styleUrls: ['./add-shift.component.scss'],
 
 })
+
 export class AddShiftComponent implements OnInit {
   shiftTimingId!: number;
   shiftTimingList: any = [];
@@ -26,7 +29,7 @@ export class AddShiftComponent implements OnInit {
   shiftFormArr!: FormArray;
   periodForm!: FormGroup;
 
-  toppings = new FormControl([]);
+  toppings = new FormControl();
   searchValue = '';
   toppingList = ['LKG', '1 A', '1 B', '2 A', '2 B'];
   submitted!: boolean;
@@ -36,6 +39,11 @@ export class AddShiftComponent implements OnInit {
 
   @ViewChild('openModal') openModal!: ElementRef;
   @ViewChild('closeModal') closeModal!: ElementRef;
+  @ViewChild('modalPopup', { static: true }) modalPopup!: TemplateRef<any>;
+
+  dayValue: any;
+  timeErr!: boolean;
+  startTime: any;
 
   get filteredClassList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
@@ -59,8 +67,8 @@ export class AddShiftComponent implements OnInit {
     console.log(this.searchValue);
 
   }
-  constructor(private service: CommonService, private router: Router,
-    private fb: FormBuilder, private loader: LoaderService) { }
+  constructor(private service: CommonService, private router: Router, private cdr: ChangeDetectorRef,
+    private fb: FormBuilder, private loader: LoaderService, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.shiftTimingId = history.state.id
@@ -84,6 +92,7 @@ export class AddShiftComponent implements OnInit {
   }
   formGroup() {
     this.shiftForm = this.fb.group({
+      shiftId: [null],
       shiftName: [null, Validators.required],
       class: [null, Validators.required],
       startTime: [null, Validators.required],
@@ -91,8 +100,9 @@ export class AddShiftComponent implements OnInit {
       noOfdaysPerWeek: [null, Validators.required],
       noOfPeriodsPerDay: [null, Validators.required],
       startingDay: [null, Validators.required],
+      saveType: 'add',
       shiftFormArr: this.fb.array([])
-    })
+    }, { validator: timeRangeValidator })
   }
   periodFormGroup() {
     this.periodForm = this.fb.group({
@@ -101,12 +111,23 @@ export class AddShiftComponent implements OnInit {
       periodType: ["Period", Validators.required],
       periodName: [null],
       periodIndex: [null]
-    })
+     
+    },{ validator: timeRangeValidator })
   }
   get formControl() {
     const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
     return formArray.controls
     // Now TypeScript recognizes the 'controls' property
+  }
+  get shiftFormArray() {
+    return this.shiftForm.get('shiftFormArr') as FormArray;
+    // Now TypeScript recognizes the 'controls' property
+  }
+  get shiftFormControl() {
+    return this.shiftForm.controls;
+  }
+  get periodFormControl() {
+    return this.periodForm.controls;
   }
   getShiftList(id: number) {
     this.loader.show();
@@ -138,12 +159,21 @@ export class AddShiftComponent implements OnInit {
     })
   }
   addShift() {
+    this.formGroup()
+    this.periodFormGroup()
+    this.colvalues = []
+    this.toppings = new FormControl()
     this.isAddShiftShow = true;
+    console.log(this.shiftForm);
+
   }
   onChangePeriod() {
+    this.colvalues = []
     for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
       this.colvalues.push({ col: "period" + j })
     }
+    console.log(this.colvalues);
+
   }
   getDayList() {
     let postData = {
@@ -157,7 +187,7 @@ export class AddShiftComponent implements OnInit {
   }
   showPeriods() {
     let formArray = this.shiftForm.get('shiftFormArr') as FormArray;
-    formArray.clear()
+
     const arrayValue = this.toppings.value;
     if (Array.isArray(arrayValue)) {
       const arrayAsString = arrayValue.join(', ');
@@ -168,24 +198,58 @@ export class AddShiftComponent implements OnInit {
     if (this.shiftForm.valid) {
       let dayArr = (this.shiftForm.value.startingDay).split('@')
       console.log(dayArr);
+      if (!this.shiftForm.value.shiftId) {
+        formArray.clear()
+        for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
+          let arr = []
+          let obj: { [key: string]: any } = {};
+          for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
+            let period = 'period' + [j]
+            arr.push(period);
+          }
+          arr.forEach(item => {
+            obj[item] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
+          });
 
-      for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
-        let arr = []
-        let obj: { [key: string]: any } = {};
-        for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
-          let period = 'period' + [j]
-          arr.push(period);
+          const newFormGroup = this.fb.group({
+            day: dayArr[i], ...obj
+          });
+          const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
+          formArray.push(newFormGroup);
         }
-        arr.forEach(item => {
-          obj[item] = this.fb.array([this.fb.group({ startTime: '', endTime: '', periodType: '' })]);
-        });
+      } else {
+        let columnLength: number
+        let dayArr = (this.shiftForm.value.startingDay).split('@')
+        for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
+          if (i >= this.shiftFormArray.value.length) {
+            let obj: { [key: string]: any } = {};
+            this.colvalues.forEach((element2: any, j: number) => {
+              obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
+            })
+            this.shiftFormArray.push(this.fb.group({
+              day: dayArr[i], ...obj
+            }))
+          }
+        }
+        this.shiftFormArray.value.forEach((element: any, i: number) => {
+          columnLength = Object.keys(element).length - 1;
+          if (columnLength != this.colvalues.length) {
+            let lendiff = this.colvalues.length - columnLength;
+            this.colvalues.forEach((element2: any, j: number) => {
+              if (j >= columnLength) {
+                let obj: { [key: string]: any } = {};
+                element[element2.col] = [{ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] }];
+                console.log(obj);
+                // element.push(obj)
+                // this.shiftFormArray.insert(i, this.fb.group(obj))
+              }
+            });
+            console.log(this.shiftForm.value);
 
-        const newFormGroup = this.fb.group({
-          day: dayArr[i], ...obj
+          }
         });
-        const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
-        formArray.push(newFormGroup);
       }
+      this.periodForm.get('startTime')?.setValue(this.shiftForm.value.startTime)
       console.log(this.shiftForm.value);
 
     }
@@ -203,44 +267,412 @@ export class AddShiftComponent implements OnInit {
     })
   }
   addPeriods(formValue: any, colValue: any, i: number) {
-    console.log(formValue);
-    console.log(colValue);
-    console.log(i);
+    // console.log(formValue);
+    // console.log(colValue);
+    // console.log(i);
+    // let shour = (formValue.value[colValue][0].startTime.split(':'))[0] > 12 ? 'PM' : 'AM'
+    // let ehour = (formValue.value[colValue][0].endTime.split(':'))[0] > 12 ? 'PM' : 'AM'
+    // if (formValue.value[colValue][0].startTime && formValue.value[colValue][0].endTime && formValue.value[colValue][0].periodType) {
     this.periodForm.patchValue({
-      periodName: colValue,
-      periodIndex: i,
-      startTime: formValue.value[colValue][0].startTime,
-      endTime: formValue.value[colValue][0].endTime,
-      periodType: formValue.value[colValue][0].periodType ? formValue.value[colValue][0].periodType : 'Period',
+      endTime: null
     })
+
+    let sTime = formValue.value[colValue][0].startTime ? this.convertTo24HourFormat(formValue.value[colValue][0].startTime) : '';
+    let eTime = formValue.value[colValue][0].endTime ? this.convertTo24HourFormat(formValue.value[colValue][0].endTime.trim()) : '';
+    if (formValue.value[colValue][0].startTime && formValue.value[colValue][0].endTime) {
+      this.periodForm.patchValue({
+        periodName: colValue,
+        periodIndex: i,
+        startTime: sTime,
+        endTime: eTime,
+        periodType: formValue.value[colValue][0].periodType ? formValue.value[colValue][0].periodType : 'Period',
+      })
+    } else if (this.periodForm.value.startTime) {
+      let sTime = this.periodForm.value.startTime ? this.convertTo24HourFormat(this.periodForm.value.startTime) : '';
+      this.periodForm.patchValue({
+        periodName: colValue,
+        periodIndex: i,
+        startTime: sTime,
+      })
+    } else {
+      let sTime = this.shiftForm.value.startTime ? this.convertTo24HourFormat(this.shiftForm.value.startTime) : '';
+      this.periodForm.patchValue({
+        periodName: colValue,
+        periodIndex: i,
+        startTime: sTime,
+      })
+    }
+    console.log(this.periodForm.value);
+
+    // }
   }
   createTiming() {
     console.log(this.periodForm.value);
+    this.periodForm.patchValue({
+      startTime: this.periodForm.value.startTime ? this.convertTo24HourFormat(this.periodForm.value.startTime) : null,
+      endTime: this.periodForm.value.endTime ? this.convertTo24HourFormat(this.periodForm.value.endTime) : null
+    })
     const nestedArray = this.shiftForm.get('shiftFormArr') as FormArray;
 
     let shiftObject = this.shiftForm.value.shiftFormArr[this.periodForm.value.periodIndex];
     console.log(shiftObject);
     if (shiftObject) {
-      
-      let periodObj = shiftObject[this.periodForm.value.periodName][0];     
 
-      if (periodObj.startTime && periodObj.endTime) {
-        periodObj.startTime = this.periodForm.value.startTime
+      let periodObj = shiftObject[this.periodForm.value.periodName][0];
+
+      if (periodObj.startTime && periodObj.endTime || this.shiftForm.value.saveType == 'edit') {
+        periodObj.startTime = this.periodForm.value.startTime ? this.convertToAmPmFormat(this.periodForm.value.startTime) : null
         periodObj.periodType = this.periodForm.value.periodType
-        periodObj.endTime = this.periodForm.value.endTime
+        periodObj.endTime = this.periodForm.value.endTime ? this.convertToAmPmFormat(this.periodForm.value.endTime) : null
         const period2Controls = (nestedArray.at(this.periodForm.value.periodIndex).get(this.periodForm.value.periodName) as FormArray).at(0) as FormGroup;
         period2Controls.patchValue(periodObj);
       } else {
-        periodObj.startTime = this.periodForm.value.startTime
+        this.startTime = ''
+        periodObj.startTime = this.periodForm.value.startTime ? this.convertToAmPmFormat(this.periodForm.value.startTime) : ''
         periodObj.periodType = this.periodForm.value.periodType
-        periodObj.endTime = this.periodForm.value.endTime
+        periodObj.endTime = this.periodForm.value.endTime ? this.convertToAmPmFormat(this.periodForm.value.endTime) : ''
         for (let i = 0; i < +(this.shiftForm.value.noOfdaysPerWeek); i++) {
           const period2Controls = (nestedArray.at(i).get(this.periodForm.value.periodName) as FormArray).at(0) as FormGroup;
           period2Controls.patchValue(periodObj);
         }
+        this.startTime = periodObj.endTime ? this.convertTo24HourFormat(periodObj.endTime) : null
       }
+      this.periodForm.patchValue({
+        startTime: this.startTime,
+        endTime: null
+      })
       this.closeModal.nativeElement.click()
     }
   }
+  onSubmit() {
+    console.log(this.shiftForm.value);
+    console.log(this.toppings.value);
+
+    let classStr = '';
+    if (this.toppings.value?.length > 0) {
+      this.toppings.value.forEach((element: any, index: number) => {
+        const selectedObjects = this.filteredClassList.find((option: any) => option.class == element);
+        console.log(selectedObjects);
+
+        if (selectedObjects) {
+          classStr = this.toppings.value.length - 1 == index ? (classStr + selectedObjects.classid) : index == 0 ? (selectedObjects.classid + ', ') : (classStr + selectedObjects.classid + ', ')
+        }
+      });
+    }
+    let shiftDetailArr: string[] = []
+    if (this.shiftForm.value.shiftFormArr.length > 0) {
+      this.shiftForm.value.shiftFormArr.forEach((element: any) => {
+        let rowPeriod = ''
+        let rowPeriodType = ''
+        this.colvalues.forEach((data: any, index: number) => {
+          console.log(element[data.col][0].startTime);
+          let time = (element[data.col][0].startTime) + '-' + (element[data.col][0].endTime)
+          let period;
+          console.log(time);
+          rowPeriod = this.colvalues.length - 1 == index ? (rowPeriod + '@' + time + '@') : index == 0 ? ('@' + time) : (rowPeriod + '@' + time)
+          if (element[data.col][0].periodType == "Period") {
+            period = 1
+          } else {
+            period = 0
+          }
+          rowPeriodType = this.colvalues.length - 1 == index ? (rowPeriodType + '@' + period + '@') : index == 0 ? ('#@' + period) : (rowPeriodType + '@' + period)
+        });
+        shiftDetailArr.push(rowPeriod + rowPeriodType)
+      });
+    }
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode'),
+      clstid: this.shiftTimingId,
+      sftid: this.shiftForm.value.shiftId,
+      shiftName: this.shiftForm.value.shiftName,
+      no_of_Days: (this.shiftForm.value.noOfdaysPerWeek).toString(),
+      no_of_Periods: (this.shiftForm.value.noOfPeriodsPerDay).toString(),
+      start_Day: this.dayValue ? this.dayValue : this.shiftForm.value.startingDay,
+      start_Time: this.shiftForm.value.startTime,
+      end_Time: this.shiftForm.value.endTime,
+      shift_class: classStr,
+      perioddetails: shiftDetailArr.length > 0 ? shiftDetailArr.join('ê') : '',
+    }
+    console.log(postData);
+
+    this.service.postHttpService(postData, 'createShiftPreiod').subscribe((response: any) => {
+      if (response.status) {
+        this.getShiftList(this.shiftTimingId);
+        Swal.fire({
+          title: "Success",
+          text: "Record saved successfully",
+          icon: 'success',
+          width: '350px',
+          heightAuto: false
+        }).then(() => {
+          this.getShiftList(this.shiftTimingId);
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: response.statusMessage,
+          icon: 'warning',
+          width: '350px',
+          heightAuto: false
+        })
+      }
+    })
+
+  }
+  onDayChange(data: any) {
+    console.log(data);
+    this.dayValue = ''
+    if (data) {
+      this.dayValue = this.dayList.find((item: any) => item.weekDays == data.value).dayName
+      console.log(this.dayValue);
+      if (this.dayValue) {
+        this.dayValue = this.dayValue.split(' ')[1]
+      }
+    }
+  }
+  validateTimes() {
+
+    // const startTimeParts = this.shiftForm.value.startTime.split(':');
+    // const endTimeParts = this.shiftForm.value.endTime.split(':');
+
+    // const startHour = parseInt(startTimeParts[0], 10);
+    // const startMinute = parseInt(startTimeParts[1], 10);
+
+    // const endHour = parseInt(endTimeParts[0], 10);
+    // const endMinute = parseInt(endTimeParts[1], 10);
+    let date = new Date()
+    const startTime = this.shiftForm.value.startTime;
+    const endTime = this.shiftForm.value.endTime;
+    // Compare the start and end times
+    // if (endHour > startHour || (endHour === startHour && endMinute > startMinute)) {
+    if (startTime && endTime && startTime >= endTime) {
+      this.timeErr = true;
+    } else {
+      this.timeErr = false;
+    }
+  }
+  onEditShift(id: String) {
+    this.shiftForm.get('shiftId')?.setValue(id);
+    let postData = {
+      shiftid: id,
+      schoolcode: localStorage.getItem('schoolcode')
+    }
+    this.colvalues = []
+    this.shiftFormArray.clear()
+    this.service.getHttpServiceWithDynamicParams(postData, 'findShiftDetails').subscribe((response: any) => {
+      if (response.status) {
+        let day = this.dayList.filter((item: any) => {
+          let splitDay = item.dayName.split(' ')[1]
+          if (splitDay == response.resultData[0].start_Day) {
+            return item;
+          }
+        });
+        console.log(day);
+        if (response.resultData[0].classes) {
+          this.toppings.setValue(response.resultData[0].classes.split(','));
+        }
+
+        this.shiftForm.patchValue({
+          shiftId: response.resultData[0].sftid,
+          shiftName: response.resultData[0].shift,
+          // class: response.resultData[0].classes,
+          startTime: response.resultData[0].start_Time,
+          endTime: response.resultData[0].end_Time,
+          noOfdaysPerWeek: response.resultData[0].no_of_Days,
+          noOfPeriodsPerDay: response.resultData[0].no_of_Periods,
+          startingDay: day ? day[0].weekDays : '',
+          saveType: 'edit'
+        })
+        this.isAddShiftShow = true
+
+        if (response.resultData[0].sftprdtime) {
+          let periodArr = response.resultData[0].sftprdtime.split('ê')
+          console.log(periodArr);
+          let dayArr = (this.shiftForm.value.startingDay).split('@')
+          for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
+            this.colvalues.push({ col: "period" + j })
+          }
+          for (let i = 0; i < periodArr.length; i++) {
+
+            let obj: { [key: string]: any } = {};
+
+            let objSplit = periodArr[i].split('#');
+            console.log(objSplit);
+            let periodPlit = objSplit[0].split('@')
+            const nonEmptyArray = periodPlit.filter((value: any) => value.trim() !== '');
+            let periodTypeSplit = objSplit[1].split('@')
+            const nonEmptyperiodArray = periodTypeSplit.filter((value: any) => value.trim() !== '');
+
+            console.log(nonEmptyArray);
+
+            nonEmptyArray.forEach((item: any, i: number) => {
+              let time = item.split('-')
+              let type = 'Period'
+              nonEmptyperiodArray.forEach((element: any, j: number) => {
+                console.log(element);
+
+                if (element == "0" && i == j) {
+                  type = 'Break'
+                }
+              });
+              obj['period' + [i]] = (this.fb.array([this.fb.group({ startTime: time[0], endTime: time[1], periodType: type })]));
+            });
+
+            const newFormGroup = this.fb.group({
+              day: dayArr[i], ...obj
+            });
+            const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
+            formArray.push(newFormGroup);
+          }
+          console.log(this.shiftForm.value);
+
+        }
+      }
+    })
+  }
+  onDeleteShift(id: string) {
+    let postData = {
+      shiftid: id,
+      schoolcode: localStorage.getItem('schoolcode'),
+      academicyear: localStorage.getItem('academicYear'),
+      CLSTID: this.shiftTimingId
+    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      width: '350px',
+    }).then((result) => {
+      if (result.value) {
+        this.service.deleteHttpService(postData, 'deleteShiftDetails').subscribe((response) => {
+          if (response.status) {
+            Swal.fire({
+              title: "Success",
+              text: "Successfully deleted!",
+              icon: 'success',
+              width: '350px',
+              heightAuto: false
+            }).then(() => {
+              this.getShiftList(this.shiftTimingId);
+            });
+            this.cdr.markForCheck();
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: response.statusMessage,
+              icon: 'warning',
+              width: '350px',
+              heightAuto: false
+            })
+            this.getShiftList(this.shiftTimingId);
+          }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        this.getShiftList(this.shiftTimingId);
+      }
+    });
+  }
+  convertTo24HourFormat(time12Hour: String) {
+    const [time, ampm] = time12Hour.split(' ');
+
+    // Split the hours and minutes
+    const [hours, minutes] = time.split(':');
+
+    // Convert hours to a number
+    let hour = parseInt(hours, 10);
+
+    // Check if hours and minutes are valid numbers
+    if (isNaN(hour) || isNaN(parseInt(minutes, 10))) {
+      return null; // Handle invalid input
+    }
+
+    // Adjust hours for 12-hour format
+    if (ampm === 'PM' && hour !== 12) {
+      hour += 12;
+    } else if (ampm === 'AM' && hour === 12) {
+      hour = 0;
+    }
+
+    // Convert back to string with leading zeros if necessary
+    const hourString = hour.toString().padStart(2, '0');
+    const minuteString = minutes.padStart(2, '0');
+
+    // Reconstruct the time in 24-hour format
+    const time24Hour = `${hourString}:${minuteString}`;
+
+    return time24Hour;
+  }
+
+  convertToAmPmFormat(time24Hour: String) {
+    const [time, ampm] = time24Hour.split(' ');
+    // Split the time string into hours and minutes
+    const [hours, minutes] = time.split(':');
+
+    // Convert hours to a number
+    const hour = parseInt(hours, 10);
+
+    // Determine AM or PM and format the time
+    let amPm;
+    if (hour >= 12) {
+      amPm = 'PM';
+    } else {
+      amPm = 'AM';
+    }
+
+    // Convert 24-hour format to 12-hour format
+    const hour12 = hour % 12 || 12;
+
+    // Create the AM/PM time string
+    const timeAmPm = `${hour12}:${minutes} ${amPm}`;
+
+    return timeAmPm;
+  }
+}
+function timeRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const startTime = control.get('startTime')?.value;
+  const endTime = control.get('endTime')?.value;
+
+  if (startTime && endTime) {
+    let currentStart = new Date();
+    let currentEnd = new Date();
+
+    console.log(currentStart);
+    console.log(startTime.split()[0]);
+    const [stime, sampm] = startTime.split(' ');
+    const [etime, eampm] = endTime.split(' ');
+    let [shours, sminutes] = stime.split(':').map(Number);
+    let [ehours, eminutes] = etime.split(':').map(Number);
+    if (sampm === 'PM' && shours !== 12) {
+      shours += 12;
+    } else if (sampm === 'AM' && shours === 12) {
+      shours = 0;
+    }
+    if (eampm === 'PM' && ehours !== 12) {
+      ehours += 12;
+    } else if (eampm === 'AM' && ehours === 12) {
+      ehours = 0;
+    }
+    if (!isNaN(shours) && !isNaN(sminutes)) {
+      currentStart.setHours(shours, sminutes, 0, 0);
+      console.log(currentStart);
+    }
+    if (!isNaN(ehours) && !isNaN(eminutes)) {
+      currentEnd.setHours(ehours, eminutes, 0, 0);
+      console.log(currentEnd);
+    }
+    // currentStart.setHours(Number(stime.split()[0]), Number(stime.split()[1]), 0, 0 )
+    // console.log(stime.split(':')[0]);
+    // currentEnd.setHours(Number(etime.split()[0]), Number(etime.split()[1]), 0, 0 )
+
+    // if (startTime && endTime && startTime >= endTime) {
+    if (currentStart.getTime() >= currentEnd.getTime()) {
+      return { invalidTimeRange: true };
+    }
+  }
+  return null;
+
 }
 

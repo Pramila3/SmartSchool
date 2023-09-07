@@ -13,7 +13,10 @@ let URI = {
     'getShiftList': 'AllotShift/TimeTableAccess',
     'getClassDropDownList': 'AllotShift/BindClass',
     'shiftActiveStatus': 'AllotShift/SetActive',
-    'getDayList': 'AllotShift/BindDays'
+    'getDayList': 'AllotShift/BindDays',
+    'createShiftPreiod': 'AllotShift/InsertShiftDetails',
+    'findShiftDetails': 'AllotShift/TimeTableAccessbyID',
+    'deleteShiftDetails': 'AllotShift/DeleteShiftTiming'
 }
 
 export { URI }
