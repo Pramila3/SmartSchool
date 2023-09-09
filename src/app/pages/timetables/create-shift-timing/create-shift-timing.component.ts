@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../common/loading/loader.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-create-shift-timing',
   templateUrl: './create-shift-timing.component.html',
@@ -217,7 +217,13 @@ export class CreateShiftTimingComponent implements OnInit {
 
 
   openDialog() {
-    this.dialog.open(ImportShiftTimingModal);
+    const dialogRef =  this.dialog.open(ImportShiftTimingModal);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+
+        this.getShiftTimingList();
+        this.cdr.detectChanges()
+    });
   }
 
 }
@@ -229,15 +235,19 @@ export class CreateShiftTimingComponent implements OnInit {
   styleUrls: ['./create-shift-timing.component.scss']
   // standalone: true,
   // imports: [MatDialogModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, ],
-  
+
 })
 export class ImportShiftTimingModal {
 
   selectedValue: string | undefined;
   input: any
-  constructor(public dialog: MatDialog) { }
+  timetableList: any = [];
+  form!: FormGroup;
+  constructor(public dialog: MatDialog, private service: CommonService, private fb: FormBuilder, public dialogRef: MatDialogRef<ImportShiftTimingModal>) { }
 
   ngOnInit(): void {
+    this.getTimetableList();
+    this.formGroup();
   }
   foods: Food[] = [
     { value: '1', viewValue: 'TT ClassMary' },
@@ -250,7 +260,69 @@ export class ImportShiftTimingModal {
     { value: '8', viewValue: 'Timetable 2023-2024' },
     { value: '9', viewValue: 'TT 2023-2024 II' },
   ];
- 
+
+  getTimetableList() {
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode')
+    }
+    this.service.getHttpServiceWithDynamicParams(postData, 'getTimeTableDropDownList').subscribe((response: any) => {
+      if (response.status) {
+        this.timetableList = response.resultData
+      }
+    })
+  }
+  formGroup() {
+    this.form = this.fb.group({
+      importTimetableTemplateId: [null, Validators.required],
+      timetbleName: [null, Validators.required],
+      isOverwrite: [null],
+      isActive: [null]
+    })
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      let templateName;
+      if (this.form.value.importTimetableTemplateId) {
+        let checkValue = this.timetableList.find((item: any) => item.clstid == this.form.value.importTimetableTemplateId)
+        if (checkValue) {
+          templateName = checkValue.timetable_Name
+        }
+      }
+      let postData = {
+        schoolcode: localStorage.getItem("schoolcode"),
+        clstid: this.form.value.importTimetableTemplateId,
+        import_timetable_name: templateName,
+        clstacayear: localStorage.getItem('academicYear'),
+        new_Timetable_Name: this.form.value.timetbleName,
+        is_override: this.form.value.isOverwrite ? "1" : "0",
+        is_Active: this.form.value.isActive ? "1" : "0",
+      }
+      console.log(postData);
+      this.service.postHttpService(postData, 'importShiftTiming').subscribe((response: any) => {
+        if (response.status) {
+          this.dialogRef.close()
+          Swal.fire({
+            title: "Success",
+            text: "Record saved successfully",
+            icon: 'success',
+            width: '350px',
+            heightAuto: false
+          }).then(() => {
+          });
+
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: response.statusMessage,
+            icon: 'warning',
+            width: '350px',
+            heightAuto: false
+          });
+        }
+      })
+    }
+  }
 }
 
 interface Food {

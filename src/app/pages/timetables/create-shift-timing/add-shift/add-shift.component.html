@@ -139,7 +139,7 @@
                             </mat-form-field> -->
                                 <mat-form-field appearance="outline">
                                     <mat-label>Classes</mat-label>
-                                    <mat-select [formControl]="toppings" multiple>
+                                    <mat-select [formControl]="toppings" multiple (selectionChange)="onSelectChange($event)">
                                         <mat-select-trigger>
                                             {{ selectedToppingsText }}
                                         </mat-select-trigger>
@@ -283,7 +283,7 @@
                             <tr [formGroupName]="i">
                                 <td class="days_coloumn">{{item.value.day}}</td>
                                 <td *ngFor="let data of colvalues; let j = index" data-bs-toggle="modal" #openModal
-                                    (click)="addPeriods(item, data.col, i)" data-bs-target="#addtimings"
+                                (click)=" addPeriods(item, data.col, i)" data-bs-target="#addtimings"
                                     [ngStyle]="{'background-color': item?.value[data?.col][0]?.periodType == 'Break' ? 'gainsboro' : ''}">
                                     {{item.value[data.col][0].startTime}} - {{item.value[data.col][0].endTime}}</td>
 
@@ -323,12 +323,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" [formGroup]="periodForm">
+                <form action="" [formGroup]="periodForm">                   
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">Start Time <span class="text-danger">*</span></label>
-                                <ngx-timepicker-field [format]="12" [defaultTime]="'11:11 am'" formControlName="startTime" [controlOnly]="true"></ngx-timepicker-field>
+                                <ngx-timepicker-field [format]="12" (timeChanged)="onStartTimeChange($event)" formControlName="startTime" [controlOnly]="true"></ngx-timepicker-field>
 
                                 <!-- <input type="time" class="form-control" formControlName="startTime"> -->
                                 <!-- <input placeholder="Time:" formControlName="startTime" [owlDateTimeTrigger]="dt1"
@@ -363,12 +363,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="text-align: center;"> <span *ngIf="timeErr" class="text-danger">Invalid Time</span></div>
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeModal>Cancel</button>
                 <button type="button" mat-raised-button color="primary" class="ms-2"
-                    (click)="createTiming()" [disabled]="periodForm.invalid">Save</button>
+                    (click)="createTiming()" [disabled]="(periodForm.invalid || timeErr)">Save</button>
             </div>
         </div>
     </div>

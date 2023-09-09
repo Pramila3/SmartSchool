@@ -30,7 +30,7 @@ export class AddShiftComponent implements OnInit {
   shiftFormArr!: FormArray;
   periodForm!: FormGroup;
 
-  toppings = new FormControl();
+  toppings = new FormControl(['', [Validators.required]]);
   searchValue = '';
   toppingList = ['LKG', '1 A', '1 B', '2 A', '2 B'];
   submitted!: boolean;
@@ -47,6 +47,7 @@ export class AddShiftComponent implements OnInit {
   dayValue: any;
   timeErr!: boolean;
   startTime: any;
+  modalTarget!: string;
 
   get filteredClassList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
@@ -66,13 +67,14 @@ export class AddShiftComponent implements OnInit {
   openTimePicker() {
     this.picker.open();
   }
-  openTimePickerend(){
+  openTimePickerend() {
     this.picker1.open();
   }
   applyFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
     this.searchValue = inputValue;
-    console.log(this.searchValue);
+    console.log("called");
+
 
   }
   constructor(private service: CommonService, private router: Router, private cdr: ChangeDetectorRef,
@@ -82,7 +84,6 @@ export class AddShiftComponent implements OnInit {
     this.shiftTimingId = history.state.id
     this.timetableName = history.state.timetableName
     this.status = history.state.status
-    console.log(this.status);
 
     if (this.shiftTimingId) {
       this.getShiftList(this.shiftTimingId);
@@ -119,8 +120,8 @@ export class AddShiftComponent implements OnInit {
       periodType: ["Period", Validators.required],
       periodName: [null],
       periodIndex: [null]
-     
-    },{ validator: timeRangeValidator })
+
+    }, { validator: timeRangeValidator })
   }
   get formControl() {
     const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
@@ -172,7 +173,6 @@ export class AddShiftComponent implements OnInit {
     this.colvalues = []
     this.toppings = new FormControl()
     this.isAddShiftShow = true;
-    console.log(this.shiftForm);
 
   }
   onChangePeriod() {
@@ -180,7 +180,6 @@ export class AddShiftComponent implements OnInit {
     for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
       this.colvalues.push({ col: "period" + j })
     }
-    console.log(this.colvalues);
 
   }
   getDayList() {
@@ -199,13 +198,11 @@ export class AddShiftComponent implements OnInit {
     const arrayValue = this.toppings.value;
     if (Array.isArray(arrayValue)) {
       const arrayAsString = arrayValue.join(', ');
-      console.log(arrayAsString);
       this.shiftForm.get('class')?.setValue(arrayAsString);
     }
     this.submitted = true;
     if (this.shiftForm.valid) {
       let dayArr = (this.shiftForm.value.startingDay).split('@')
-      console.log(dayArr);
       if (!this.shiftForm.value.shiftId) {
         formArray.clear()
         for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
@@ -247,23 +244,19 @@ export class AddShiftComponent implements OnInit {
               if (j >= columnLength) {
                 let obj: { [key: string]: any } = {};
                 element[element2.col] = [{ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] }];
-                console.log(obj);
                 // element.push(obj)
                 // this.shiftFormArray.insert(i, this.fb.group(obj))
               }
             });
-            console.log(this.shiftForm.value);
 
           }
         });
       }
       this.periodForm.get('startTime')?.setValue(this.shiftForm.value.startTime)
-      console.log(this.shiftForm.value);
 
     }
   }
   onChangeStatus() {
-    console.log(this.ischecked);
     let postData = {
       clstid: this.shiftTimingId,
       schoolcode: localStorage.getItem('schoolcode'),
@@ -281,6 +274,26 @@ export class AddShiftComponent implements OnInit {
     // let shour = (formValue.value[colValue][0].startTime.split(':'))[0] > 12 ? 'PM' : 'AM'
     // let ehour = (formValue.value[colValue][0].endTime.split(':'))[0] > 12 ? 'PM' : 'AM'
     // if (formValue.value[colValue][0].startTime && formValue.value[colValue][0].endTime && formValue.value[colValue][0].periodType) {
+    let selector: string;
+    if (this.shiftForm.value.shiftId != null) {
+      selector = '';
+    } else {
+      this.modalTarget = '#addtimings';
+    }
+    
+    const openModalButton = document.querySelector('[data-bs-toggle="modal"]');
+    const targetModalId = '#addtimings';
+    openModalButton?.addEventListener('click', () => {
+      const modalTrigger = document.querySelector(targetModalId);
+
+      if (modalTrigger) {
+        if (this.shiftForm.value.shiftId == null) {
+          modalTrigger.classList.add('show'); // Show the modal
+          // modalTrigger.style.display = 'block'; // Display the modal
+        }
+      }
+    });
+
     this.periodForm.patchValue({
       endTime: null
     })
@@ -315,7 +328,6 @@ export class AddShiftComponent implements OnInit {
     // }
   }
   createTiming() {
-    console.log(this.periodForm.value);
     this.periodForm.patchValue({
       startTime: this.periodForm.value.startTime ? this.convertTo24HourFormat(this.periodForm.value.startTime) : null,
       endTime: this.periodForm.value.endTime ? this.convertTo24HourFormat(this.periodForm.value.endTime) : null
@@ -323,7 +335,6 @@ export class AddShiftComponent implements OnInit {
     const nestedArray = this.shiftForm.get('shiftFormArr') as FormArray;
 
     let shiftObject = this.shiftForm.value.shiftFormArr[this.periodForm.value.periodIndex];
-    console.log(shiftObject);
     if (shiftObject) {
 
       let periodObj = shiftObject[this.periodForm.value.periodName][0];
@@ -357,15 +368,23 @@ export class AddShiftComponent implements OnInit {
     console.log(this.toppings.value);
 
     let classStr = '';
-    if (this.toppings.value?.length > 0) {
-      this.toppings.value.forEach((element: any, index: number) => {
-        const selectedObjects = this.filteredClassList.find((option: any) => option.class == element);
-        console.log(selectedObjects);
+    const selectedToppings = this.toppings.value
+    if (selectedToppings !== null && Array.isArray(selectedToppings)) {
+      if (selectedToppings?.length > 0) {
+        selectedToppings.forEach((element: any, index: number) => {
+          const selectedObjects = this.filteredClassList.find((option: any) => option.class == element);
 
-        if (selectedObjects) {
-          classStr = this.toppings.value.length - 1 == index ? (classStr + selectedObjects.classid) : index == 0 ? (selectedObjects.classid + ', ') : (classStr + selectedObjects.classid + ', ')
-        }
-      });
+          if (selectedObjects) {
+            classStr = selectedToppings.length - 1 == index ? (classStr + selectedObjects.classid) : index == 0 ? (selectedObjects.classid + ', ') : (classStr + selectedObjects.classid + ', ')
+          }
+        });
+      }
+    }
+    if (this.shiftForm.value.startingDay) {
+      this.dayValue = this.dayList.find((item: any) => item.weekDays == this.shiftForm.value.startingDay).dayName
+      if (this.dayValue) {
+        this.dayValue = this.dayValue.split(' ')[1]
+      }
     }
     let shiftDetailArr: string[] = []
     if (this.shiftForm.value.shiftFormArr.length > 0) {
@@ -373,10 +392,8 @@ export class AddShiftComponent implements OnInit {
         let rowPeriod = ''
         let rowPeriodType = ''
         this.colvalues.forEach((data: any, index: number) => {
-          console.log(element[data.col][0].startTime);
           let time = (element[data.col][0].startTime) + '-' + (element[data.col][0].endTime)
           let period;
-          console.log(time);
           rowPeriod = this.colvalues.length - 1 == index ? (rowPeriod + '@' + time + '@') : index == 0 ? ('@' + time) : (rowPeriod + '@' + time)
           if (element[data.col][0].periodType == "Period") {
             period = 1
@@ -428,11 +445,9 @@ export class AddShiftComponent implements OnInit {
 
   }
   onDayChange(data: any) {
-    console.log(data);
     this.dayValue = ''
     if (data) {
       this.dayValue = this.dayList.find((item: any) => item.weekDays == data.value).dayName
-      console.log(this.dayValue);
       if (this.dayValue) {
         this.dayValue = this.dayValue.split(' ')[1]
       }
@@ -475,7 +490,6 @@ export class AddShiftComponent implements OnInit {
             return item;
           }
         });
-        console.log(day);
         if (response.resultData[0].classes) {
           this.toppings.setValue(response.resultData[0].classes.split(','));
         }
@@ -483,7 +497,7 @@ export class AddShiftComponent implements OnInit {
         this.shiftForm.patchValue({
           shiftId: response.resultData[0].sftid,
           shiftName: response.resultData[0].shift,
-          // class: response.resultData[0].classes,
+          class: response.resultData[0].classes,
           startTime: response.resultData[0].start_Time,
           endTime: response.resultData[0].end_Time,
           noOfdaysPerWeek: response.resultData[0].no_of_Days,
@@ -495,7 +509,6 @@ export class AddShiftComponent implements OnInit {
 
         if (response.resultData[0].sftprdtime) {
           let periodArr = response.resultData[0].sftprdtime.split('ê')
-          console.log(periodArr);
           let dayArr = (this.shiftForm.value.startingDay).split('@')
           for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
             this.colvalues.push({ col: "period" + j })
@@ -505,19 +518,16 @@ export class AddShiftComponent implements OnInit {
             let obj: { [key: string]: any } = {};
 
             let objSplit = periodArr[i].split('#');
-            console.log(objSplit);
             let periodPlit = objSplit[0].split('@')
             const nonEmptyArray = periodPlit.filter((value: any) => value.trim() !== '');
             let periodTypeSplit = objSplit[1].split('@')
             const nonEmptyperiodArray = periodTypeSplit.filter((value: any) => value.trim() !== '');
 
-            console.log(nonEmptyArray);
 
             nonEmptyArray.forEach((item: any, i: number) => {
               let time = item.split('-')
               let type = 'Period'
               nonEmptyperiodArray.forEach((element: any, j: number) => {
-                console.log(element);
 
                 if (element == "0" && i == j) {
                   type = 'Break'
@@ -532,7 +542,7 @@ export class AddShiftComponent implements OnInit {
             const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
             formArray.push(newFormGroup);
           }
-          console.log(this.shiftForm.value);
+          console.log(this.shiftForm);
 
         }
       }
@@ -638,6 +648,56 @@ export class AddShiftComponent implements OnInit {
 
     return timeAmPm;
   }
+  onSelectChange(event: any) {
+    const selectedValue = event.value;
+    if (selectedValue.length > 0) {
+      this.shiftForm.patchValue({
+        class: selectedValue.join(', ')
+      })
+    } else {
+      this.shiftForm.patchValue({
+        class: null
+      })
+    }
+
+  }
+  onStartTimeChange(event: any) {
+    let currentDate = new Date()
+    let oldStartDate = new Date()
+    let oldEndDate = new Date()
+    this.timeErr = false
+    if (event) {
+      let currentTime = this.convertTo24HourFormat(event);
+      if (currentTime) {
+        let [shours, sminutes] = currentTime?.split(':').map(Number);
+        currentDate.setHours(shours, sminutes, 0, 0);
+      }
+      this.shiftFormArray.value.forEach((element1: any, i: number) => {
+        this.colvalues.forEach((element2: any, j: number) => {
+          console.log(element1[element2.col]);
+
+          let oldStartTime = this.convertTo24HourFormat(element1[element2.col][0].startTime);
+          let oldEndTime = this.convertTo24HourFormat(element1[element2.col][0].endTime);
+         if(element1[element2.col][0].startTime){
+          if (oldStartTime) {
+            let [shours, sminutes] = oldStartTime?.split(':').map(Number);
+            oldStartDate.setHours(shours, sminutes, 0, 0);
+          }
+          if (oldEndTime) {
+            let [shours, sminutes] = oldEndTime?.split(':').map(Number);
+            oldEndDate.setHours(shours, sminutes, 0, 0);
+          }
+          if ((currentDate.getTime() <= oldStartDate.getTime()) || (currentDate.getTime() < oldEndDate.getTime())) {
+            this.timeErr = true
+            return
+          } else {
+            this.timeErr = false
+          }
+        }
+        });
+      });
+    }
+  }
 }
 function timeRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
   const startTime = control.get('startTime')?.value;
@@ -647,8 +707,6 @@ function timeRangeValidator(control: AbstractControl): { [key: string]: boolean 
     let currentStart = new Date();
     let currentEnd = new Date();
 
-    console.log(currentStart);
-    console.log(startTime.split()[0]);
     const [stime, sampm] = startTime.split(' ');
     const [etime, eampm] = endTime.split(' ');
     let [shours, sminutes] = stime.split(':').map(Number);
@@ -665,11 +723,50 @@ function timeRangeValidator(control: AbstractControl): { [key: string]: boolean 
     }
     if (!isNaN(shours) && !isNaN(sminutes)) {
       currentStart.setHours(shours, sminutes, 0, 0);
-      console.log(currentStart);
     }
     if (!isNaN(ehours) && !isNaN(eminutes)) {
       currentEnd.setHours(ehours, eminutes, 0, 0);
-      console.log(currentEnd);
+    }
+    // currentStart.setHours(Number(stime.split()[0]), Number(stime.split()[1]), 0, 0 )
+    // console.log(stime.split(':')[0]);
+    // currentEnd.setHours(Number(etime.split()[0]), Number(etime.split()[1]), 0, 0 )
+
+    // if (startTime && endTime && startTime >= endTime) {
+    if (currentStart.getTime() >= currentEnd.getTime()) {
+      return { invalidTimeRange: true };
+    }
+  }
+  return null;
+
+}
+
+function timeRangeValidator2(control: AbstractControl): { [key: string]: boolean } | null {
+  const startTime = control.get('startTime')?.value;
+  const endTime = control.get('endTime')?.value;
+
+  if (startTime && endTime) {
+    let currentStart = new Date();
+    let currentEnd = new Date();
+
+    const [stime, sampm] = startTime.split(' ');
+    const [etime, eampm] = endTime.split(' ');
+    let [shours, sminutes] = stime.split(':').map(Number);
+    let [ehours, eminutes] = etime.split(':').map(Number);
+    if (sampm === 'PM' && shours !== 12) {
+      shours += 12;
+    } else if (sampm === 'AM' && shours === 12) {
+      shours = 0;
+    }
+    if (eampm === 'PM' && ehours !== 12) {
+      ehours += 12;
+    } else if (eampm === 'AM' && ehours === 12) {
+      ehours = 0;
+    }
+    if (!isNaN(shours) && !isNaN(sminutes)) {
+      currentStart.setHours(shours, sminutes, 0, 0);
+    }
+    if (!isNaN(ehours) && !isNaN(eminutes)) {
+      currentEnd.setHours(ehours, eminutes, 0, 0);
     }
     // currentStart.setHours(Number(stime.split()[0]), Number(stime.split()[1]), 0, 0 )
     // console.log(stime.split(':')[0]);

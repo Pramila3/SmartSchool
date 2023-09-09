@@ -7,13 +7,14 @@
         </svg>
     </button></h2>
 <div mat-dialog-content>
+    <form action="" [formGroup]="form">
     <div class="row">
         <div class="col-lg-6">
             <mat-form-field appearance="outline">
                 <mat-label>Import setting from </mat-label>
-                <mat-select [(ngModel)]="selectedValue" name="food">
-                    <mat-option *ngFor="let food of foods" [value]="food.value">
-                        {{food.viewValue}}
+                <mat-select  name="food" formControlName="importTimetableTemplateId">
+                    <mat-option *ngFor="let item of timetableList" [value]="item.clstid">
+                        {{item.timetable_Name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -21,23 +22,24 @@
         <div class="col-lg-6">
             <mat-form-field appearance="outline">
                 <mat-label>Timetable Name</mat-label>
-                <input matInput type="text">
+                <input matInput type="text" formControlName="timetbleName">
             </mat-form-field>
         </div>
         <div class="col-lg-6 d-flex align-items-center">
             <div class="form-check">
-                <input type="checkbox" name="Overwrite" class="form-check-input" id="Overwrite">
+                <input type="checkbox" name="Overwrite" class="form-check-input" formControlName="isOverwrite" id="Overwrite">
                 <label for="Overwrite" class="form-check-label">Can Overwrite</label>
             </div>
             <div class="form-check ms-2">
-                <input type="checkbox" name="Active" class="form-check-input" id="Active">
+                <input type="checkbox" name="Active" class="form-check-input" formControlName="isActive" id="Active">
                 <label for="Active" class="form-check-label">Set as Active</label>
             </div>
         </div>
     </div>
+</form>
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
     <button mat-button mat-dialog-close class="bg-secondary text-white">Close</button>
-    <button mat-button class="bg-primary text-white">Ok</button>
+    <button mat-button class="bg-primary text-white" (click)="onSubmit()">Ok</button>
 
 </div>

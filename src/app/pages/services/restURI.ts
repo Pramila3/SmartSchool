@@ -16,7 +16,9 @@ let URI = {
     'getDayList': 'AllotShift/BindDays',
     'createShiftPreiod': 'AllotShift/InsertShiftDetails',
     'findShiftDetails': 'AllotShift/TimeTableAccessbyID',
-    'deleteShiftDetails': 'AllotShift/DeleteShiftTiming'
+    'deleteShiftDetails': 'AllotShift/DeleteShiftTiming',
+    'getTimeTableDropDownList': 'ImportShiftTiming/GetTimeTableAccessbyid',
+    'importShiftTiming': 'ImportShiftTiming/ImportShiftTiming'
 }
 
 export { URI }
