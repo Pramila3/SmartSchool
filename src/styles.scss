@@ -115,10 +115,10 @@ width: 300px;
 height: 300px;
 border: solid 1px #aaa;
 ******/
-  position: absolute;
+  position: fixed;
   z-index: 2999;
   top: 50%;
-  left: 50%;
+  left: 45%;
   bottom: 50%;
   right: 50%;
 }

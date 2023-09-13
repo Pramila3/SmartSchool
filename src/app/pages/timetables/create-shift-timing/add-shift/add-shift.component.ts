@@ -290,26 +290,6 @@ export class AddShiftComponent implements OnInit {
     // let shour = (formValue.value[colValue][0].startTime.split(':'))[0] > 12 ? 'PM' : 'AM'
     // let ehour = (formValue.value[colValue][0].endTime.split(':'))[0] > 12 ? 'PM' : 'AM'
     // if (formValue.value[colValue][0].startTime && formValue.value[colValue][0].endTime && formValue.value[colValue][0].periodType) {
-    let selector: string;
-    if (this.shiftForm.value.shiftId != null) {
-      selector = '';
-    } else {
-      this.modalTarget = '#addtimings';
-    }
-
-    const openModalButton = document.querySelector('[data-bs-toggle="modal"]');
-    const targetModalId = '#addtimings';
-    openModalButton?.addEventListener('click', () => {
-      const modalTrigger = document.querySelector(targetModalId);
-
-      if (modalTrigger) {
-        if (this.shiftForm.value.shiftId == null) {
-          modalTrigger.classList.add('show'); // Show the modal
-          // modalTrigger.style.display = 'block'; // Display the modal
-        }
-      }
-    });
-
     this.periodForm.patchValue({
       endTime: null
     })
@@ -382,7 +362,7 @@ export class AddShiftComponent implements OnInit {
   onSubmit() {
     console.log(this.shiftForm.value);
     console.log(this.toppings.value);
-
+    this.loader.show()
     let classStr = '';
     const selectedToppings = this.toppings.value
     if (selectedToppings !== null && Array.isArray(selectedToppings)) {
@@ -439,6 +419,7 @@ export class AddShiftComponent implements OnInit {
     this.service.postHttpService(postData, 'createShiftPreiod').subscribe((response: any) => {
       if (response.status) {
         this.getShiftList(this.shiftTimingId);
+        this.loader.hide()
         Swal.fire({
           title: "Success",
           text: "Record saved successfully",
@@ -449,6 +430,7 @@ export class AddShiftComponent implements OnInit {
           this.getShiftList(this.shiftTimingId);
         });
       } else {
+        this.loader.hide()
         Swal.fire({
           title: "Error",
           text: response.statusMessage,
@@ -457,8 +439,9 @@ export class AddShiftComponent implements OnInit {
           heightAuto: false
         })
       }
-    })
-
+    },  error => {	
+      this.loader.hide();	
+    });	
   }
   onDayChange(data: any) {
     this.dayValue = ''

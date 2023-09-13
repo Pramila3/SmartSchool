@@ -80,7 +80,8 @@
 
     <div class="card mt-3" *ngIf="isAddShiftShow">
         <div class="card-body">
-            <h2>Create Shift</h2>
+            <h2 *ngIf="!shiftForm.value.shiftId">Create Shift</h2>	
+            <h2 *ngIf="shiftForm.value.shiftId">Update Shift</h2>
             <hr>
             <form action="" [formGroup]="shiftForm">
                 <div class="mb-2">
@@ -280,10 +281,18 @@
                             </tr>
                         </thead>
                         <tbody formArrayName="shiftFormArr" *ngFor="let item of formControl; let i = index">
-                            <tr [formGroupName]="i">
+                            <tr [formGroupName]="i" *ngIf="!shiftForm.value?.shiftId">
                                 <td class="days_coloumn">{{item.value.day}}</td>
                                 <td *ngFor="let data of colvalues; let j = index" data-bs-toggle="modal" #openModal
                                 (click)=" addPeriods(item, data.col, i)" data-bs-target="#addtimings"
+                                    [ngStyle]="{'background-color': item?.value[data?.col][0]?.periodType == 'Break' ? 'gainsboro' : ''}">
+                                    {{item.value[data.col][0].startTime}} - {{item.value[data.col][0].endTime}}</td>
+
+                            </tr>
+                            <tr [formGroupName]="i" *ngIf="shiftForm.value?.shiftId">
+                                <td class="days_coloumn">{{item.value.day}}</td>
+                                <td *ngFor="let data of colvalues; let j = index" 
+                                (click)=" addPeriods(item, data.col, i)" 
                                     [ngStyle]="{'background-color': item?.value[data?.col][0]?.periodType == 'Break' ? 'gainsboro' : ''}">
                                     {{item.value[data.col][0].startTime}} - {{item.value[data.col][0].endTime}}</td>
 
