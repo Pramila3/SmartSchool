@@ -1,7 +1,7 @@
 
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
@@ -106,12 +106,26 @@ export class AddShiftComponent implements OnInit {
       class: [null, Validators.required],
       startTime: [null, Validators.required],
       endTime: [null, Validators.required],
-      noOfdaysPerWeek: [null, Validators.required],
+      noOfdaysPerWeek: [null,[Validators.required, Validators.pattern('^[0-9]$')]],
       noOfPeriodsPerDay: [null, Validators.required],
       startingDay: [null, Validators.required],
       saveType: 'add',
       shiftFormArr: this.fb.array([])
     }, { validator: timeRangeValidator })
+  }
+  // Custom validator function for maxlength
+  singleLengthValidator(event: any) {
+    // console.log('eventinput', event);
+    event.target.value = Math.max(), Math.min(1, Number(event.target.value));
+  }
+  doubleLengthValidator(event: any) {
+    const inputValue = Number(event.target.value);
+    
+    if (!isNaN(inputValue)) {
+      inputValue.toString().length<=1 ? (event.target.value = event.target.value.slice(0,1)) : (event.target.value = this.shiftForm.controls['noOfPeriodsPerDay'].setValue(0))
+    } else {
+      event.target.value = '';
+    }
   }
   periodFormGroup() {
     this.periodForm = this.fb.group({
@@ -175,7 +189,9 @@ export class AddShiftComponent implements OnInit {
     this.isAddShiftShow = true;
 
   }
-  onChangePeriod() {
+  onChangePeriod(event:any) {
+    console.log("called",event.target.value);
+    
     this.colvalues = []
     for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
       this.colvalues.push({ col: "period" + j })
@@ -280,7 +296,7 @@ export class AddShiftComponent implements OnInit {
     } else {
       this.modalTarget = '#addtimings';
     }
-    
+
     const openModalButton = document.querySelector('[data-bs-toggle="modal"]');
     const targetModalId = '#addtimings';
     openModalButton?.addEventListener('click', () => {
@@ -678,22 +694,22 @@ export class AddShiftComponent implements OnInit {
 
           let oldStartTime = this.convertTo24HourFormat(element1[element2.col][0].startTime);
           let oldEndTime = this.convertTo24HourFormat(element1[element2.col][0].endTime);
-         if(element1[element2.col][0].startTime){
-          if (oldStartTime) {
-            let [shours, sminutes] = oldStartTime?.split(':').map(Number);
-            oldStartDate.setHours(shours, sminutes, 0, 0);
+          if (element1[element2.col][0].startTime) {
+            if (oldStartTime) {
+              let [shours, sminutes] = oldStartTime?.split(':').map(Number);
+              oldStartDate.setHours(shours, sminutes, 0, 0);
+            }
+            if (oldEndTime) {
+              let [shours, sminutes] = oldEndTime?.split(':').map(Number);
+              oldEndDate.setHours(shours, sminutes, 0, 0);
+            }
+            if ((currentDate.getTime() <= oldStartDate.getTime()) || (currentDate.getTime() < oldEndDate.getTime())) {
+              this.timeErr = true
+              return
+            } else {
+              this.timeErr = false
+            }
           }
-          if (oldEndTime) {
-            let [shours, sminutes] = oldEndTime?.split(':').map(Number);
-            oldEndDate.setHours(shours, sminutes, 0, 0);
-          }
-          if ((currentDate.getTime() <= oldStartDate.getTime()) || (currentDate.getTime() < oldEndDate.getTime())) {
-            this.timeErr = true
-            return
-          } else {
-            this.timeErr = false
-          }
-        }
         });
       });
     }

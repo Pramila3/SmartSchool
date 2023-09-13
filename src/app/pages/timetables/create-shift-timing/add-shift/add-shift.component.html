@@ -212,7 +212,7 @@
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
                                     <mat-label>No of Days per Week</mat-label>
-                                    <input matInput type="number" maxlength="1" placeholder="No of Days per Week"
+                                    <input matInput type="number"  (keypress)="singleLengthValidator($event)" placeholder="No of Days per Week"
                                         formControlName="noOfdaysPerWeek" [readonly]="shiftForm.value.shiftId">
 
                                 </mat-form-field>
@@ -227,8 +227,8 @@
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
                                     <mat-label>No of Periods per Day</mat-label>
-                                    <input matInput type="number" maxlength="2" placeholder="No of Periods per Day" [readonly]="shiftForm.value.shiftId"
-                                        formControlName="noOfPeriodsPerDay" (change)="onChangePeriod()">
+                                    <input matInput type="number" maxlength="2" (keypress)="doubleLengthValidator($event)" placeholder="No of Periods per Day" [readonly]="shiftForm.value.shiftId"
+                                        formControlName="noOfPeriodsPerDay" (change)="onChangePeriod($event)">
 
                                 </mat-form-field>
                                 <span class="text-danger form-check-under-mat"

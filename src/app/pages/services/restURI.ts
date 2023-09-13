@@ -8,7 +8,7 @@ let URI = {
     'createShiftTiming': 'CreateShift/AddClassTimeTable',
     'updateShiftTiming': 'CreateShift/UpdateClassTimeTable',
     'findShiftTiming': 'CreateShift/GetTimeTableAccessbyid',
-    'deleteShiftTiming' : 'CreateShift/DeleteClassTimetable',
+    'deleteShiftTiming': 'CreateShift/DeleteClassTimetable',
 
     'getShiftList': 'AllotShift/TimeTableAccess',
     'getClassDropDownList': 'AllotShift/BindClass',
@@ -18,7 +18,14 @@ let URI = {
     'findShiftDetails': 'AllotShift/TimeTableAccessbyID',
     'deleteShiftDetails': 'AllotShift/DeleteShiftTiming',
     'getTimeTableDropDownList': 'ImportShiftTiming/GetTimeTableAccessbyid',
-    'importShiftTiming': 'ImportShiftTiming/ImportShiftTiming'
+    'importShiftTiming': 'ImportShiftTiming/ImportShiftTiming',
+
+
+    // // fix criteria
+    'BindFixcriteriaList': 'FixCriteria/BindFixcriteriaList',
+    'getclassList': 'FixCriteria/BindClassFixCriteria',
+    'getSubjectList': 'FixCriteria/BindSubject',
+    'getStaffList': 'FixCriteria/BindStaff'
 }
 
 export { URI }

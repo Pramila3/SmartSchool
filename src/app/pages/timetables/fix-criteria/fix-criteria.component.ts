@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../common/loading/loader.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-fix-criteria',
@@ -18,12 +19,13 @@ export class FixCriteriaComponent implements OnInit {
   states: string[] = [
     'F-Block -dgf (342)', 'F-Block -'
   ]
-  displayedColumns: string[] = ['Class', 'Subject','Staff', 'Type',  'Periods', 'Action'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['class', 'subject', 'staff', 'type', 'day_Period', 'Action'];
+
   selectedValue: string | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Make sure to import MatPaginator
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   input: any
+  dataSource: any
   form: FormGroup | any;
   submitted!: boolean;
   constructor(private service: CommonService, private cdr: ChangeDetectorRef,
@@ -31,13 +33,38 @@ export class FixCriteriaComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getFixCriteriaList()
+  }
+
+  getFixCriteriaList() {
+    this.loader.show()
+    this.dataSource = new MatTableDataSource([]);
+    this.service.getHttpServiceWithId(localStorage.getItem('schoolcode'), 'BindFixcriteriaList', 'schoolcode').subscribe((response: any) => {
+      
+      if (response.status) {
+        this.dataSource = new MatTableDataSource(response.resultData);
+        console.log('resultData ', response.resultData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.cdr.detectChanges();
+        this.loader.hide();
+      } else {
+        this.loader.hide();
+      }
+    }, error => {
+      this.loader.hide();
+    });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   foods: Food[] = [
-    { value: '1 A', viewValue: '1 A' },
-    { value: '1 B', viewValue: '1 B' },
-    { value: '2 A', viewValue: '2 A' },
-    { value: '2 B', viewValue: '2 B' },
-    { value: '3 A', viewValue: '3 A' },
+    { value: '1 ', viewValue: 'Class' },
+    { value: '2', viewValue: 'Subject' },
+    { value: '3', viewValue: 'Staff' },
+    { value: '4', viewValue: 'Day - Period' },
 
   ];
 }
@@ -46,17 +73,4 @@ interface Food {
   viewValue: string;
 }
 
-export interface PeriodicElement {
-  Class: string;
-  Type: string;
-  Subject: string;
-  Staff : string;
-  Periods: string;
-  // ['Class', 'Subject', 'Type', 'Staff', 'Periods', 'Action'];
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { Type: 'Reserved', Staff: 'ANTO MEDAT	', Subject: 'sub1', Periods : 'Day 1 1,Day 3 1,Day 2 1	', Class: 'UKG AA	' },
- 
- 
-];

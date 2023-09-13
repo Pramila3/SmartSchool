@@ -5,29 +5,34 @@
 
 </div>
 
-<div class="content-wrapper p-3">
+<div class="content-wrapper">
 
 
     <div class="card">
         <div class="card-body">
+
             <div class="row mb-3">
                 <div class="col-lg-4">
                     <mat-form-field appearance="outline">
                         <mat-label>Class <span class="text-danger">*</span></mat-label>
-                        <mat-select [(ngModel)]="selectedValue1" name="classes">
-                            <mat-option *ngFor="let classes of classes" [value]="classes.value">
-                                {{classes.viewValue}}
+                        <mat-select [(ngModel)]="selectedValue1" name="classes"
+                            (selectionChange)="getSubjectList($event.value)">
+                            <mat-option *ngFor="let classes of filteredClassList" [value]="classes.classid">
+                                {{classes.class}}
                             </mat-option>
                         </mat-select>
+
                     </mat-form-field>
+
                 </div>
                 <div class="col-lg-4">
                     <mat-form-field appearance="outline">
                         <mat-label>Subject <span class="text-danger">*</span></mat-label>
-                        <mat-select [(ngModel)]="selectedValue2" name="subjects">
-                            <mat-option *ngFor="let subjects of subjects" [value]="subjects.value">
-                                {{subjects.viewValue}}
+                        <mat-select [(ngModel)]="selectedValue2" name="subjectList"  (selectionChange)="getStaffList($event.value)">
+                            <mat-option *ngFor="let subjects of subjectList" [value]="subjects.subjectid">
+                                {{subjects.subjectcode}}
                             </mat-option>
+
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -35,7 +40,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Staff <span class="text-danger">*</span></mat-label>
                         <mat-select [(ngModel)]="selectedValue3" name="staffs">
-                            <mat-option *ngFor="let staffs of staffs" [value]="staffs.value">
+                            <mat-option *ngFor="let staffs of staffList" [value]="staffs.staffList">
                                 {{staffs.viewValue}}
                             </mat-option>
                         </mat-select>
@@ -60,6 +65,7 @@
                     </div>
                 </div>
             </div>
+
 
             <div class="overflow-auto">
                 <table class="table custum_table">
@@ -126,10 +132,30 @@
         <div class="card-footer">
             <div class="btns text-end">
                 <button class="btn btn-primary ">Save</button>
-
                 <button class="btn btn-secondary ms-2" routerLink="/FixCriteria">Cancel</button>
-
             </div>
         </div>
     </div>
 </div>
+
+<!-- <ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label for="dateOfBirth">Date of birth</label>
+                <div class="input-group">
+                    <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" />
+                    <button class="btn btn-outline-secondary bi bi-calendar3" 
+                        type="button"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template> -->
