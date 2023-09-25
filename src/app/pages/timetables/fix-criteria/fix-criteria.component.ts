@@ -141,17 +141,15 @@ export class FixCriteriaComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  foods: Food[] = [
-    { value: '1 ', viewValue: 'Class' },
-    { value: '2', viewValue: 'Subject' },
-    { value: '3', viewValue: 'Staff' },
-    { value: '4', viewValue: 'Day - Period' },
+  onEdit(data: any){
+    if(data.rsvid){
+      let splitdata = data.rsvid.split('@');
+      console.log(splitdata);
+      
+      this.router.navigate(['/AddFixCriteria'], {state: {id: splitdata[0], classId: splitdata[1], subjectId: splitdata[2], staffId: splitdata[3], type: data.type}})
+    }
+  }
+}
 
-  ];
-}
-interface Food {
-  value: string;
-  viewValue: string;
-}
 
 

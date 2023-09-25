@@ -29,7 +29,12 @@ let URI = {
     'getStaffList': 'FixCriteria/BindStaff',
     'getBindPeriodsData': 'FixCriteria/BindPeriodsFixCriteria',
     'ReservedPeriodsData': 'FixCriteria/SaveReservePeriods',
-    'DeleteFixCriteriaList': 'FixCriteria/DeleteFixCriteria'
+    'DeleteFixCriteriaList': 'FixCriteria/DeleteFixCriteria',
+
+    //Combined class
+    'combinedClassList': 'CombinedClass/CombinedClassList',
+    'getCombinedShiftList': 'CombinedClass/BindShift',
+    'getCombinedClasstList': 'CombinedClass/BindCombinedclasses'
 }
 
 export { URI }

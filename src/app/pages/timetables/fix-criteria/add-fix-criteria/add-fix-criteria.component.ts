@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-fix-criteria',
@@ -32,16 +33,25 @@ export class AddFixCriteriaComponent implements OnInit {
   no_of_Periods = 0;
   selectedAction: string = 'R'; // Default radio button selected
   cellClick = 0;
+  fixCriteriaId!: any;
+  type!: any;
   constructor(private service: CommonService, private router: Router, private cdr: ChangeDetectorRef,
     private fb: FormBuilder, private loader: LoaderService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.getClassList()
     this.formGroup()
+    this.fixCriteriaId = history.state.id;
+    console.log(this.fixCriteriaId);
+    this.type = history.state.type;
+    if (this.fixCriteriaId) {
+      this.findFixCriteria()
+
+    }
   }
   formGroup() {
     this.form = this.fb.group({
-
+      id: [null],
       classes: [null, Validators.required],
       subjectList: [null, Validators.required],
       staffs: [null, Validators.required],
@@ -49,7 +59,33 @@ export class AddFixCriteriaComponent implements OnInit {
 
     })
   }
-
+  findFixCriteria() {
+    this.classid = history.state.classId;
+    this.subjectid = history.state.subjectId;
+    this.staffid = history.state.staffId;
+    if (this.classid) {
+      this.getSubjectList(this.classid)
+    }
+    if (this.subjectid) {
+      this.getStaffListdata(this.subjectid)
+    }
+    if(this.staffid){
+      this.getBindTableData(this.staffid);
+    }
+    setTimeout(() => {
+    this.form.patchValue({
+      id: this.fixCriteriaId,
+      classes: this.classid,
+      subjectList: this.subjectid,
+      staffs: this.staffid,
+      Reserve: this.type == "Avoided" ? 'X' : 'R',
+    })
+  }, 500);
+ 
+  console.log(this.type);
+  
+    console.log(this.form);
+  }
   getClassList() {
     this.loader.show()
     let postData = {
@@ -92,7 +128,7 @@ export class AddFixCriteriaComponent implements OnInit {
   }
   get filteredSubjectList() {
     const lowerCaseSearch = this.searchValue1?.toLowerCase();
-    return  this.subjectList.filter((element: any) => element?.subjectcode?.toLowerCase().includes(lowerCaseSearch));
+    return this.subjectList.filter((element: any) => element?.subjectcode?.toLowerCase().includes(lowerCaseSearch));
   }
   get filteredStaffList() {
     const lowerCaseSearch = this.searchValue2?.toLowerCase();
@@ -280,7 +316,7 @@ export class AddFixCriteriaComponent implements OnInit {
 
       if ((type == 0 && rsvdayperiod !== '') || (type == 1 && avdayperiod !== '')) {
         let postData = {
-
+          rsvid: this.form.value.id,
           schoolcode: localStorage.getItem('schoolcode'),
           rsvclassid: this.classid,
           rsvsubid: this.subjectid,
@@ -291,6 +327,25 @@ export class AddFixCriteriaComponent implements OnInit {
         }
 
         this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
+          if(response){
+            Swal.fire({
+              title: "Success",
+              text: "Record saved successfully",
+              icon: 'success',
+              width: '350px',
+              heightAuto: false
+            }).then(() => {
+            });
+  
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: response.statusMessage,
+              icon: 'warning',
+              width: '350px',
+              heightAuto: false
+            });
+          }
           console.log('SaveReservedPeriods', response);
           this.loader.hide();
         })

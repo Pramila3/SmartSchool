@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../common/loading/loader.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-set-combined-continuous',
@@ -18,8 +19,8 @@ export class SetCombinedContinuousComponent implements OnInit {
   states: string[] = [
     'F-Block -dgf (342)', 'F-Block -'
   ]
-  displayedColumns: string[] = ['Class', 'Subject','Staff', 'Type',  'Periods', 'Action'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['Class', 'Subject', 'Staff', 'Periods', 'Action'];
+  dataSource: any;
   selectedValue: string | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Make sure to import MatPaginator
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -31,32 +32,40 @@ export class SetCombinedContinuousComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getCombinedClass();
+
   }
   foods: Food[] = [
     { value: '1 ', viewValue: 'Class' },
     { value: '2', viewValue: 'Subject' },
     { value: '3', viewValue: 'Staff' },
     { value: '4', viewValue: 'Day - Period' },
-   
+
 
   ];
+
+  getCombinedClass(){
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode')
+    }
+    this.loader.show()
+    this.service.getHttpServiceWithDynamicParams(postData, 'combinedClassList').subscribe(response =>{
+      if(response.status){
+        this.loader.hide();
+        this.dataSource = new MatTableDataSource(response.resultData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.cdr.detectChanges();
+      } else {
+        this.loader.hide();
+      }
+    }, error => {
+      this.loader.hide();
+    });
+  }
 }
 interface Food {
   value: string;
   viewValue: string;
 }
 
-export interface PeriodicElement {
-  Class: string;
-  Type: string;
-  Subject: string;
-  Staff : string;
-  Periods: string;
-  // ['Class', 'Subject', 'Type', 'Staff', 'Periods', 'Action'];
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { Type: 'Reserved', Staff: 'ANTO MEDAT	', Subject: 'sub1', Periods : 'Day 1 1,Day 3 1,Day 2 1	', Class: 'UKG AA	' },
- 
- 
-];
