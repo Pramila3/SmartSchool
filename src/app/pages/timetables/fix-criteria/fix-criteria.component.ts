@@ -43,7 +43,9 @@ export class FixCriteriaComponent implements OnInit {
     this.service.getHttpServiceWithId(localStorage.getItem('schoolcode'), 'BindFixcriteriaList', 'schoolcode').subscribe((response: any) => {
       console.log('resultData ', response);
       if (response.status) {
+        // const processedData = this.processData(response.resultData);
         this.dataSource = new MatTableDataSource(response.resultData);
+        // this.dataSource = new MatTableDataSource(processedData);
         console.log('resultData ', response.resultData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -56,13 +58,44 @@ export class FixCriteriaComponent implements OnInit {
       this.loader.hide();
     });
   }
-  onDelete(id: number) {
+
+  processData(apiData: any[]): any[] {
+    const processedData = [];
+
+    for (let i = 0; i < apiData.length; i++) {
+      const currentRow = apiData[i];
+
+      // Check if there's a next row and if staff and subject match
+      if (
+        i < apiData.length - 1 &&
+        currentRow.staff === apiData[i + 1].staff &&
+        currentRow.subject === apiData[i + 1].subject
+      ) {
+        // Merge rows by increasing rowspan
+        currentRow.rowspan = 2;
+        currentRow.additionalData = apiData[i + 1].additionalData; // You can add more fields if needed
+        i++; // Skip the next row as it's merged
+      } else {
+        // This row is not merged
+        currentRow.rowspan = 1;
+      }
+
+      // Add the processed row to the result
+      processedData.push(currentRow);
+    }
+
+    return processedData;
+  }
+
+  onDelete(id: string) {
+    console.log('rsvid', id);
+
     let postData = {
-      CLSTID: id,
+      // CLSTID: id,
       schoolcode: localStorage.getItem('schoolcode'),
       academicyear: localStorage.getItem('academicYear'),
-      reservedid: this.dataSource.rsvid,
-      isArchive: "false"
+      Reserveid: id,
+      isArchive: false
     }
     Swal.fire({
       title: "Are you sure?",
@@ -75,8 +108,8 @@ export class FixCriteriaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteHttpService(postData, 'DeleteFixCriteriaList').subscribe((response) => {
-          console.log('deleteCriteriaList' , response);
-          
+          console.log('deleteCriteriaList', response);
+
           if (response.status) {
             Swal.fire({
               title: "Success",
