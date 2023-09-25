@@ -22,6 +22,9 @@ export class AddFixCriteriaComponent implements OnInit {
   headers: string[] = []; // Array to store table headers
 
   searchValue = '';
+  searchValue1 = '';
+  searchValue2 = '';
+
   Days: any[] = []
   classid = '';
   subjectid = '';
@@ -70,19 +73,31 @@ export class AddFixCriteriaComponent implements OnInit {
   applyClassFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
     this.searchValue = inputValue;
-    console.log("called");
+    console.log("ClassFilter", inputValue);
   }
   applySubjectFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
-    this.searchValue = inputValue;
-    console.log("called");
+    this.searchValue1 = inputValue;
+    console.log("SubjectFilter ", inputValue);
   }
   applyStaffFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
-    this.searchValue = inputValue;
-    console.log("called");
+    this.searchValue2 = inputValue;
+    console.log("StaffFilter", inputValue);
   }
 
+  get filteredClassList() {
+    const lowerCaseSearch = this.searchValue.toLowerCase();
+    return this.classList.filter((element: any) => element.class.toLowerCase().includes(lowerCaseSearch));
+  }
+  get filteredSubjectList() {
+    const lowerCaseSearch = this.searchValue1?.toLowerCase();
+    return  this.subjectList.filter((element: any) => element?.subjectcode?.toLowerCase().includes(lowerCaseSearch));
+  }
+  get filteredStaffList() {
+    const lowerCaseSearch = this.searchValue2?.toLowerCase();
+    return this.staffList.filter((element: any) => element?.staff?.toLowerCase().includes(lowerCaseSearch));
+  }
   getSubjectList(classid: any) {
     this.classid = classid
     console.log('classid', classid);
@@ -122,6 +137,7 @@ export class AddFixCriteriaComponent implements OnInit {
         this.staffList = response.resultData
         console.log('stafflistres', response.resultData);
         // this.getBindTableData
+
         this.loader.hide()
 
       }
@@ -179,7 +195,7 @@ export class AddFixCriteriaComponent implements OnInit {
 
   onCellDoubleClick(rowIndex: number, colIndex: number) {
     let selectedValue = this.data[0].perioddetails[rowIndex][colIndex];
-    console.log(selectedValue, this.cellClick,this.selectedAction);
+    console.log(selectedValue, this.cellClick, this.selectedAction);
 
     if (this.data[0].maxAllotPeriods > 0 && this.data[0].maxAllotPeriods > this.cellClick && selectedValue == '0') {
       this.cellClick += 1;
@@ -207,78 +223,78 @@ export class AddFixCriteriaComponent implements OnInit {
 
     // Initialize variables to store the formatted string
     let rsvdayperiod = '';
-    let avdayperiod='';
-    let end1=false;
-    let end2=false;
+    let avdayperiod = '';
+    let end1 = false;
+    let end2 = false;
     // Iterate through the grid data
     for (let rowIndex = 0; rowIndex < gridData.length; rowIndex++) {
       for (let colIndex = 0; colIndex < gridData[rowIndex].length; colIndex++) {
         const cellValue = gridData[rowIndex][colIndex];
 
-        if(!end1)
-          end1= colIndex == gridData[rowIndex].length-1;
-        if(!end2)
-          end2= colIndex == gridData[rowIndex].length-1;
-        
+        if (!end1)
+          end1 = colIndex == gridData[rowIndex].length - 1;
+        if (!end2)
+          end2 = colIndex == gridData[rowIndex].length - 1;
+
         //combine reserve
         if (cellValue === 'R') {
           // Add "ê" to separate rows or "@" to separate columns if needed
           if (end1) {
-            if (rsvdayperiod!='')
+            if (rsvdayperiod != '')
               rsvdayperiod += 'ê';
-            end1=false;
-          } 
+            end1 = false;
+          }
           // Append the period information in the format 'row@col' to the string
-          if(rsvdayperiod==''||rsvdayperiod.endsWith('ê')){
+          if (rsvdayperiod == '' || rsvdayperiod.endsWith('ê')) {
             rsvdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
-          }else{
-          rsvdayperiod += `@${colIndex + 1}`;
+          } else {
+            rsvdayperiod += `@${colIndex + 1}`;
           }
         }
         //for avoid
         if (cellValue === 'X') {
-           // Add "ê" to separate rows or "@" to separate columns if needed
-           if (end2) {
-            if(avdayperiod!='')
+          // Add "ê" to separate rows or "@" to separate columns if needed
+          if (end2) {
+            if (avdayperiod != '')
               avdayperiod += 'ê';
-            end2=false;
+            end2 = false;
           }
           // Append the period information in the format 'row@col' to the string
-          if(avdayperiod==''||avdayperiod.endsWith('ê')){
+          if (avdayperiod == '' || avdayperiod.endsWith('ê')) {
             avdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
-          }else{
+          } else {
             avdayperiod += `@${colIndex + 1}`;
           }
-          
+
         }
       }
     }
 
-    if(rsvdayperiod!=='' && !rsvdayperiod.endsWith('ê'))  rsvdayperiod += 'ê';
-    if(avdayperiod!=='' && !avdayperiod.endsWith('ê'))  avdayperiod += 'ê';
-    console.log(rsvdayperiod,avdayperiod);
-    
+    if (rsvdayperiod !== '' && !rsvdayperiod.endsWith('ê')) rsvdayperiod += 'ê';
+    if (avdayperiod !== '' && !avdayperiod.endsWith('ê')) avdayperiod += 'ê';
+    console.log(rsvdayperiod, avdayperiod);
+
     // Now 'rsvdayperiod' contains the formatted string
 
-    [0,1].forEach((type)=>{
+    [0, 1].forEach((type) => {
 
-      if((type==0 && rsvdayperiod!=='')|| (type==1 && avdayperiod!=='') )
-      {
+      if ((type == 0 && rsvdayperiod !== '') || (type == 1 && avdayperiod !== '')) {
         let postData = {
 
-        schoolcode: localStorage.getItem('schoolcode'),
-        rsvclassid: this.classid,
-        rsvsubid: this.subjectid,
-        rsvstaffid: this.staffid,
-        rsvtype: type.toString(),
-        rsvdayperiod: type? avdayperiod : rsvdayperiod,
-        rsvsftid: this.data[0].sftid
+          schoolcode: localStorage.getItem('schoolcode'),
+          rsvclassid: this.classid,
+          rsvsubid: this.subjectid,
+          rsvstaffid: this.staffid,
+          rsvtype: type.toString(),
+          rsvdayperiod: type ? avdayperiod : rsvdayperiod,
+          rsvsftid: this.data[0].sftid
+        }
+
+        this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
+          console.log('SaveReservedPeriods', response);
+          this.loader.hide();
+        })
       }
-  
-      this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
-        console.log('SaveReservedPeriods', response);
-        this.loader.hide();
-      })}
     })
   }
 
@@ -299,14 +315,6 @@ export class AddFixCriteriaComponent implements OnInit {
   // }
 
 
-  get filteredClassList() {
-    const lowerCaseSearch = this.searchValue.toLowerCase();
-    return this.classList.filter((element: any) => element.class.toLowerCase().includes(lowerCaseSearch));
-  }
-  // get filteredSubjectList() {
-  //   const lowerCaseSearch = this.searchValue.toLowerCase();
-  //   return this.subjectList.filter((element: any) => element.class.toLowerCase().includes(lowerCaseSearch));
-  // }
   classes: classes[] = [
     { value: '11 A', viewValue: '11 A' },
     { value: '10 B', viewValue: '10 B' },

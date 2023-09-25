@@ -23,7 +23,7 @@
                                 <mat-option *ngFor="let classes of filteredClassList" [value]="classes.classid">
                                     {{classes.class}}
                                 </mat-option>
-                                <mat-option *ngIf="classes.length === 0">No Data found</mat-option>
+                                <mat-option *ngIf="filteredClassList.length === 0">No Data found</mat-option>
 
                             </mat-select>
 
@@ -40,10 +40,10 @@
                                 (selectionChange)="getStaffListdata($event.value)">
                                 <input matInput placeholder="Search Subject" formControlName="subjectList"
                                     (input)="applySubjectFilter($event)" class="search-mat-option">
-                                <mat-option *ngFor="let subjects of subjectList" [value]="subjects.subjectid">
+                                <mat-option *ngFor="let subjects of filteredSubjectList" [value]="subjects.subjectid">
                                     {{subjects.subjectcode}}
                                 </mat-option>
-                                <mat-option *ngIf="subjectList.length === 0">No Data found</mat-option>
+                                <mat-option *ngIf="filteredSubjectList.length === 0">No Data found</mat-option>
 
                             </mat-select>
                         </mat-form-field>
@@ -61,10 +61,10 @@
                                 (selectionChange)="getBindTableData($event.value)">
                                 <input matInput placeholder="Search Staff" formControlName="staffs"
                                     (input)="applyStaffFilter($event)" class="search-mat-option">
-                                <mat-option *ngFor="let staffs of staffList" [value]="staffs.staffId">
+                                <mat-option *ngFor="let staffs of filteredStaffList" [value]="staffs.staffId">
                                     {{staffs.staff}}
                                 </mat-option>
-                                <mat-option *ngIf="staffList.length === 0">No Data found</mat-option>
+                                <mat-option *ngIf="filteredStaffList.length === 0">No Data found</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <div class="form-check-under-mat"
