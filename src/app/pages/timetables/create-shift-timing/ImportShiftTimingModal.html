@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="position-relative">Import Shift Timing	 <button type="button" mat-dialog-close mat-mini-fab
+<h2 mat-dialog-title class="position-relative">Import Shift Timing <button type="button" mat-dialog-close mat-mini-fab
         color="secondary" class="custum_modal_close_mat">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
             viewBox="0 0 16 16">
@@ -8,35 +8,45 @@
     </button></h2>
 <div mat-dialog-content>
     <form action="" [formGroup]="form">
-    <div class="row">
-        <div class="col-lg-6">
-            <mat-form-field appearance="outline">
-                <mat-label>Import setting from </mat-label>
-                <mat-select  name="food" formControlName="importTimetableTemplateId">
-                    <mat-option *ngFor="let item of timetableList" [value]="item.clstid">
-                        {{item.timetable_Name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-lg-6">
-            <mat-form-field appearance="outline">
-                <mat-label>Timetable Name</mat-label>
-                <input matInput type="text" formControlName="timetbleName">
-            </mat-form-field>
-        </div>
-        <div class="col-lg-6 d-flex align-items-center">
-            <div class="form-check">
-                <input type="checkbox" name="Overwrite" class="form-check-input" formControlName="isOverwrite" id="Overwrite">
-                <label for="Overwrite" class="form-check-label">Can Overwrite</label>
+        <div class="row">
+            <div class="col-lg-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Import setting from </mat-label>
+                    <mat-select name="food" formControlName="importTimetableTemplateId">
+                        <mat-option *ngFor="let item of timetableList" [value]="item.clstid">
+                            {{item.timetable_Name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="form-check-under-mat"
+                    *ngIf="form.get('importTimetableTemplateId')?.touched && form.get('importTimetableTemplateId')?.invalid">
+                    <div class="text-danger">Import setting from is required</div>
+                </div>
             </div>
-            <div class="form-check ms-2">
-                <input type="checkbox" name="Active" class="form-check-input" formControlName="isActive" id="Active">
-                <label for="Active" class="form-check-label">Set as Active</label>
+            <div class="col-lg-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Timetable Name</mat-label>
+                    <input matInput type="text" formControlName="timetbleName">
+                </mat-form-field>
+                <div class="form-check-under-mat"
+                    *ngIf="form.get('timetbleName')?.touched && form.get('timetbleName')?.invalid">
+                    <div class="text-danger">Timetable Name is required</div>
+                </div>
+            </div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="form-check">
+                    <input type="checkbox" name="Overwrite" class="form-check-input" formControlName="isOverwrite"
+                        id="Overwrite">
+                    <label for="Overwrite" class="form-check-label">Can Overwrite</label>
+                </div>
+                <div class="form-check ms-2">
+                    <input type="checkbox" name="Active" class="form-check-input" formControlName="isActive"
+                        id="Active">
+                    <label for="Active" class="form-check-label">Set as Active</label>
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
     <button mat-button mat-dialog-close class="bg-secondary text-white">Close</button>

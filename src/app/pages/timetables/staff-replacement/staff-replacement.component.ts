@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class StaffReplacementComponent implements OnInit {
 
   selectedValue: string | undefined;
-  selectedValuesetting: string | undefined
+  selectedValuereplace: string | undefined
   
   input: any
   form: FormGroup | any;
@@ -21,25 +21,30 @@ export class StaffReplacementComponent implements OnInit {
  
   ngOnInit(): void {
   }
-  foods: Food[] = [
-    { value: 'Day1', viewValue: 'Day1' },
-    { value: 'Day2', viewValue: 'Day2' },
-    { value: 'Day3', viewValue: 'Day3' },
-    { value: 'Day4', viewValue: 'Day4' },
-    { value: 'Day5', viewValue: 'Day5' },
-    { value: 'Day6', viewValue: 'Day6' },
-    { value: 'Day7', viewValue: 'Day7' },
-
-
-
-
+  Staff: Staff[] = [
+    { value: '1', viewValue: 'ANTONY BENITOR J  (BSMS32)' },
+    { value: '2', viewValue: 'ARUN  (BKMS0075)' },
+    { value: '3', viewValue: 'AHASTHILINGAM PILLAI  (BKMS0107)' },
+  
   ];
 
-
+  Replace: Replace[] = [
+    { value: '1', viewValue: 'ABDULHALIM  (BKMHSS136)' },
+    { value: '2', viewValue: 'AHILA S (BKMHSS20)' },
+    { value: '3', viewValue: 'AGNES SHYLINE NISHA I (BKS1714)' },
+    { value: '4', viewValue: 'AJITHKUMAR K  (BKMS0020)' },
+    { value: '5', viewValue: 'ANANDA DAS S B  (BSMS63)' },
+    { value: '6', viewValue: 'ANANTH K (BKMS0009)' },
+    { value: '7', viewValue: 'ANANTH S (BKMS0099)' },
+  ];
 }
 
-interface Food {
+interface Staff {
   value: string;
   viewValue: string;
 }
 
+interface Replace {
+  value: string;
+  viewValue: string;
+}

@@ -11,127 +11,137 @@
     <div class="card">
         <div class="card-body">
 
-            <div class="row mb-3">
-                <div class="col-lg-4">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Class <span class="text-danger">*</span></mat-label>
-                        <mat-select [(ngModel)]="selectedValue1" name="classes"
-                            (selectionChange)="getSubjectList($event.value)">
-                            <mat-option *ngFor="let classes of filteredClassList" [value]="classes.classid">
-                                {{classes.class}}
-                            </mat-option>
-                        </mat-select>
+            <form action="" [formGroup]="form">
+                <div class="row mb-3">
+                    <div class="col-lg-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Class </mat-label>
+                            <mat-select [(ngModel)]="selectedValue1" formControlName="classes" name="classes"
+                                (selectionChange)="getSubjectList($event.value)">
+                                <input matInput placeholder="Search Class" formControlName="classes"
+                                    (input)="applyClassFilter($event)" class="search-mat-option">
+                                <mat-option *ngFor="let classes of filteredClassList" [value]="classes.classid">
+                                    {{classes.class}}
+                                </mat-option>
+                                <mat-option *ngIf="classes.length === 0">No Data found</mat-option>
 
-                    </mat-form-field>
+                            </mat-select>
 
-                </div>
-                <div class="col-lg-4">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Subject <span class="text-danger">*</span></mat-label>
-                        <mat-select [(ngModel)]="selectedValue2" name="subjectList"  (selectionChange)="getStaffList($event.value)">
-                            <mat-option *ngFor="let subjects of subjectList" [value]="subjects.subjectid">
-                                {{subjects.subjectcode}}
-                            </mat-option>
-
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-lg-4">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Staff <span class="text-danger">*</span></mat-label>
-                        <mat-select [(ngModel)]="selectedValue3" name="staffs">
-                            <mat-option *ngFor="let staffs of staffList" [value]="staffs.staffList">
-                                {{staffs.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="d-flex">
-                        <div class="">
-                            <div class="form-check">
-                                <input type="radio" name="Reserve" class="form-check-input" id="Reserve">
-                                <label for="Reserve" class="form-check-label">Reserve</label>
-                            </div>
+                        </mat-form-field>
+                        <div class="form-check-under-mat"
+                            *ngIf="form.get('classes').touched && form.get('classes').invalid">
+                            <div class="text-danger">Class is required</div>
                         </div>
-                        <div class="ms-4">
-                            <div class="form-check">
-                                <input type="radio" name="Reserve" class="form-check-input" id="Avoid">
-                                <label for="Avoid" class="form-check-label">Avoid</label>
-                            </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Subject </mat-label>
+                            <mat-select [(ngModel)]="selectedValue2" formControlName="subjectList" name="subjectList"
+                                (selectionChange)="getStaffListdata($event.value)">
+                                <input matInput placeholder="Search Subject" formControlName="subjectList"
+                                    (input)="applySubjectFilter($event)" class="search-mat-option">
+                                <mat-option *ngFor="let subjects of subjectList" [value]="subjects.subjectid">
+                                    {{subjects.subjectcode}}
+                                </mat-option>
+                                <mat-option *ngIf="subjectList.length === 0">No Data found</mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="form-check-under-mat"
+                            *ngIf="form.get('subjectList').touched && form.get('subjectList').invalid">
+                            <div class="text-danger">Subject is required</div>
                         </div>
+
 
                     </div>
+                    <div class="col-lg-4">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Staff </mat-label>
+                            <mat-select [(ngModel)]="selectedValue3" formControlName="staffs" name="staffs"
+                                (selectionChange)="getBindTableData($event.value)">
+                                <input matInput placeholder="Search Staff" formControlName="staffs"
+                                    (input)="applyStaffFilter($event)" class="search-mat-option">
+                                <mat-option *ngFor="let staffs of staffList" [value]="staffs.staffId">
+                                    {{staffs.staff}}
+                                </mat-option>
+                                <mat-option *ngIf="staffList.length === 0">No Data found</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="form-check-under-mat"
+                            *ngIf="form.get('staffs').touched && form.get('staffs').invalid">
+                            <div class="text-danger">Staff is required</div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="d-flex">
+                            <div class="">
+                                <div class="form-check">
+                                    <input type="radio" formControlName="Reserve" name="Reserve" value="R"
+                                        [(ngModel)]="selectedAction" class="form-check-input" id="Reserve">
+                                    <label for="Reserve" class="form-check-label">Reserve</label>
+                                </div>
+                            </div>
+                            <div class="ms-4">
+                                <div class="form-check">
+                                    <input type="radio" formControlName="Reserve" name="Reserve" value="X"
+                                        [(ngModel)]="selectedAction" class="form-check-input" id="Avoid">
+                                    <label for="Avoid" class="form-check-label">Avoid</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
 
 
-            <div class="overflow-auto">
-                <table class="table custum_table">
+            <div class="overflow-auto" *ngIf="data.length !=0">
+                <table class="table custum_table table-bordered">
                     <thead>
                         <tr>
                             <th>Days/ Periods </th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
+                            <th *ngFor="let item of [].constructor(no_of_Periods);let i=index">{{i+1}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                Day 1
-                            </td>
-                            <td>UKG AA-sub1-BKMS0100</td>
-                            <td> </td>
-                            <td>UKG AA-sub2-BKMS0107</td>
+                        <tr *ngFor="let item of data[0].perioddetails;let i=index">
 
+                            <td class="days_coloumn">{{Days[i]}}</td>
+                            <td *ngFor="let period of item;let j=index" (dblclick)="onCellDoubleClick(i,j)"
+                                [ngStyle]="{'background-color': period == '' ? 'gainsboro' : (period == 'R' ? 'green' : (period == 'X' ? 'red' : '')) , 'color' : (period == 'R' ? 'white' : (period == 'X' ? 'white' : ''))  }">
+                                {{period!='0' ? period : '' }}</td>
                         </tr>
-                        <tr>
-                            <td>
-                                Day 2
-                            </td>
-                            <td>UKG AA-sub1-BKMS0100</td>
-                            <td> </td>
-                            <td>UKG AA-sub2-BKMS0107</td>
 
-                        </tr>
-                        <tr>
-                            <td>
-                                Day 3
-                            </td>
-                            <td>UKG AA-sub1-BKMS0100</td>
-                            <td> </td>
-                            <td>UKG AA-sub2-BKMS0107</td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                Day 4
-                            </td>
-                            <td class="text-success">R</td>
-                            <td> </td>
-                            <td>UKG AA-sub2-BKMS0107</td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                Day 5
-                            </td>
-                            <td>UKG AA-sub1-BKMS0100</td>
-                            <td> </td>
-                            <td class="text-success">R</td>
-
-                        </tr>
                     </tbody>
                 </table>
+
+
+
             </div>
+            <!-- (click)="cellClick(i,j)" -->
+
+            <!-- <label>
+                <input type="radio" name="action" value="R" [(ngModel)]="selectedAction"> Reserved
+            </label>
+            <label>
+                <input type="radio" name="action" value="A" [(ngModel)]="selectedAction"> Avoid
+            </label>
+            <br><br>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr *ngFor="let row of tableData; let rowIndex = index">
+                        <td *ngFor="let cell of row; let colIndex = index"
+                            (dblclick)="onCellDoubleClick(rowIndex, colIndex)">{{ cell }}</td>
+                    </tr>
+                </tbody>
+            </table> -->
 
         </div>
 
         <div class="card-footer">
             <div class="btns text-end">
-                <button class="btn btn-primary ">Save</button>
+                <button class="btn btn-primary " (click)="SavePeriods()">Save</button>
                 <button class="btn btn-secondary ms-2" routerLink="/FixCriteria">Cancel</button>
             </div>
         </div>

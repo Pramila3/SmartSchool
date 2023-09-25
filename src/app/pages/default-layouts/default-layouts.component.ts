@@ -12,7 +12,10 @@ export class DefaultLayoutsComponent implements OnInit {
   constructor(private router: Router) {
 
   }
-
+  isViewMenuActive() {
+    // Check if the current route matches the "View" menu's route
+    return this.router.isActive('/view', true);
+  }
   ngOnInit(): void {
     this.moduleName = localStorage.getItem('modulName');
   }

@@ -30,11 +30,10 @@ export class StaffCombinedCriteriaComponent implements OnInit {
   ngOnInit(): void {
   }
   foods: Food[] = [
-    { value: '1 A', viewValue: '1 A' },
-    { value: '1 B', viewValue: '1 B' },
-    { value: '2 A', viewValue: '2 A' },
-    { value: '2 B', viewValue: '2 B' },
-    { value: '3 A', viewValue: '3 A' },
+    { value: '1 ', viewValue: 'Class' },
+    { value: '2', viewValue: 'Subject' },
+    { value: '3', viewValue: 'Staff' },
+    { value: '4', viewValue: 'Day - Period' },
 
   ];
 }

@@ -5,7 +5,7 @@
 
 </div>
 
-<div class="content-wrapper p-3">
+<div class="content-wrapper">
 
 
     <div class="card">
@@ -14,9 +14,9 @@
                 <div class="col-lg-5">
                     <mat-form-field appearance="outline">
                         <mat-label>Staff</mat-label>
-                        <mat-select [(ngModel)]="selectedValue" name="food">
-                            <mat-option *ngFor="let food of foods" [value]="food.value">
-                                {{food.viewValue}}
+                        <mat-select [(ngModel)]="selectedValue" name="Staff">
+                            <mat-option *ngFor="let Staff of Staff" [value]="Staff.value">
+                                {{Staff.viewValue}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -24,9 +24,9 @@
                 <div class="col-lg-5">
                     <mat-form-field appearance="outline">
                         <mat-label>Staff Replace </mat-label>
-                        <mat-select [(ngModel)]="selectedValue" name="food">
-                            <mat-option *ngFor="let food of foods" [value]="food.value">
-                                {{food.viewValue}}
+                        <mat-select [(ngModel)]="selectedValuereplace" name="Replace">
+                            <mat-option *ngFor="let Replace of Replace" [value]="Replace.value">
+                                {{Replace.viewValue}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

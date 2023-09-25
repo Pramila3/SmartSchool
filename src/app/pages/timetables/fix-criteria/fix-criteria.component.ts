@@ -6,6 +6,7 @@ import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../common/loading/loader.service';
 import { MatTableDataSource } from '@angular/material/table';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-fix-criteria',
@@ -40,7 +41,7 @@ export class FixCriteriaComponent implements OnInit {
     this.loader.show()
     this.dataSource = new MatTableDataSource([]);
     this.service.getHttpServiceWithId(localStorage.getItem('schoolcode'), 'BindFixcriteriaList', 'schoolcode').subscribe((response: any) => {
-      
+      console.log('resultData ', response);
       if (response.status) {
         this.dataSource = new MatTableDataSource(response.resultData);
         console.log('resultData ', response.resultData);
@@ -55,7 +56,54 @@ export class FixCriteriaComponent implements OnInit {
       this.loader.hide();
     });
   }
-
+  onDelete(id: number) {
+    let postData = {
+      CLSTID: id,
+      schoolcode: localStorage.getItem('schoolcode'),
+      academicyear: localStorage.getItem('academicYear'),
+      reservedid: this.dataSource.rsvid,
+      isArchive: "false"
+    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      width: '350px',
+    }).then((result) => {
+      if (result.value) {
+        this.service.deleteHttpService(postData, 'DeleteFixCriteriaList').subscribe((response) => {
+          console.log('deleteCriteriaList' , response);
+          
+          if (response.status) {
+            Swal.fire({
+              title: "Success",
+              text: "Successfully deleted!",
+              icon: 'success',
+              width: '350px',
+              heightAuto: false
+            }).then(() => {
+              this.getFixCriteriaList()
+            });
+            this.cdr.markForCheck();
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: response.statusMessage,
+              icon: 'warning',
+              width: '350px',
+              heightAuto: false
+            })
+            this.getFixCriteriaList();
+          }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        this.getFixCriteriaList();
+      }
+    });
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

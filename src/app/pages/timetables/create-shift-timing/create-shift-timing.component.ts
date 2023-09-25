@@ -217,12 +217,12 @@ export class CreateShiftTimingComponent implements OnInit {
 
 
   openDialog() {
-    const dialogRef =  this.dialog.open(ImportShiftTimingModal);
+    const dialogRef = this.dialog.open(ImportShiftTimingModal);
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
 
-        this.getShiftTimingList();
-        this.cdr.detectChanges()
+      this.getShiftTimingList();
+      this.cdr.detectChanges()
     });
   }
 
@@ -273,8 +273,8 @@ export class ImportShiftTimingModal {
   }
   formGroup() {
     this.form = this.fb.group({
-      importTimetableTemplateId: [null, Validators.required],
-      timetbleName: [null, Validators.required],
+      importTimetableTemplateId: [null, [Validators.required]],
+      timetbleName: [null, [Validators.required]],
       isOverwrite: [null],
       isActive: [null]
     })

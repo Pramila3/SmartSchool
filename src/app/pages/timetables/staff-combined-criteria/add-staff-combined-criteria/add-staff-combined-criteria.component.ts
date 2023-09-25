@@ -9,11 +9,11 @@ import { FormControl } from '@angular/forms';
 export class AddStaffCombinedCriteriaComponent implements OnInit {
 
   toppings = new FormControl('');
-  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  toppingList: string[] = ['JKG A - ENG-II - ANANDA DAS S B (BSMS63)', 'JKG A - READ - ABDULHALIM (BKMHSS136)', 'JKG A - TT - AGNES SHYLINE NISHA I (BKS1714)'];
 
   classlist = new FormControl('');
-  classesList: string[] = ['Extra cheese', 'Mushroom', 'Onion',];
-  
+  classesList: string[] = ['JKG A', 'JKG B'];
+
   selectedValue1: string | undefined;
 
   selectedValue2: string | undefined;

@@ -18,21 +18,32 @@ export class AddFixCriteriaComponent implements OnInit {
   subjectList: any = [];
   staffList: any = [];
   form: FormGroup | any;
+  data: any[] = []; // Array to store API data
+  headers: string[] = []; // Array to store table headers
+
   searchValue = '';
+  Days: any[] = []
   classid = '';
+  subjectid = '';
+  staffid = '';
+  no_of_Periods = 0;
+  selectedAction: string = 'R'; // Default radio button selected
+  cellClick = 0;
   constructor(private service: CommonService, private router: Router, private cdr: ChangeDetectorRef,
     private fb: FormBuilder, private loader: LoaderService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.getClassList()
-
+    this.formGroup()
   }
   formGroup() {
     this.form = this.fb.group({
 
-      classes: [],
-      subjectList: [],
-      staffs: []
+      classes: [null, Validators.required],
+      subjectList: [null, Validators.required],
+      staffs: [null, Validators.required],
+      Reserve: [null, Validators.required],
+
     })
   }
 
@@ -40,26 +51,46 @@ export class AddFixCriteriaComponent implements OnInit {
     this.loader.show()
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
-      academicyear: "2022",
+      academicyear: localStorage.getItem('academicYear')
 
     }
     this.service.getHttpServiceWithDynamicParams(postData, 'getclassList').subscribe((response: any) => {
+      console.log('classlist bind data', response);
+
       if (response.status) {
         this.classList = response.resultData
         console.log('classlistres', response.resultData);
-        // this.loader.hide()
         this.loader.hide()
+      } else {
+
       }
     })
   }
+
+  applyClassFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchValue = inputValue;
+    console.log("called");
+  }
+  applySubjectFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchValue = inputValue;
+    console.log("called");
+  }
+  applyStaffFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchValue = inputValue;
+    console.log("called");
+  }
+
   getSubjectList(classid: any) {
     this.classid = classid
-    console.log('classid' ,classid);
-    
+    console.log('classid', classid);
+
     this.loader.show()
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
-      academicyear: "2022",
+      academicyear: localStorage.getItem('academicYear'),
       classid: classid
     }
     this.service.getHttpServiceWithDynamicParams(postData, 'getSubjectList').subscribe((response: any) => {
@@ -72,29 +103,201 @@ export class AddFixCriteriaComponent implements OnInit {
     })
   }
 
-  getStaffList(subjectid: any) {
+  getStaffListdata(subjectid: any) {
     console.log('subjectid', subjectid);
 
     this.loader.show()
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
-      academicyear: "2023",
+      academicyear: localStorage.getItem('academicYear'),
       classid: this.classid,
       subjectid: subjectid
-
     }
-    
+    this.subjectid = subjectid
+
     this.service.getHttpServiceWithDynamicParams(postData, 'getStaffList').subscribe((response: any) => {
-      console.log('stafflistres', response);
+      console.log('stafflistresdata', response);
 
       if (response.status) {
         this.staffList = response.resultData
         console.log('stafflistres', response.resultData);
+        // this.getBindTableData
         this.loader.hide()
 
       }
     })
   }
+
+  getBindTableData(staffid: any) {
+    console.log('staffid', staffid);
+    this.loader.show()
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode'),
+      academicyear: localStorage.getItem('academicYear'),
+      classid: this.classid,
+      subjectid: this.subjectid,
+      staffid: staffid
+    }
+    this.staffid = staffid
+
+    this.service.getHttpServiceWithDynamicParams(postData, 'getBindPeriodsData').subscribe((response: any) => {
+      console.log('table bind data', response);
+
+      if (response.status) {
+        this.data = response.resultData;
+        this.headers = Object.keys(this.data[0]);
+        this.no_of_Periods = Number(this.data[0]['no_of_Periods']);
+        this.data.forEach((data) => {
+          data['perioddetails'] = data['perioddetails'].split('#')
+          data['perioddetails'].forEach((period: string, index: number) => {
+            data['perioddetails'][index] = period.split('@')
+            data['perioddetails'][index].splice(0, 1)
+            this.Days.push(period.split('@')[0])
+          })
+        })
+        this.loader.hide();
+
+
+      } else {
+        this.loader.hide();
+      }
+
+    })
+  };
+
+  manageClick = (rowIndex: number, colIndex: number) => {
+    if (this.selectedAction === 'X' || this.selectedAction === 'R') {
+      this.data[0].perioddetails[rowIndex][colIndex] = this.selectedAction;
+    } else if (this.data[0].perioddetails[rowIndex][colIndex] === 'R' || this.data[0].perioddetails[rowIndex][colIndex] === 'X') {
+      // Toggle between 'R' and 'X' if one of them is already present
+      this.data[0].perioddetails[rowIndex][colIndex] = this.data[0].perioddetails[rowIndex][colIndex] === 'R' ? 'X' : 'R';
+    } else {
+      // Cell is empty, set it to the selected action
+      this.data[0].perioddetails[rowIndex][colIndex] = this.selectedAction;
+    }
+  }
+
+  onCellDoubleClick(rowIndex: number, colIndex: number) {
+    let selectedValue = this.data[0].perioddetails[rowIndex][colIndex];
+    console.log(selectedValue, this.cellClick,this.selectedAction);
+
+    if (this.data[0].maxAllotPeriods > 0 && this.data[0].maxAllotPeriods > this.cellClick && selectedValue == '0') {
+      this.cellClick += 1;
+      this.manageClick(rowIndex, colIndex)
+    } else if (['X', 'R'].includes(selectedValue)) {
+      this.manageClick(rowIndex, colIndex)
+    } else {
+      // maxAllotPeriods is not greater than 0, restrict interaction
+      // You can add code here to show a message or handle the restriction as needed
+      alert(' Maximum ' + this.data[0].maxAllotPeriods + ' period(s) can be reserved');
+    }
+
+    if (this.selectedAction == selectedValue) {
+      this.data[0].perioddetails[rowIndex][colIndex] = '0';
+      this.cellClick -= 1;
+    }
+  }
+
+
+  SavePeriods() {
+    // console.log('staffid', staffid);d
+    this.loader.show();
+    // Assuming this is your grid data structure
+    const gridData = this.data[0].perioddetails;
+
+    // Initialize variables to store the formatted string
+    let rsvdayperiod = '';
+    let avdayperiod='';
+    let end1=false;
+    let end2=false;
+    // Iterate through the grid data
+    for (let rowIndex = 0; rowIndex < gridData.length; rowIndex++) {
+      for (let colIndex = 0; colIndex < gridData[rowIndex].length; colIndex++) {
+        const cellValue = gridData[rowIndex][colIndex];
+
+        if(!end1)
+          end1= colIndex == gridData[rowIndex].length-1;
+        if(!end2)
+          end2= colIndex == gridData[rowIndex].length-1;
+        
+        //combine reserve
+        if (cellValue === 'R') {
+          // Add "ê" to separate rows or "@" to separate columns if needed
+          if (end1) {
+            if (rsvdayperiod!='')
+              rsvdayperiod += 'ê';
+            end1=false;
+          } 
+          // Append the period information in the format 'row@col' to the string
+          if(rsvdayperiod==''||rsvdayperiod.endsWith('ê')){
+            rsvdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
+          }else{
+          rsvdayperiod += `@${colIndex + 1}`;
+          }
+        }
+        //for avoid
+        if (cellValue === 'X') {
+           // Add "ê" to separate rows or "@" to separate columns if needed
+           if (end2) {
+            if(avdayperiod!='')
+              avdayperiod += 'ê';
+            end2=false;
+          }
+          // Append the period information in the format 'row@col' to the string
+          if(avdayperiod==''||avdayperiod.endsWith('ê')){
+            avdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
+          }else{
+            avdayperiod += `@${colIndex + 1}`;
+          }
+          
+        }
+      }
+    }
+
+    if(rsvdayperiod!=='' && !rsvdayperiod.endsWith('ê'))  rsvdayperiod += 'ê';
+    if(avdayperiod!=='' && !avdayperiod.endsWith('ê'))  avdayperiod += 'ê';
+    console.log(rsvdayperiod,avdayperiod);
+    
+    // Now 'rsvdayperiod' contains the formatted string
+
+    [0,1].forEach((type)=>{
+
+      if((type==0 && rsvdayperiod!=='')|| (type==1 && avdayperiod!=='') )
+      {
+        let postData = {
+
+        schoolcode: localStorage.getItem('schoolcode'),
+        rsvclassid: this.classid,
+        rsvsubid: this.subjectid,
+        rsvstaffid: this.staffid,
+        rsvtype: type.toString(),
+        rsvdayperiod: type? avdayperiod : rsvdayperiod,
+        rsvsftid: this.data[0].sftid
+      }
+  
+      this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
+        console.log('SaveReservedPeriods', response);
+        this.loader.hide();
+      })}
+    })
+  }
+
+
+  // cellClick(i: number, j: number) {
+  //   console.log("clicked", this.data[0].perioddetails[i][j] == '0');
+
+  //   let postData = {
+  //     schoolcode: localStorage.getItem('schoolcode'),
+  //     academicyear: localStorage.getItem('academicYear'),
+  //     classid: this.classid,
+  //     subjectid: this.subjectid,
+  //     staffid: this.staffid
+  //   }
+  //   this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
+  //     console.log('ReservedPeriodsData', response);
+  //   })
+  // }
+
 
   get filteredClassList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();

@@ -37,13 +37,24 @@
                             <a mat-menu-item>Database Backups</a>
                         </mat-menu>
                         <mat-menu #Admin="matMenu">
-                            <a mat-menu-item>Allot Subject</a>
-                            <a mat-menu-item>Allot Staff</a>
-                            <a mat-menu-item>Classwise Staff Alotment</a>
+                            <a mat-menu-item [matMenuTriggerFor]="StaffInterview">Staff Interview</a>
+                            <a mat-menu-item [matMenuTriggerFor]="Appraisal">Appraisal</a>
+                            <a mat-menu-item [matMenuTriggerFor]="Users">Users</a>
 
                         </mat-menu>
 
-
+                        <mat-menu #StaffInterview="matMenu">
+                            <a mat-menu-item routerLink="/applicantlist" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Applicants List</a>
+                            <a mat-menu-item routerLink="/InterviewRecord" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Interview Record</a>
+                        </mat-menu>
+                        <mat-menu #Appraisal="matMenu">
+                            <a mat-menu-item >Appraisal List</a>
+                            <a mat-menu-item>Staff Appraisal</a>
+                        </mat-menu>
+                        <mat-menu #Users="matMenu">
+                            <a mat-menu-item >Existing Users</a>
+                            <a mat-menu-item>User Role</a>
+                        </mat-menu>
                     </li>
 
 
@@ -68,10 +79,6 @@
                         <a mat-menu-item>QuestionBank</a>
                         <a mat-menu-item>CCE</a>
                         <a mat-menu-item>Front Office</a>
-
-
-
-
                     </mat-menu>
                     <li class="nav-item" *ngIf="moduleName != 'Timtable'">
                         <a class="nav-link" [matMenuTriggerFor]="Tools">Tools</a>
@@ -83,7 +90,6 @@
                     <mat-menu #Address="matMenu" class="mt-3">
                         <a mat-menu-item>Student Address Book</a>
                         <a mat-menu-item>Staff Address Book</a>
-
                     </mat-menu>
                     <li class="nav-item" *ngIf="moduleName != 'Timtable'">
                         <a class="nav-link" [matMenuTriggerFor]="Reports">Reports</a>
@@ -288,10 +294,23 @@
                         <a mat-menu-item>Database Backups</a>
                     </mat-menu>
                     <mat-menu #Admin="matMenu">
-                        <a mat-menu-item>Allot Subject</a>
-                        <a mat-menu-item>Allot Staff</a>
-                        <a mat-menu-item>Classwise Staff Alotment</a>
+                        <a mat-menu-item [matMenuTriggerFor]="StaffInterview">Staff Interview</a>
+                        <a mat-menu-item [matMenuTriggerFor]="Appraisal">Appraisal</a>
+                        <a mat-menu-item [matMenuTriggerFor]="Users">Users</a>
 
+                    </mat-menu>
+
+                    <mat-menu #StaffInterview="matMenu">
+                        <a mat-menu-item routerLink="/applicantlist">Applicants List</a>
+                        <a mat-menu-item>Interview Record</a>
+                    </mat-menu>
+                    <mat-menu #Appraisal="matMenu">
+                        <a mat-menu-item >Appraisal List</a>
+                        <a mat-menu-item>Staff Appraisal</a>
+                    </mat-menu>
+                    <mat-menu #Users="matMenu">
+                        <a mat-menu-item >Existing Users</a>
+                        <a mat-menu-item>User Role</a>
                     </mat-menu>
 
 

@@ -27,10 +27,10 @@ export class TemporaryTimetableComponent implements OnInit {
   ngOnInit(): void {
   }
   foods: Food[] = [
-    { value: 'Class', viewValue: 'Class' },
-    { value: 'Total Periods', viewValue: 'Total Periods' },
-    { value: 'Need to Allot', viewValue: 'Need to Allot' },
-    { value: 'Alloted Periods', viewValue: 'Alloted Periods' },
+    { value: '1', viewValue: 'Timetable Name' },
+    { value: '2', viewValue: 'Date From' },
+    { value: '3', viewValue: 'Date To' },
+
 
 
   ];

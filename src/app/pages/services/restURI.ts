@@ -19,13 +19,17 @@ let URI = {
     'deleteShiftDetails': 'AllotShift/DeleteShiftTiming',
     'getTimeTableDropDownList': 'ImportShiftTiming/GetTimeTableAccessbyid',
     'importShiftTiming': 'ImportShiftTiming/ImportShiftTiming',
-
+    // allot subject
+    'BindAllotSubject': 'AllotSubject/BindRoom',
 
     // // fix criteria
     'BindFixcriteriaList': 'FixCriteria/BindFixcriteriaList',
     'getclassList': 'FixCriteria/BindClassFixCriteria',
     'getSubjectList': 'FixCriteria/BindSubject',
-    'getStaffList': 'FixCriteria/BindStaff'
+    'getStaffList': 'FixCriteria/BindStaff',
+    'getBindPeriodsData': 'FixCriteria/BindPeriodsFixCriteria',
+    'ReservedPeriodsData': 'FixCriteria/SaveReservePeriods',
+    'DeleteFixCriteriaList': 'FixCriteria/DeleteFixCriteria'
 }
 
 export { URI }
