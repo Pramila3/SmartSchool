@@ -14,6 +14,7 @@ export class AddSetCombinedContinuousComponent implements OnInit {
   selectedValue1: string | undefined;
   shiftList: any = [];
   searchValue: string = '';
+  searchValue1: string = '';
 
   form!: FormGroup;
   classList: any;
@@ -65,12 +66,19 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     this.searchValue = inputValue;
     console.log("called");
   }
-
+  applyClassStaffSubjectFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchValue1 = inputValue;
+    console.log("called");
+  }
   get filteredShiftList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
     return this.shiftList.filter((element: any) => element.shift.toLowerCase().includes(lowerCaseSearch));
   }
-
+  get ClassStaffSubject() {
+    const lowerCaseSearch = this.searchValue1.toLowerCase();
+    return this.toppingList.filter((element: any) => element?.toLowerCase().includes(lowerCaseSearch));
+  }
   getClassList(){
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
@@ -94,14 +102,7 @@ export class AddSetCombinedContinuousComponent implements OnInit {
       this.loader.hide();
     });
   }
-  private _filter(name: string): String[] {
-    const filterValue = name.toLowerCase();
-    // Set selected values to retain the selected checkbox state 
-    this.setSelectedValues();
-    this.classlist.patchValue(this.selectedValues);
-    let filteredList = this.classDropdownList.filter((option: any) => option.class.toLowerCase().indexOf(filterValue) === 0);
-    return filteredList;
-  }
+
 
   setSelectedValues() {
     console.log('selectFormControl', this.classlist.value);
