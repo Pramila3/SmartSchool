@@ -18,8 +18,11 @@
                             <mat-label>Class </mat-label>
                             <mat-select [(ngModel)]="selectedValue1" formControlName="classes" name="classes"
                                 (selectionChange)="getSubjectList($event.value)">
+                               <div class="search-wraper">
                                 <input matInput placeholder="Search Class" formControlName="classes"
-                                    (input)="applyClassFilter($event)" class="search-mat-option">
+                                (input)="applyClassFilter($event)" class="search-mat-option">
+                               </div>
+                                
                                 <mat-option *ngFor="let classes of filteredClassList" [value]="classes.classid">
                                     {{classes.class}}
                                 </mat-option>
@@ -38,8 +41,10 @@
                             <mat-label>Subject </mat-label>
                             <mat-select [(ngModel)]="selectedValue2" formControlName="subjectList" name="subjectList"
                                 (selectionChange)="getStaffListdata($event.value)">
-                                <input matInput placeholder="Search Subject" formControlName="subjectList"
+                                <div class="search-wraper">
+                                    <input matInput placeholder="Search Subject" formControlName="subjectList"
                                     (input)="applySubjectFilter($event)" class="search-mat-option">
+                                </div>
                                 <mat-option *ngFor="let subjects of filteredSubjectList" [value]="subjects.subjectid">
                                     {{subjects.subjectcode}}
                                 </mat-option>
@@ -59,8 +64,10 @@
                             <mat-label>Staff </mat-label>
                             <mat-select [(ngModel)]="selectedValue3" formControlName="staffs" name="staffs"
                                 (selectionChange)="getBindTableData($event.value)">
+                               <div class="search-wraper">
                                 <input matInput placeholder="Search Staff" formControlName="staffs"
-                                    (input)="applyStaffFilter($event)" class="search-mat-option">
+                                (input)="applyStaffFilter($event)" class="search-mat-option">
+                               </div>
                                 <mat-option *ngFor="let staffs of filteredStaffList" [value]="staffs.staffId">
                                     {{staffs.staff}}
                                 </mat-option>
@@ -108,8 +115,8 @@
                         <tr *ngFor="let item of data[0].perioddetails;let i=index">
 
                             <td class="days_coloumn">{{Days[i]}}</td>
-                            <td *ngFor="let period of item;let j=index" (dblclick)="onCellDoubleClick(i,j)"
-                                [ngStyle]="{'background-color': period == '' ? 'gainsboro' : (period == 'R' ? 'green' : (period == 'X' ? 'red' : '')) , 'color' : (period == 'R' ? 'white' : (period == 'X' ? 'white' : ''))  }">
+                            <td *ngFor="let period of item;let j=index" (dblclick)=" period != '' ? onCellDoubleClick(i,j) : ''"
+                            [ngStyle]="{'background-color': period == '' ? 'gainsboro' : '' , 'color' : (period == 'R' ? 'green' : (period == 'X' ? 'red' : ''))  }">
                                 {{period!='0' ? period : '' }}</td>
                         </tr>
 

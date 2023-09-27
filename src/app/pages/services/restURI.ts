@@ -34,7 +34,8 @@ let URI = {
     //Combined class
     'combinedClassList': 'CombinedClass/CombinedClassList',
     'getCombinedShiftList': 'CombinedClass/BindShift',
-    'getCombinedClasstList': 'CombinedClass/BindCombinedclasses'
+    'getCombinedClasstList': 'CombinedClass/BindCombinedclasses',
+    'getCombinedClassStafList': 'CombinedClass/BindCombinedClassstaff'
 }
 
 export { URI }

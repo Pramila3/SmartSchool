@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, ObservableInput, forkJoin } from 'rxjs';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
 import Swal from 'sweetalert2';
@@ -69,21 +70,21 @@ export class AddFixCriteriaComponent implements OnInit {
     if (this.subjectid) {
       this.getStaffListdata(this.subjectid)
     }
-    if(this.staffid){
+    if (this.staffid) {
       this.getBindTableData(this.staffid);
     }
     setTimeout(() => {
-    this.form.patchValue({
-      id: this.fixCriteriaId,
-      classes: this.classid,
-      subjectList: this.subjectid,
-      staffs: this.staffid,
-      Reserve: this.type == "Avoided" ? 'X' : 'R',
-    })
-  }, 500);
- 
-  console.log(this.type);
-  
+      this.form.patchValue({
+        id: this.fixCriteriaId,
+        classes: this.classid,
+        subjectList: this.subjectid,
+        staffs: this.staffid,
+        Reserve: this.type == "Avoided" ? 'X' : 'R',
+      })
+    }, 500);
+
+    console.log(this.type);
+
     console.log(this.form);
   }
   getClassList() {
@@ -137,7 +138,11 @@ export class AddFixCriteriaComponent implements OnInit {
   getSubjectList(classid: any) {
     this.classid = classid
     console.log('classid', classid);
-
+    this.subjectList = []
+    this.staffList = []
+    this.data = []
+    this.form.get('subjectList').setValue(null)
+    this.form.get('staffs').setValue(null)
     this.loader.show()
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
@@ -156,7 +161,9 @@ export class AddFixCriteriaComponent implements OnInit {
 
   getStaffListdata(subjectid: any) {
     console.log('subjectid', subjectid);
-
+    this.staffList = []
+    this.data = []
+    this.form.get('staffs').setValue(null)
     this.loader.show()
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
@@ -199,14 +206,28 @@ export class AddFixCriteriaComponent implements OnInit {
         this.data = response.resultData;
         this.headers = Object.keys(this.data[0]);
         this.no_of_Periods = Number(this.data[0]['no_of_Periods']);
+        // this.data[0].maxAllotPeriods = this.data[0].maxAllotPeriods == '0' ? 0 : this.data[0].maxAllotPeriods
+        // this.data[0].maxAllotPeriods = 0
         this.data.forEach((data) => {
           data['perioddetails'] = data['perioddetails'].split('#')
           data['perioddetails'].forEach((period: string, index: number) => {
             data['perioddetails'][index] = period.split('@')
             data['perioddetails'][index].splice(0, 1)
             this.Days.push(period.split('@')[0])
+            console.log(period.split('@'));
+            // if (this.data[0].maxAllotPeriods == "0") {
+            period.split('@').forEach(element => {
+              if (element == 'R') {
+                this.data[0].maxAllotPeriods = +(this.data[0].maxAllotPeriods) + 1;
+                this.cellClick += 1;
+              }
+            });
+            // }
+            console.log(this.data[0].maxAllotPeriods);
+
           })
         })
+
         this.loader.hide();
 
 
@@ -232,18 +253,20 @@ export class AddFixCriteriaComponent implements OnInit {
   onCellDoubleClick(rowIndex: number, colIndex: number) {
     let selectedValue = this.data[0].perioddetails[rowIndex][colIndex];
     console.log(selectedValue, this.cellClick, this.selectedAction);
-
-    if (this.data[0].maxAllotPeriods > 0 && this.data[0].maxAllotPeriods > this.cellClick && selectedValue == '0') {
-      this.cellClick += 1;
-      this.manageClick(rowIndex, colIndex)
-    } else if (['X', 'R'].includes(selectedValue)) {
-      this.manageClick(rowIndex, colIndex)
+    if (this.form.value.Reserve == 'R') {
+      if (this.data[0].maxAllotPeriods > 0 && this.data[0].maxAllotPeriods > this.cellClick && selectedValue == '0') {
+        this.cellClick += 1;
+        this.manageClick(rowIndex, colIndex)
+      } else if (['X', 'R'].includes(selectedValue)) {
+        this.manageClick(rowIndex, colIndex)
+      } else {
+        // maxAllotPeriods is not greater than 0, restrict interaction
+        // You can add code here to show a message or handle the restriction as needed
+        alert(' Maximum ' + this.data[0].maxAllotPeriods + ' period(s) can be reserved');
+      }
     } else {
-      // maxAllotPeriods is not greater than 0, restrict interaction
-      // You can add code here to show a message or handle the restriction as needed
-      alert(' Maximum ' + this.data[0].maxAllotPeriods + ' period(s) can be reserved');
+      this.manageClick(rowIndex, colIndex)
     }
-
     if (this.selectedAction == selectedValue) {
       this.data[0].perioddetails[rowIndex][colIndex] = '0';
       this.cellClick -= 1;
@@ -254,6 +277,8 @@ export class AddFixCriteriaComponent implements OnInit {
   SavePeriods() {
     // console.log('staffid', staffid);d
     this.loader.show();
+    let responseStatus = false;
+
     // Assuming this is your grid data structure
     const gridData = this.data[0].perioddetails;
 
@@ -284,7 +309,9 @@ export class AddFixCriteriaComponent implements OnInit {
           if (rsvdayperiod == '' || rsvdayperiod.endsWith('ê')) {
             rsvdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
           } else {
-            rsvdayperiod += `@${colIndex + 1}`;
+            // rsvdayperiod += `ê${colIndex + 1}`;
+            rsvdayperiod += 'ê' + `${rowIndex + 1}@${colIndex + 1}`;
+
           }
         }
         //for avoid
@@ -299,7 +326,9 @@ export class AddFixCriteriaComponent implements OnInit {
           if (avdayperiod == '' || avdayperiod.endsWith('ê')) {
             avdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
           } else {
-            avdayperiod += `@${colIndex + 1}`;
+            // avdayperiod += `ê${colIndex + 1}`;
+            avdayperiod += 'ê' + `${rowIndex + 1}@${colIndex + 1}`;
+
           }
 
         }
@@ -312,6 +341,7 @@ export class AddFixCriteriaComponent implements OnInit {
 
     // Now 'rsvdayperiod' contains the formatted string
 
+    const postRequests: Observable<any>[] = [];
     [0, 1].forEach((type) => {
 
       if ((type == 0 && rsvdayperiod !== '') || (type == 1 && avdayperiod !== '')) {
@@ -325,34 +355,93 @@ export class AddFixCriteriaComponent implements OnInit {
           rsvdayperiod: type ? avdayperiod : rsvdayperiod,
           rsvsftid: this.data[0].sftid
         }
+        const postRequest = this.service.postHttpService(postData, 'ReservedPeriodsData');
+        console.log(postData);
 
-        this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
-          if(response){
-            Swal.fire({
-              title: "Success",
-              text: "Record saved successfully",
-              icon: 'success',
-              width: '350px',
-              heightAuto: false
-            }).then(() => {
-            });
-  
+        postRequests.push(postRequest)
+        // this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
+        //   if (response.status) {
+        //   responseStatus = true;
+        //   } else {
+        // this.loader.hide();
+        //     responseStatus = false;
+        //     this.errorMsgShow(response.statusMessage)
+        //     // Swal.fire({
+        //     //   title: "Error",
+        //     //   text: response.statusMessage,
+        //     //   icon: 'warning',
+        //     //   width: '350px',
+        //     //   heightAuto: false
+        //     // });
+        //   }
+        //   console.log('SaveReservedPeriods', response);
+        // })
+      }
+
+    })
+    if (postRequests.length > 0) {
+      forkJoin(postRequests).subscribe((response: any) => {
+        console.log(response);
+        if (response.length > 0) {
+          if (response.length > 1) {
+            if (response[0].status && response[1].status) {
+              this.loader.hide();
+              Swal.fire({
+                title: "Success",
+                text: "Record saved successfully",
+                icon: 'success',
+                width: '350px',
+                heightAuto: false
+              }).then(() => {
+              });
+            } else {
+              this.loader.hide();
+              responseStatus = false;
+              Swal.fire({
+                title: "Error",
+                text: !response[0].status ? response[0].statusMessage : response[1].statusMessage,
+                icon: 'warning',
+                width: '350px',
+                heightAuto: false
+              });
+            }
           } else {
-            Swal.fire({
-              title: "Error",
-              text: response.statusMessage,
-              icon: 'warning',
-              width: '350px',
-              heightAuto: false
-            });
+            if (response[0].status) {
+              this.loader.hide();
+              Swal.fire({
+                title: "Success",
+                text: "Record saved successfully",
+                icon: 'success',
+                width: '350px',
+                heightAuto: false
+              }).then(() => {
+              });
+            } else {
+              this.loader.hide();
+              responseStatus = false;
+              Swal.fire({
+                title: "Error",
+                text: !response[0].status ? response[0].statusMessage : response[1].statusMessage,
+                icon: 'warning',
+                width: '350px',
+                heightAuto: false
+              });
+            }
           }
           console.log('SaveReservedPeriods', response);
-          this.loader.hide();
-        })
-      }
-    })
+        }
+      })
+    }
   }
-
+  errorMsgShow(errMsg: string) {
+    Swal.fire({
+      title: "Error",
+      text: errMsg,
+      icon: 'warning',
+      width: '350px',
+      heightAuto: false
+    });
+  }
 
   // cellClick(i: number, j: number) {
   //   console.log("clicked", this.data[0].perioddetails[i][j] == '0');

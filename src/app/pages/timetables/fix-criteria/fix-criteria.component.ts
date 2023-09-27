@@ -29,6 +29,8 @@ export class FixCriteriaComponent implements OnInit {
   dataSource: any
   form: FormGroup | any;
   submitted!: boolean;
+
+  spans = [];
   constructor(private service: CommonService, private cdr: ChangeDetectorRef,
     private fb: FormBuilder, private router: Router, private loader: LoaderService) { }
 
@@ -148,6 +150,37 @@ export class FixCriteriaComponent implements OnInit {
       
       this.router.navigate(['/AddFixCriteria'], {state: {id: splitdata[0], classId: splitdata[1], subjectId: splitdata[2], staffId: splitdata[3], type: data.type}})
     }
+  }
+
+  cacheSpan(key: any, accessor: any) {
+    for (let i = 0; i < this.dataSource.length;) {
+      let currentValue = accessor(this.dataSource[i]);
+      let count = 1;
+
+      // Iterate through the remaining rows to see how many match
+      // the current value as retrieved through the accessor.
+      for (let j = i + 1; j < this.dataSource.length; j++) {        
+        if (currentValue != accessor(this.dataSource[j])) {
+          break;
+        }
+
+        count++;
+      } 
+
+      // if (!this.spans[i]) {
+      //   this.spans[i] = {};
+      // }
+
+      // // Store the number of similar values that were found (the span)
+      // // and skip i to the next unique row.
+      // this.spans[i][key] = count;
+      // i += count;
+    }
+  }
+
+  getRowSpan(col: any, index: any) {
+    console.log(this.spans)
+    return this.spans[index] && this.spans[index][col];
   }
 }
 

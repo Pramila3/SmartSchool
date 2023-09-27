@@ -23,34 +23,35 @@ export class AddSetCombinedContinuousComponent implements OnInit {
   toppingList: string[] = ['JKG A - TT - AGNES SHYLINE NISHA I (BKS1714)', 'JKG A - READ - ABDULHALIM (BKMHSS136)  ', 'JKG A - TT - AGNES SHYLINE NISHA I (BKS1714)'];
 
   classlist = new FormControl([]);
-  classesList: string[] = ['JKG A  ', 'JKG B', ];
+  classesList: string[] = ['JKG A  ', 'JKG B',];
 
   searchTextboxControl = new FormControl();
   selectedValues: any;
-  classDropdownList: any;
+  classDropdownList: any = [];
   filteredOptions!: Observable<any[]>;
+  classStaffDropdownList: any = [];
   constructor(private service: CommonService, private loader: LoaderService, private cdr: ChangeDetectorRef,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.formGroup();
     this.getShiftList();
-    
+
   }
-  formGroup(){
+  formGroup() {
     this.form = this.fb.group({
       shift: [null, Validators.required],
       class: [null, Validators.required],
       subjectClass: [null, Validators.required]
     })
   }
-  getShiftList(){
-    let postData ={
+  getShiftList() {
+    let postData = {
       schoolcode: localStorage.getItem('schoolcode')
     }
     this.loader.show()
-    this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedShiftList').subscribe(response =>{
-      if(response.status){
+    this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedShiftList').subscribe(response => {
+      if (response.status) {
         this.loader.hide()
         this.shiftList = response.resultData
         this.cdr.detectChanges();
@@ -71,6 +72,11 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     this.searchValue1 = inputValue;
     console.log("called");
   }
+  applyClassFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchValue1 = inputValue;
+    console.log("called");
+  }
   get filteredShiftList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
     return this.shiftList.filter((element: any) => element.shift.toLowerCase().includes(lowerCaseSearch));
@@ -79,21 +85,22 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     const lowerCaseSearch = this.searchValue1.toLowerCase();
     return this.toppingList.filter((element: any) => element?.toLowerCase().includes(lowerCaseSearch));
   }
-  getClassList(){
+  get ClassList() {
+    const lowerCaseSearch = this.searchValue1.toLowerCase();
+    return this.classDropdownList.filter((element: any) => element.class?.toLowerCase().includes(lowerCaseSearch));
+  }
+  getClassList() {
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
       shiftid: this.form.value.shift
     }
     console.log(this.form.value);
-    
+
     this.loader.show()
-    this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedClasstList').subscribe(response =>{
-      if(response.status){
+    this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedClasstList').subscribe(response => {
+      if (response.status) {
         this.loader.hide()
         this.classDropdownList = response.resultData
-        this.classlist.valueChanges.subscribe((selectedItems) => {
-
-        })
         this.cdr.detectChanges();
       } else {
         this.loader.hide();
@@ -103,32 +110,38 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     });
   }
 
-
-  setSelectedValues() {
-    console.log('selectFormControl', this.classlist.value);
-    if (this.classlist.value && this.classlist.value.length > 0) {
-      this.classlist.value.forEach((e) => {
-        if (this.selectedValues.indexOf(e) == -1) {
-          this.selectedValues.push(e);
+  getClassSubjectList() {
+    console.log(this.form.value);
+    let classIdArr: any[] = []
+    if (this.form.value.class) {
+      this.form.value.class.forEach((element: any) => {
+        let checkValue = this.classDropdownList.find((data: any )=> data.class == element)
+        checkValue
+        if(checkValue){
+          classIdArr.push(checkValue.classid)
         }
       });
     }
-  }
-  selectionChange(event: any) {
-    // if (event.isUserInput && event.source.selected == false) {
-    //   let index = this.selectedValues.indexOf(event.source.value);
-    //   this.selectedValues.splice(index, 1)
-    // }
-  }
-  clearSearch(event: any) {
-    event.stopPropagation();
-    this.searchTextboxControl.patchValue('');
+
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode'),
+      classid: classIdArr.length > 0 ? classIdArr.join(', ') : '',
+      academicyear: localStorage.getItem('academicYear')
+    }
+    console.log(this.form.value);
+
+    this.loader.show()
+    this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedClassStafList').subscribe(response => {
+      if (response.status) {
+        this.loader.hide()
+        this.classStaffDropdownList = response.resultData
+        this.cdr.detectChanges();
+      } else {
+        this.loader.hide();
+      }
+    }, error => {
+      this.loader.hide();
+    });
   }
 
-  filterOptions(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    this.filteredOptions = this.classDropdownList.filter((option: any) =>
-      option.class.toLowerCase().includes(inputElement.value.toLowerCase())
-    );
-  }
 }

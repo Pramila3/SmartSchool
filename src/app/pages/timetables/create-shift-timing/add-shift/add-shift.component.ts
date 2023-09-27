@@ -173,7 +173,7 @@ export class AddShiftComponent implements OnInit {
     let postData = {
       shiftclstimetableid: this.shiftTimingId,
       schoolcode: localStorage.getItem('schoolcode'),
-      academicyear: "2022"
+      academicyear: localStorage.getItem('academicYear')
     }
     this.service.getHttpServiceWithDynamicParams(postData, 'getClassDropDownList').subscribe((response: any) => {
       if (response.status) {
