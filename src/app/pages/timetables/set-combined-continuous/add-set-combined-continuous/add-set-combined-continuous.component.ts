@@ -15,6 +15,7 @@ export class AddSetCombinedContinuousComponent implements OnInit {
   shiftList: any = [];
   searchValue: string = '';
   searchValue1: string = '';
+  searchValue2: string = '';
 
   form!: FormGroup;
   classList: any;
@@ -51,6 +52,8 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     }
     this.loader.show()
     this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedShiftList').subscribe(response => {
+      console.log('shiftList', response);
+
       if (response.status) {
         this.loader.hide()
         this.shiftList = response.resultData
@@ -69,21 +72,21 @@ export class AddSetCombinedContinuousComponent implements OnInit {
   }
   applyClassStaffSubjectFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
-    this.searchValue1 = inputValue;
-    console.log("called");
+    this.searchValue2 = inputValue;
+    console.log("called", inputValue);
   }
   applyClassFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
     this.searchValue1 = inputValue;
-    console.log("called");
+    console.log("called", inputValue);
   }
   get filteredShiftList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
     return this.shiftList.filter((element: any) => element.shift.toLowerCase().includes(lowerCaseSearch));
   }
   get ClassStaffSubject() {
-    const lowerCaseSearch = this.searchValue1.toLowerCase();
-    return this.toppingList.filter((element: any) => element?.toLowerCase().includes(lowerCaseSearch));
+    const lowerCaseSearch = this.searchValue2.toLowerCase();
+    return this.classStaffDropdownList.filter((element: any) => element?.staff?.toLowerCase().includes(lowerCaseSearch));
   }
   get ClassList() {
     const lowerCaseSearch = this.searchValue1.toLowerCase();
@@ -98,6 +101,8 @@ export class AddSetCombinedContinuousComponent implements OnInit {
 
     this.loader.show()
     this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedClasstList').subscribe(response => {
+      console.log('classtList', response);
+
       if (response.status) {
         this.loader.hide()
         this.classDropdownList = response.resultData
@@ -115,9 +120,9 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     let classIdArr: any[] = []
     if (this.form.value.class) {
       this.form.value.class.forEach((element: any) => {
-        let checkValue = this.classDropdownList.find((data: any )=> data.class == element)
+        let checkValue = this.classDropdownList.find((data: any) => data.class == element)
         checkValue
-        if(checkValue){
+        if (checkValue) {
           classIdArr.push(checkValue.classid)
         }
       });
@@ -132,6 +137,8 @@ export class AddSetCombinedContinuousComponent implements OnInit {
 
     this.loader.show()
     this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedClassStafList').subscribe(response => {
+      console.log('getClassSubjectList', response);
+
       if (response.status) {
         this.loader.hide()
         this.classStaffDropdownList = response.resultData
