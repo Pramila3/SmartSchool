@@ -224,6 +224,7 @@ export class AddFixCriteriaComponent implements OnInit {
             });
             // }
             console.log(this.data[0].maxAllotPeriods);
+            console.log(this.cellClick);
 
           })
         })
@@ -240,7 +241,12 @@ export class AddFixCriteriaComponent implements OnInit {
 
   manageClick = (rowIndex: number, colIndex: number) => {
     if (this.selectedAction === 'X' || this.selectedAction === 'R') {
-      this.data[0].perioddetails[rowIndex][colIndex] = this.selectedAction;
+      if(this.data[0].perioddetails[rowIndex][colIndex] === 'R'){
+        this.data[0].perioddetails[rowIndex][colIndex] = (this.data[0].perioddetails[rowIndex][colIndex] != 'R' && this.data[0].perioddetails[rowIndex][colIndex] != 'X') ? this.selectedAction : null;
+        // this.cellClick -= 1;
+      }else{
+        this.data[0].perioddetails[rowIndex][colIndex] =  (this.data[0].perioddetails[rowIndex][colIndex] != 'R' && this.data[0].perioddetails[rowIndex][colIndex] != 'X') ? this.selectedAction : null;
+      }
     } else if (this.data[0].perioddetails[rowIndex][colIndex] === 'R' || this.data[0].perioddetails[rowIndex][colIndex] === 'X') {
       // Toggle between 'R' and 'X' if one of them is already present
       this.data[0].perioddetails[rowIndex][colIndex] = this.data[0].perioddetails[rowIndex][colIndex] === 'R' ? 'X' : 'R';
@@ -264,12 +270,18 @@ export class AddFixCriteriaComponent implements OnInit {
         // You can add code here to show a message or handle the restriction as needed
         alert(' Maximum ' + this.data[0].maxAllotPeriods + ' period(s) can be reserved');
       }
+      // if (this.selectedAction == selectedValue) {
+      //   this.data[0].perioddetails[rowIndex][colIndex] = '0';
+      //   this.cellClick -= 1;
+      // }
     } else {
       this.manageClick(rowIndex, colIndex)
     }
     if (this.selectedAction == selectedValue) {
       this.data[0].perioddetails[rowIndex][colIndex] = '0';
+      if(selectedValue == 'R'){
       this.cellClick -= 1;
+      }
     }
   }
 
@@ -344,7 +356,7 @@ export class AddFixCriteriaComponent implements OnInit {
     const postRequests: Observable<any>[] = [];
     [0, 1].forEach((type) => {
 
-      if ((type == 0 && rsvdayperiod !== '') || (type == 1 && avdayperiod !== '')) {
+      if ((type == 0) || (type == 1)) {
         let postData = {
           rsvid: this.form.value.id,
           schoolcode: localStorage.getItem('schoolcode'),
@@ -359,23 +371,6 @@ export class AddFixCriteriaComponent implements OnInit {
         console.log(postData);
 
         postRequests.push(postRequest)
-        // this.service.postHttpService(postData, 'ReservedPeriodsData').subscribe((response: any) => {
-        //   if (response.status) {
-        //   responseStatus = true;
-        //   } else {
-        // this.loader.hide();
-        //     responseStatus = false;
-        //     this.errorMsgShow(response.statusMessage)
-        //     // Swal.fire({
-        //     //   title: "Error",
-        //     //   text: response.statusMessage,
-        //     //   icon: 'warning',
-        //     //   width: '350px',
-        //     //   heightAuto: false
-        //     // });
-        //   }
-        //   console.log('SaveReservedPeriods', response);
-        // })
       }
 
     })
