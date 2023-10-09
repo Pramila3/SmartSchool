@@ -33,9 +33,13 @@ let URI = {
 
     //Combined class
     'combinedClassList': 'CombinedClass/CombinedClassList',
+    'findDropdownList': 'CombinedClass/CombinedClassListbyId',
     'getCombinedShiftList': 'CombinedClass/BindShift',
     'getCombinedClasstList': 'CombinedClass/BindCombinedclasses',
-    'getCombinedClassStafList': 'CombinedClass/BindCombinedClassstaff'
+    'getCombinedClassStafList': 'CombinedClass/BindCombinedClassstaff',
+    'getBindperiodtable': 'CombinedClass/BindPeriodsCombinedClass',
+    'SaveCombinedClass': 'CombinedClass/SaveCombinedClass',
+    'DeleteCombinedclassList': 'CombinedClass/DeleteCombineClass',
 }
 
 export { URI }

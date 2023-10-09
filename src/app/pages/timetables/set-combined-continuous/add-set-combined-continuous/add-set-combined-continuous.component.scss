@@ -31,8 +31,12 @@
     padding-left: 5px;
     width: -webkit-fill-available;
     color: white;
-
+    background-color: #6d6fcdbd;
     &::placeholder{
         color: white;
     }
+&:focus{
+    box-shadow: none;
+}
+
 }

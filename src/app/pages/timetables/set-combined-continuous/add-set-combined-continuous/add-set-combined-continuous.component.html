@@ -18,11 +18,11 @@
                             <mat-label>Shift </mat-label>
                             <mat-select name="classes" (selectionChange)="getClassList()" formControlName="shift">
                                 <div class="search-wraper">
-                                    <input matInput placeholder="Search Shift" (input)="applyShiftFilter($event)"
-                                        class="search-mat-option">
+                                    <input (input)="applyShiftFilter($event)" placeholder="Search Shift"
+                                        class="form-control search-mat-option">
                                 </div>
 
-                                <mat-option *ngFor="let item of filteredShiftList" [value]="item.sftid">
+                                <mat-option *ngFor="let item of filteredShiftList" [value]="item.sftid" >
                                     {{item.shift}}
                                 </mat-option>
                                 <mat-option *ngIf="filteredShiftList.length === 0">No Data found</mat-option>
@@ -39,8 +39,8 @@
                             <mat-label>Classes </mat-label>
                             <mat-select (selectionChange)="getClassSubjectList()" formControlName="class" multiple>
                                 <div class="search-wraper">
-                                    <input matInput (input)="applyClassFilter($event)" placeholder="Search"
-                                        class="search-mat-option">
+                                    <input (input)="applyClassFilter($event)" placeholder="Search"
+                                        class=" form-control search-mat-option">
                                 </div>
                                 <mat-select-trigger>
                                     {{ form.value.class?.[0] || '' }}
@@ -50,8 +50,7 @@
                                         'other' : 'others' }})
                                     </span>
                                 </mat-select-trigger>
-                                <mat-option *ngFor="let item of ClassList" [value]="item.class">{{ item.class
-                                    }}</mat-option>
+                                <mat-option *ngFor="let item of ClassList" [value]="item.class">{{ item.class}}</mat-option>
                                 <mat-option *ngIf="ClassList.length === 0" disabled>No Data found</mat-option>
 
                             </mat-select>
@@ -66,20 +65,23 @@
                     <div class="col-lg-4">
                         <mat-form-field appearance="outline">
                             <mat-label>Class - Subject - Staff </mat-label>
-                            <mat-select multiple formControlName="subjectClass">
+                            <mat-select multiple formControlName="subjectClass"
+                                (selectionChange)="getBindPeriodtable()">
                                 <div class="search-wraper">
-                                    <input matInput (input)="applyClassStaffSubjectFilter($event)" placeholder="Search"
-                                        class="search-mat-option">
+                                    <input (input)="applyClassStaffSubjectFilter($event)" placeholder="Search..."
+                                        class="form-control search-mat-option">
                                 </div>
                                 <mat-select-trigger>
                                     {{ form.value.subjectClass?.[0] || '' }}
                                     <span *ngIf="(form.value.subjectClass?.length || 0) > 1"
                                         class="example-additional-selection">
-                                        (+{{ (form.value.subjectClass?.length || 0) - 1 }} {{ form.value.subjectClass?.length === 2 ?
+                                        (+{{ (form.value.subjectClass?.length || 0) - 1 }} {{
+                                        form.value.subjectClass?.length === 2 ?
                                         'other' : 'others' }})
                                     </span>
                                 </mat-select-trigger>
-                                <mat-option *ngFor="let item of ClassStaffSubject" [value]="item.staff">{{item.staff}}</mat-option>
+                                <mat-option *ngFor="let item of ClassStaffSubject"
+                                    [value]="item.staff">{{item.staff}}</mat-option>
                                 <mat-option *ngIf="ClassStaffSubject.length === 0" disabled>No Data found</mat-option>
 
                             </mat-select>
@@ -91,75 +93,36 @@
                     </div>
 
                 </div>
-
-                <div class="overflow-auto">
-                    <table class="table custum_table">
+                <div class="overflow-auto" *ngIf="data.length !=0">
+                    <table class="table custum_table table-bordered">
                         <thead>
                             <tr>
                                 <th>Days/ Periods </th>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
+                                <th *ngFor="let item of [].constructor(no_of_Periods);let i=index">{{i+1}}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    Day 1
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
+                            <tr *ngFor="let item of data[0].perioddetails;let i=index">
+    
+                                <td class="days_coloumn">{{Days[i]}}</td>
+                                <td *ngFor="let period of item;let j=index" (dblclick)=" period != '' ? onCellDoubleClick(i,j) : ''"
+                                [ngStyle]="{'background-color': period == '' ? 'gainsboro' : '' , 'color' : period == 'R' ? 'green' : ''  }">
+                                    {{period!='0' ? period : '' }}</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    Day 2
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    Day 3
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    Day 4
-                                </td>
-                                <td class="text-success">R</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    Day 5
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td class="text-success">R</td>
-
-                            </tr>
+    
                         </tbody>
                     </table>
+    
+    
+    
                 </div>
 
             </div>
 
             <div class="card-footer">
                 <div class="btns text-end">
-                    <button class="btn btn-primary ">Save</button>
-
+                    <button class="btn btn-primary " (click)="SaveCombineddates()">Save</button>
                     <button class="btn btn-secondary ms-2" routerLink="/SetCombinedContinuous">Cancel</button>
-
                 </div>
             </div>
         </form>

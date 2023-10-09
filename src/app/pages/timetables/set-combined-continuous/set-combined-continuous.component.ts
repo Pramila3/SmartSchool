@@ -6,6 +6,7 @@ import { CommonService } from '../../services/common.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../common/loading/loader.service';
 import { MatTableDataSource } from '@angular/material/table';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-set-combined-continuous',
@@ -44,13 +45,15 @@ export class SetCombinedContinuousComponent implements OnInit {
 
   ];
 
-  getCombinedClass(){
+  getCombinedClass() {
     let postData = {
       schoolcode: localStorage.getItem('schoolcode')
     }
     this.loader.show()
-    this.service.getHttpServiceWithDynamicParams(postData, 'combinedClassList').subscribe(response =>{
-      if(response.status){
+    this.service.getHttpServiceWithDynamicParams(postData, 'combinedClassList').subscribe(response => {
+      console.log('combinedClassList', response);
+
+      if (response.status) {
         this.loader.hide();
         this.dataSource = new MatTableDataSource(response.resultData);
         this.dataSource.paginator = this.paginator;
@@ -61,6 +64,66 @@ export class SetCombinedContinuousComponent implements OnInit {
       }
     }, error => {
       this.loader.hide();
+    });
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  onEdit(data: any) {
+    if (data.cmbid) {
+      this.router.navigate(['/AddSetCombinedContinuous'], {state: {id : data.cmbid}})
+    }
+  }
+
+  onDelete(id: string) {
+    console.log('combined', id);
+
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode'),
+      academicyear: localStorage.getItem('academicYear'),
+      Combinedid: id,
+      isArchive: false
+    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      width: '350px',
+    }).then((result) => {
+      if (result.value) {
+        this.service.deleteHttpService(postData, 'DeleteCombinedclassList').subscribe((response) => {
+          console.log('DeleteCombinedclassList', response);
+
+          if (response.status) {
+            Swal.fire({
+              title: "Success",
+              text: "Successfully deleted!",
+              icon: 'success',
+              width: '350px',
+              heightAuto: false
+            }).then(() => {
+              this.getCombinedClass()
+            });
+            this.cdr.markForCheck();
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: response.statusMessage,
+              icon: 'warning',
+              width: '350px',
+              heightAuto: false
+            })
+            this.getCombinedClass();
+          }
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        this.getCombinedClass();
+      }
     });
   }
 }
