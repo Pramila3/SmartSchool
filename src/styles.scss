@@ -273,6 +273,7 @@ tr.mat-header-row {
 }
 
 .custum_table {
+  table-layout: fixed;
   thead {
       background:#4d4fc1d1 !important;
       color: white;
