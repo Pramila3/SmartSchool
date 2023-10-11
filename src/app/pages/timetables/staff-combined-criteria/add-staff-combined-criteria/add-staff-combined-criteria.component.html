@@ -7,7 +7,9 @@
 </div>
 
 <div class="content-wrapper">
-
+    <div class="alert alert-warning" role="alert" *ngIf="isShowWarningMsg">
+        Staff is not assigned or assigned staff have left the school
+      </div>
     <form action="" [formGroup]="form">
         <div class="card">
             <div class="card-body">
@@ -65,10 +67,10 @@
                                         class=" form-control search-mat-option">
                                 </div>
                                 <mat-select-trigger>
-                                    {{ form.value.Staff?.[0] || '' }}
-                                    <span *ngIf="(form.value.Staff?.length || 0) > 1"
+                                    {{ form.value.staff?.[0] || '' }}
+                                    <span *ngIf="(form.value.staff?.length || 0) > 1"
                                         class="example-additional-selection">
-                                        (+{{ (form.value.Staff?.length || 0) - 1 }} {{ form.value.Staff?.length === 2 ?
+                                        (+{{ (form.value.staff?.length || 0) - 1 }} {{ form.value.staff?.length === 2 ?
                                         'other' : 'others' }})
                                     </span>
                                 </mat-select-trigger>
@@ -82,7 +84,7 @@
 
                 </div>
 
-                <div class="overflow-auto">
+                <!-- <div class="overflow-auto">
                     <table class="table custum_table">
                         <thead>
                             <tr>
@@ -140,13 +142,37 @@
                             </tr>
                         </tbody>
                     </table>
+                </div> -->
+
+                <div class="overflow-auto" *ngIf="data.length !=0">
+                    <table class="table custum_table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Days/ Periods </th>
+                                <th *ngFor="let item of [].constructor(no_of_Periods);let i=index">{{i+1}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data[0].perioddetails;let i=index">
+    
+                                <td class="days_coloumn">{{Days[i]}}</td>
+                                <td *ngFor="let period of item;let j=index" (dblclick)=" period != '' ? onCellDoubleClick(i,j) : ''"
+                                [ngStyle]="{'background-color': period == '' ? 'gainsboro' : '' , 'color' : period == 'R' ? 'green' : ''  }">
+                                    {{period!='0' ? period : '' }}</td>
+                            </tr>
+    
+                        </tbody>
+                    </table>
+    
+    
+    
                 </div>
 
             </div>
 
             <div class="card-footer">
                 <div class="btns text-end">
-                    <button class="btn btn-primary ">Save</button>
+                    <button class="btn btn-primary " [disabled]="!form.valid && data.length == 0">Save</button>
                     <button class="btn btn-secondary ms-2" routerLink="/StaffCombinedCriteria">Cancel</button>
                 </div>
             </div>

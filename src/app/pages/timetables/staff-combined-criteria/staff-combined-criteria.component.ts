@@ -37,6 +37,7 @@ export class StaffCombinedCriteriaComponent implements OnInit {
     let postData = {
       schoolcode: localStorage.getItem('schoolcode')
     }
+    this.loader.show()
     this.commonService.getHttpServiceWithDynamicParams(postData, 'getStaffDefinedList').subscribe(response =>{
       if (response.status) {
         this.loader.hide();
