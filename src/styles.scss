@@ -55,12 +55,14 @@ body {
   padding-left: 20px;
   padding-right: 20px;
 }
-.content-wrapper-no-bredcrumb{
+
+.content-wrapper-no-bredcrumb {
   margin-top: 60px;
   padding-bottom: 60px !important;
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .custum_modal_dialog {
   border-radius: 12px !important;
 }
@@ -184,6 +186,7 @@ background: #202628;
     transform: rotate(360deg);
   }
 }
+
 table {
   width: 100%;
 }
@@ -212,14 +215,14 @@ tr.mat-header-row {
   color: white;
 }
 
-.form-check-under-mat{
+.form-check-under-mat {
   position: relative;
   top: -14px;
 }
 
 // common style for popup view boxes
 
-.custum_modal_close{
+.custum_modal_close {
   position: absolute !important;
   right: -33px;
   top: -31px;
@@ -231,17 +234,18 @@ tr.mat-header-row {
   justify-content: center;
 }
 
-.custum_modal_close_mat{
+.custum_modal_close_mat {
   position: absolute !important;
-    right: -70px;
-    top: -65px;
-    height: 30px;
-    background: rgba(255, 255, 255, 0.907);
-    width: 30px;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
+  right: -70px;
+  top: -65px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.907);
+  width: 30px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 }
+
 .modal.fade .modal-dialog.modal-dialog-zoom {
   -webkit-transform: translate(0, 0)scale(.5);
   transform: translate(0, 0)scale(.5);
@@ -265,39 +269,42 @@ tr.mat-header-row {
   max-height: inherit;
 }
 
-.fixed-top{
+.fixed-top {
   z-index: 1000;
 }
-.fixed-bottom{
+
+.fixed-bottom {
   z-index: 1000;
 }
 
 .custum_table {
   table-layout: fixed;
+
   thead {
-      background:#4d4fc1d1 !important;
-      color: white;
+    background: #4d4fc1d1 !important;
+    color: white;
   }
 
   tbody {
-      vertical-align: middle;
+    vertical-align: middle;
   }
 }
 
-@media (max-width: 425px){
-  .content-wrapper-no-bredcrumb{
+@media (max-width: 425px) {
+  .content-wrapper-no-bredcrumb {
     margin-top: 86px;
     padding-bottom: 60px !important;
     padding-left: 20px;
     padding-right: 20px;
   }
-  
+
   .content-wrapper {
     margin-top: 145px;
     padding-bottom: 60px !important;
     padding-left: 20px;
     padding-right: 20px;
   }
+
   .breadcrumb_with_back_option {
     background-color: #fff;
     height: fit-content;
@@ -310,9 +317,34 @@ tr.mat-header-row {
     align-items: center;
     z-index: 999;
     justify-content: space-between;
+  }
+
+  thead {
+    white-space: nowrap;
+  }
 }
 
-thead{
-  white-space: nowrap;
+.w-fit-content {
+  width: fit-content !important;
 }
+
+.alert_custum_positions {
+  position: fixed;
+  top: 18px;
+  right: 19px;
+  z-index: 2000;
+  animation-name: example;
+  animation-duration: 0.5s;
+}
+
+@keyframes example {
+  0% {
+    top: 18px;
+    right: 19px;
+  }
+
+  100% {
+    top: 18px;
+    right: 50px;
+  }
 }

@@ -19,8 +19,8 @@
                             <mat-select [(ngModel)]="selectedValue1" formControlName="classes" name="classes"
                                 (selectionChange)="getSubjectList($event.value)">
                                <div class="search-wraper">
-                                <input matInput placeholder="Search Class" formControlName="classes"
-                                (input)="applyClassFilter($event)" class="search-mat-option">
+                                <input  placeholder="Search Class" 
+                                (input)="applyClassFilter($event)" class="form-control search-mat-option">
                                </div>
                                 
                                 <mat-option *ngFor="let classes of filteredClassList" [value]="classes.classid">
@@ -42,8 +42,8 @@
                             <mat-select [(ngModel)]="selectedValue2" formControlName="subjectList" name="subjectList"
                                 (selectionChange)="getStaffListdata($event.value)">
                                 <div class="search-wraper">
-                                    <input matInput placeholder="Search Subject" formControlName="subjectList"
-                                    (input)="applySubjectFilter($event)" class="search-mat-option">
+                                    <input  placeholder="Search Subject" 
+                                    (input)="applySubjectFilter($event)" class="form-control search-mat-option">
                                 </div>
                                 <mat-option *ngFor="let subjects of filteredSubjectList" [value]="subjects.subjectid">
                                     {{subjects.subjectcode}}
@@ -65,8 +65,8 @@
                             <mat-select [(ngModel)]="selectedValue3" formControlName="staffs" name="staffs"
                                 (selectionChange)="getBindTableData($event.value)">
                                <div class="search-wraper">
-                                <input matInput placeholder="Search Staff" formControlName="staffs"
-                                (input)="applyStaffFilter($event)" class="search-mat-option">
+                                <input  placeholder="Search Staff" 
+                                (input)="applyStaffFilter($event)" class="form-control search-mat-option">
                                </div>
                                 <mat-option *ngFor="let staffs of filteredStaffList" [value]="staffs.staffId">
                                     {{staffs.staff}}
