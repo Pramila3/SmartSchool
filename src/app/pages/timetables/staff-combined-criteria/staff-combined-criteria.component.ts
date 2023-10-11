@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { CommonService } from '../../services/common.service';
+import { LoaderService } from '../../common/loading/loader.service';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-staff-combined-criteria',
@@ -16,18 +19,37 @@ export class StaffCombinedCriteriaComponent implements OnInit {
   states: string[] = [
     'F-Block -dgf (342)', 'F-Block -'
   ]
-  displayedColumns: string[] = ['Class', 'Subject','Staff', 'Type',  'Periods', 'Action'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['Class', 'Subject','Staff', 'Periods', 'Action'];
+  dataSource : any;
   selectedValue: string | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Make sure to import MatPaginator
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   input: any
   form: FormGroup | any;
   submitted!: boolean;
-  constructor() { }
+  constructor(private commonService: CommonService, private loader: LoaderService, private cdr: ChangeDetectorRef) { }
 
 
   ngOnInit(): void {
+    this.getStaffCombined();
+  }
+  getStaffCombined(){
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode')
+    }
+    this.commonService.getHttpServiceWithDynamicParams(postData, 'getStaffDefinedList').subscribe(response =>{
+      if (response.status) {
+        this.loader.hide();
+        this.dataSource = new MatTableDataSource(response.resultData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.cdr.detectChanges();
+      } else {
+        this.loader.hide();
+      }
+    }, error => {
+      this.loader.hide();
+    });
   }
   foods: Food[] = [
     { value: '1 ', viewValue: 'Class' },

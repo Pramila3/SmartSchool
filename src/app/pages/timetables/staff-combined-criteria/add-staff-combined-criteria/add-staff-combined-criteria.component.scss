@@ -1,3 +1,41 @@
 .mat-form-field {
     width: 100% !important;
 }
+.custum_table {
+  
+
+    tbody {
+        vertical-align: middle;
+    }
+}
+.search-mat-option {
+    padding: 10px;
+    width: 90%;
+}
+
+.days_coloumn {
+    background-color: #6d6fcd;
+    color: azure;
+}
+
+.search-wraper {
+    width: 100%;
+    background-color: #6d6fcdbd;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.search-mat-option {
+    padding-left: 5px;
+    width: -webkit-fill-available;
+    color: white;
+    background-color: #6d6fcdbd;
+    &::placeholder{
+        color: white;
+    }
+&:focus{
+    box-shadow: none;
+}
+
+}

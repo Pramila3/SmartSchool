@@ -40,6 +40,12 @@ let URI = {
     'getBindperiodtable': 'CombinedClass/BindPeriodsCombinedClass',
     'SaveCombinedClass': 'CombinedClass/SaveCombinedClass',
     'DeleteCombinedclassList': 'CombinedClass/DeleteCombineClass',
+
+    //Define class
+    'getStaffDefinedList': 'DefinedClass/DefinedClassList',
+    'getDefineClassDropDown': 'DefinedClass/BindDefinedClass',
+    'getDefineSubjectDropDown': 'DefinedClass/BindDefinedSubject',
+    'getDefineStaffDropDown': 'DefinedClass/BindDefinedClassstaff'
 }
 
 export { URI }
