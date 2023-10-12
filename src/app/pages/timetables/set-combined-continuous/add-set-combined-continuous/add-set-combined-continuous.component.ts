@@ -317,7 +317,6 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     if (this.form.value.subjectClass) {
       this.form.value.subjectClass.forEach((element: any) => {
         let checkValue = this.classStaffDropdownList.find((data: any) => data.staff == element)
-        checkValue
         if (checkValue) {
           subjectIdArr.push(checkValue.staffid)
         }
@@ -385,10 +384,29 @@ export class AddSetCombinedContinuousComponent implements OnInit {
     this.service.postHttpService(postData, 'SaveCombinedClass').subscribe(response => {
       console.log('SaveCombinedClass', response);
 
+      // if (response.status) {
+      //   this.router.navigate(['/SetCombinedContinuous'])
+      // }
       if (response.status) {
-        this.router.navigate(['/SetCombinedContinuous'])
+        Swal.fire({
+          title: "Success",
+          text: "Record saved successfully",
+          icon: 'success',
+          width: '350px',
+          heightAuto: false,
+        }).then(() => {
+          this.router.navigate(['/SetCombinedContinuous'])
+        });
+      } else {
+        this.loader.hide()
+        Swal.fire({
+          title: "Error",
+          text: response.statusMessage,
+          icon: 'warning',
+          width: '350px',
+          heightAuto: false
+        })
       }
-
       this.loader.hide();
     })
 
