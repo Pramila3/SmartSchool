@@ -68,7 +68,7 @@
                     <div class="col-lg-4">
                         <mat-form-field appearance="outline">
                             <mat-label>Staff </mat-label>
-                            <mat-select (selectionChange)="getBindPeriodsList()" formControlName="staff" multiple>
+                            <mat-select  formControlName="staff" multiple>
                                 <div class="search-wraper">
                                     <input (input)="applyStaffFilter($event)" placeholder="Search"
                                         class=" form-control search-mat-option">
@@ -90,66 +90,6 @@
                     </div>
 
                 </div>
-
-                <!-- <div class="overflow-auto">
-                    <table class="table custum_table">
-                        <thead>
-                            <tr>
-                                <th>Days/ Periods </th>
-                                <th>1</th>
-                                <th>2</th>
-                                <th>3</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Day 1
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    Day 2
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    Day 3
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    Day 4
-                                </td>
-                                <td class="text-success">R</td>
-                                <td> </td>
-                                <td>UKG AA-sub2-BKMS0107</td>
-
-                            </tr>
-                            <tr>
-                                <td>
-                                    Day 5
-                                </td>
-                                <td>UKG AA-sub1-BKMS0100</td>
-                                <td> </td>
-                                <td class="text-success">R</td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> -->
 
                 <div class="overflow-auto" *ngIf="data.length !=0">
                     <table class="table custum_table table-bordered">
@@ -180,7 +120,7 @@
 
             <div class="card-footer">
                 <div class="btns text-end">
-                    <button class="btn btn-primary " [disabled]="!form.valid && data.length == 0">Save</button>
+                    <button class="btn btn-primary " [disabled]="!form.valid && data.length == 0" (click)="onSubmit()">Save</button>
                     <button class="btn btn-secondary ms-2" routerLink="/StaffCombinedCriteria">Cancel</button>
                 </div>
             </div>

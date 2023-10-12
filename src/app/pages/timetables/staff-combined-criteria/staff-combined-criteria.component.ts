@@ -6,6 +6,7 @@ import { CommonService } from '../../services/common.service';
 import { LoaderService } from '../../common/loading/loader.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-staff-combined-criteria',
@@ -20,26 +21,27 @@ export class StaffCombinedCriteriaComponent implements OnInit {
   states: string[] = [
     'F-Block -dgf (342)', 'F-Block -'
   ]
-  displayedColumns: string[] = ['Class', 'Subject','Staff', 'Periods', 'Action'];
-  dataSource : any;
+  displayedColumns: string[] = ['Class', 'Subject', 'Staff', 'Periods', 'Action'];
+  dataSource: any;
   selectedValue: string | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Make sure to import MatPaginator
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   input: any
   form: FormGroup | any;
   submitted!: boolean;
-  constructor(private commonService: CommonService, private loader: LoaderService, private cdr: ChangeDetectorRef) { }
+  constructor(private commonService: CommonService, private loader: LoaderService, private cdr: ChangeDetectorRef,
+    private router: Router) { }
 
 
   ngOnInit(): void {
     this.getStaffCombined();
   }
-  getStaffCombined(){
+  getStaffCombined() {
     let postData = {
       schoolcode: localStorage.getItem('schoolcode')
     }
     this.loader.show()
-    this.commonService.getHttpServiceWithDynamicParams(postData, 'getStaffDefinedList').subscribe(response =>{
+    this.commonService.getHttpServiceWithDynamicParams(postData, 'getStaffDefinedList').subscribe(response => {
       if (response.status) {
         this.loader.hide();
         this.dataSource = new MatTableDataSource(response.resultData);
@@ -103,6 +105,11 @@ export class StaffCombinedCriteriaComponent implements OnInit {
       }
     });
   }
+  onEdit(id: any) {
+    this.router.navigate(['/AddStaffCombinedCriteria'], { state: { id: id } })
+  }
+
+
   foods: Food[] = [
     { value: '1 ', viewValue: 'Class' },
     { value: '2', viewValue: 'Subject' },
@@ -120,13 +127,13 @@ export interface PeriodicElement {
   Class: string;
   Type: string;
   Subject: string;
-  Staff : string;
+  Staff: string;
   Periods: string;
   // ['Class', 'Subject', 'Type', 'Staff', 'Periods', 'Action'];
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  { Type: 'Reserved', Staff: 'ANTO MEDAT	', Subject: 'sub1', Periods : 'Day 1 1,Day 3 1,Day 2 1	', Class: 'UKG AA	' },
- 
- 
+  { Type: 'Reserved', Staff: 'ANTO MEDAT	', Subject: 'sub1', Periods: 'Day 1 1,Day 3 1,Day 2 1	', Class: 'UKG AA	' },
+
+
 ];

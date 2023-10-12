@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-staff-combined-criteria',
@@ -35,19 +37,28 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
   searchValue1: string = '';
   searchValue2: string = '';
   isShowWarningMsg!: boolean;
+  definedClassId: any;
 
-  constructor(private service: CommonService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private loader: LoaderService) { }
+  constructor(private service: CommonService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private loader: LoaderService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getClassList();
     this.formGroup();
+    this.definedClassId = history.state.id
+    if (this.definedClassId) {
+      this.form.get('id').setValue(this.definedClassId)
+      this.findDefinedClass()
+    }
   }
   formGroup() {
     this.form = this.fb.group({
+      id: [null],
       class: [null, Validators.required],
       subject: [null, Validators.required],
       staff: [null, Validators.required],
-      staffIds: [null]
+      staffIds: [null],
+      shiftId: [null]
     })
   }
 
@@ -182,6 +193,7 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
     this.service.getHttpServiceWithDynamicParams(postData, 'bindDefinedPeriods').subscribe((response: any) => {
       if (response.status) {
         this.data = response.resultData;
+        this.form.get('shiftId').setValue(this.data[0].sftid)
         this.headers = Object.keys(this.data[0]);
         this.no_of_Periods = Number(this.data[0]['no_of_Periods']);
         // this.data[0].maxAllotPeriods = this.data[0].maxAllotPeriods == '0' ? 0 : this.data[0].maxAllotPeriods
@@ -209,7 +221,6 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
 
         this.loader.hide();
 
-
       } else {
         this.loader.hide();
       }
@@ -231,5 +242,117 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
       }
     }
 
+  }
+
+  onSubmit() {
+
+    this.loader.show();
+    // Assuming this is your grid data structure
+    const gridData = this.data[0].perioddetails;
+
+    // Initialize variables to store the formatted string
+    let rsvdayperiod = '';
+
+    let end1 = false;
+    let end2 = false;
+    // Iterate through the grid data
+    for (let rowIndex = 0; rowIndex < gridData.length; rowIndex++) {
+      for (let colIndex = 0; colIndex < gridData[rowIndex].length; colIndex++) {
+        const cellValue = gridData[rowIndex][colIndex];
+
+        if (!end1)
+          end1 = colIndex == gridData[rowIndex].length - 1;
+        if (!end2)
+          end2 = colIndex == gridData[rowIndex].length - 1;
+
+        //combine reserve
+        if (cellValue === 'R') {
+          // Add "ê" to separate rows or "@" to separate columns if needed
+          if (end1) {
+            if (rsvdayperiod != '')
+              rsvdayperiod += 'ê';
+            end1 = false;
+          }
+          // Append the period information in the format 'row@col' to the string
+          if (rsvdayperiod == '' || rsvdayperiod.endsWith('ê')) {
+            rsvdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
+          } else {
+            // rsvdayperiod += `ê${colIndex + 1}`;
+            rsvdayperiod += 'ê' + `${rowIndex + 1}@${colIndex + 1}`;
+
+          }
+        }
+
+      }
+    }
+
+    if (rsvdayperiod !== '' && !rsvdayperiod.endsWith('ê')) rsvdayperiod += 'ê';
+
+    console.log(rsvdayperiod);
+
+    // Now 'rsvdayperiod' contains the formatted string
+
+
+    let postData = {
+      cmbid: this.form.value.id,
+      schoolcode: localStorage.getItem('schoolcode'),
+      academicyear: localStorage.getItem('academicYear'),
+      cmbsubids: this.form.value.subject,
+      cmbclassids: this.form.value.class,
+      cmbstaffids: this.form.value.staffIds.length > 0 ? this.form.value.staffIds.join(',') : '',
+      cmbdayperiod: rsvdayperiod,
+      cmbshiftid: this.form.value.shiftId,
+    }
+    this.service.postHttpService(postData, 'saveDefinedClass').subscribe(response => {
+      console.log('SaveCombinedClass', response);
+
+      if (response.status) {
+        Swal.fire({
+          title: "Success",
+          text: "Record saved successfully",
+          icon: 'success',
+          width: '350px',
+          heightAuto: false,
+        }).then(() => {
+          this.router.navigate(['/StaffCombinedCriteria'])
+        });
+      } else {
+        this.loader.hide()
+        Swal.fire({
+          title: "Error",
+          text: response.statusMessage,
+          icon: 'warning',
+          width: '350px',
+          heightAuto: false
+        })
+      }
+      this.loader.hide();
+    })
+
+  }
+  findDefinedClass() {
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode'),
+      definedid: this.form.value.id
+    }
+    this.service.getHttpServiceWithDynamicParams(postData, 'findDefinedClass').subscribe((response: any) => {
+      if (response.status) {
+        if (response.resultData[0].stfcmbclassid) {
+          this.form.get('class').setValue(response.resultData[0].stfcmbclassid)
+          this.getSubjectList()
+        }
+        if (response.resultData[0].strcmbsubid) {
+          this.form.get('subject').setValue(response.resultData[0].strcmbsubid)
+          this.getStaffList()
+        }
+        this.form.patchValue({
+          staffIds: response.resultData[0].strcmbstaffids ? response.resultData[0].strcmbstaffids.split(',') : '',
+          shiftId: response.resultData[0].stfcmbshiftid
+        })
+        const arr = this.form.value.staffIds.map((element: any) => this.stafftList.find((data: any) => data.staffNo === element)?.staff).filter(Boolean);
+        this.form.get('staff').setValue(arr)
+        this.cdr.detectChanges()
+      }
+    })
   }
 }

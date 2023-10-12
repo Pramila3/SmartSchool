@@ -47,7 +47,9 @@ let URI = {
     'getDefineSubjectDropDown': 'DefinedClass/BindDefinedSubject',
     'getDefineStaffDropDown': 'DefinedClass/BindDefinedClassstaff',
     'bindDefinedPeriods': 'DefinedClass/BindPeriodsDefinedClass',
-    'DeleteStaffDefinedList': 'DefinedClass/DeleteDefinedClass'
+    'DeleteStaffDefinedList': 'DefinedClass/DeleteDefinedClass',
+    'saveDefinedClass': 'DefinedClass/SaveDefinedClass',
+    'findDefinedClass': 'DefinedClass/GetDefinedetailsbyid'
 }
 
 export { URI }
