@@ -19,7 +19,7 @@
                     <div class="col-lg-6">
                         <mat-form-field>
                             <mat-label>Search...</mat-label>
-                            <input matInput placeholder="Search" #input>
+                            <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
                         </mat-form-field>
                     </div>
                 </div>

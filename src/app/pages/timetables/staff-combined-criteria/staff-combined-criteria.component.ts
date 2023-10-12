@@ -36,6 +36,11 @@ export class StaffCombinedCriteriaComponent implements OnInit {
   ngOnInit(): void {
     this.getStaffCombined();
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   getStaffCombined() {
     let postData = {
       schoolcode: localStorage.getItem('schoolcode')
