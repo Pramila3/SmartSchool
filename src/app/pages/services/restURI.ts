@@ -49,7 +49,10 @@ let URI = {
     'bindDefinedPeriods': 'DefinedClass/BindPeriodsDefinedClass',
     'DeleteStaffDefinedList': 'DefinedClass/DeleteDefinedClass',
     'saveDefinedClass': 'DefinedClass/SaveDefinedClass',
-    'findDefinedClass': 'DefinedClass/GetDefinedetailsbyid'
+    'findDefinedClass': 'DefinedClass/GetDefinedetailsbyid',
+
+    // process timetable
+    'ProcessTimetableList':'ProcessTimetable/ProcessTimetableList'
 }
 
 export { URI }

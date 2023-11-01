@@ -65,111 +65,24 @@
 
                     </table>
                 </div>
-                <div class="">
-                    <p class="text-primary fw-bold">TT 2023-2024 S3 </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-primary fw-bold">{{ timetableName }} </p>
+                    </div>
+                    <div>
+                        <p class="text-success fw-bold">{{ttlPercentage}} %</p>
+                    </div>
                 </div>
-
                 <div class="overflow-auto">
-                    <table class="table custum_table ">
-                        <thead>
-                            <tr>
-                                <th>Days/ Periods</th>
-                                <th>
-                                    <p>Period 1</p> (9:00 AM to 9:45 AM)
-                                </th>
-                                <th>
-                                    <p>Period 2</p> (9:45 AM to 10:30 AM)
-                                </th>
-                                <th class="break">
-                                    <p>Period 3</p> (10:30 AM to 10:45 AM)
-                                </th>
-                                <th>
-                                    <p>Period 4</p> (10:45 AM to 11:20 AM)
-                                </th>
-                                <th class="break">
-                                    <p>Period 5</p> (12:30 PM to 01:15 PM)
-                                </th>
-                                <th>
-                                    <p>Period 6</p> (02:45 PM to 03:15 PM)
-                                </th>
-                                <th>
-                                    <p>Period 7</p> (03:15 PM to 3:50 PM)
-                                </th>
-                                <th>
-                                    <p>Period 8</p> (03:15 PM to 3:50 PM)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="days_coloumn">Monday</td>
-                                <td>I 0 - ENG (12345) </td>
-                                <td>I 0 - EVS (BKMHSS140) </td>
-                                <td class="break">Morning Break </td>
-                                <td>I 0 - MAT (12345) </td>
-                                <td class="break">Lunch Break </td>
-                                <td>I 0 - TAM (BKMS0107) </td>
-                                <td>I 0 - READ (BKMS0020) </td>
-                                <td>I 0 - BIO (12345) </td>
-                            </tr>
-                            <tr>
-                                <td class="days_coloumn">Tuesday</td>
-                                <td>I 0 - ENG (12345) </td>
-                                <td>I 0 - EVS (BKMHSS140) </td>
-                                <td class="break">Morning Break </td>
-                                <td>I 0 - MAT (12345) </td>
-                                <td class="break">Lunch Break </td>
-                                <td>I 0 - TAM (BKMS0107) </td>
-                                <td>I 0 - READ (BKMS0020) </td>
-                                <td>I 0 - BIO (12345) </td>
-                            </tr>
-                            <tr>
-                                <td class="days_coloumn">Wednesday</td>
-                                <td>I 0 - ENG (12345) </td>
-                                <td>I 0 - EVS (BKMHSS140) </td>
-                                <td class="break"> Morning Break </td>
-                                <td>I 0 - MAT (12345) </td>
-                                <td class="break"> Lunch Break </td>
-                                <td>I 0 - TAM (BKMS0107) </td>
-                                <td>I 0 - READ (BKMS0020) </td>
-                                <td>I 0 - BIO (12345) </td>
-                            </tr>
-                            <tr>
-                                <td class="days_coloumn">Thursday</td>
-                                <td>I 0 - ENG (12345) </td>
-                                <td>I 0 - EVS (BKMHSS140) </td>
-                                <td class="break">Morning Break </td>
-                                <td>I 0 - MAT (12345) </td>
-                                <td class="break">Lunch Break </td>
-                                <td>I 0 - TAM (BKMS0107) </td>
-                                <td>I 0 - READ (BKMS0020) </td>
-                                <td>I 0 - BIO (12345) </td>
-                            </tr>
-                            <tr>
-                                <td class="days_coloumn">Friday</td>
-                                <td>I 0 - ENG (12345) </td>
-                                <td>I 0 - EVS (BKMHSS140) </td>
-                                <td class="break">Morning Break </td>
-                                <td>I 0 - MAT (12345) </td>
-                                <td class="break">Lunch Break </td>
-                                <td>I 0 - TAM (BKMS0107) </td>
-                                <td>I 0 - READ (BKMS0020) </td>
-                                <td>I 0 - BIO (12345) </td>
-                            </tr>
-                            <tr>
-                                <td class="days_coloumn">Saturday</td>
-                                <td>I 0 - ENG (12345) </td>
-                                <td>I 0 - EVS (BKMHSS140) </td>
-                                <td class="break">Morning Break </td>
-                                <td>I 0 - MAT (12345) </td>
-                                <td class="break">Lunch Break </td>
-                                <td>I 0 - TAM (BKMS0107) </td>
-                                <td>I 0 - READ (BKMS0020) </td>
-                                <td>I 0 - BIO (12345) </td>
-                            </tr>
+                    <!-- <div [innerHTML]="timetableList"></div> -->
+                      <div *ngIf="timetableList">
+                        <!-- Render the timetable data here -->
+                        <div [innerHTML]="timetableList"></div>
+                      </div>
 
-                        </tbody>
-                    </table>
+                      <div *ngIf="!timetableList" class="text-danger text-center">
+                        No data found.
+                      </div>
                 </div>
             </div>
         </div>

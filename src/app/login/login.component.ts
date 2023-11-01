@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   logInError: any;
   randomNumber!: number;
   userInput!: any;
+  showErrorMessage: boolean = false;
+  errorMessage: string = '';
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private loader: LoaderService) {
     this.generateRandomNumber();
   }
@@ -62,17 +64,32 @@ export class LoginComponent implements OnInit {
 
           })
         }
-      } else {
-        alert("Invalid Captcha")
+      }
+      // else {
+      //   alert("Invalid Captcha")
+      // }
+      else {
+        // Customize the "Invalid Captcha" alert
+        Swal.fire({
+          title: "Invalid Captcha",
+          text: "Please enter the correct Captcha",
+          icon: 'error',
+          timer: 3000 // Adjust the timer as needed
+        });
       }
     } else {
-      alert("Please Enter Captcha")
+      // Customize the "Invalid Captcha" alert
+      Swal.fire({
+        text: "Please enter the Captcha",
+        icon: 'info',
+        timer: 3000 // Adjust the timer as needed
+      });
     }
   }
 
   generateRandomNumber() {
     this.randomNumber = Math.floor(Math.random() * 9000) + 1000 // Generate a number between 1 and 100
-    if(this.userInput){
+    if (this.userInput) {
       this.userInput = null;
     }
   }
