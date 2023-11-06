@@ -135,7 +135,7 @@ export class AddShiftComponent implements OnInit {
       periodName: [null],
       periodIndex: [null]
 
-    }, { validator: timeRangeValidator })
+    }, { validator: timeRangeValidator2 })
   }
   get formControl() {
     const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
@@ -210,7 +210,7 @@ export class AddShiftComponent implements OnInit {
   }
   showPeriods() {
     let formArray = this.shiftForm.get('shiftFormArr') as FormArray;
-
+    this.timeErr = false
     const arrayValue = this.toppings.value;
     if (Array.isArray(arrayValue)) {
       const arrayAsString = arrayValue.join(', ');

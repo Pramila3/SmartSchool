@@ -159,8 +159,6 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
             } else {
               check.disabled = false
             }
-            // this.form.get('staff').setValue(arr);
-            console.log(this.form);
           });
           this.form.patchValue({
             staff: arr,
@@ -196,8 +194,6 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
         this.form.get('shiftId').setValue(this.data[0].sftid)
         this.headers = Object.keys(this.data[0]);
         this.no_of_Periods = Number(this.data[0]['no_of_Periods']);
-        // this.data[0].maxAllotPeriods = this.data[0].maxAllotPeriods == '0' ? 0 : this.data[0].maxAllotPeriods
-        // this.data[0].maxAllotPeriods = 0
         this.data.forEach((data) => {
           data['perioddetails'] = data['perioddetails'].split('#')
           data['perioddetails'].forEach((period: string, index: number) => {
@@ -205,17 +201,12 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
             data['perioddetails'][index].splice(0, 1)
             this.Days.push(period.split('@')[0])
             console.log(period.split('@'));
-            // if (this.data[0].maxAllotPeriods == "0") {
             period.split('@').forEach(element => {
               if (element == 'R') {
                 this.data[0].maxAllotPeriods = +(this.data[0].maxAllotPeriods) + 1;
                 this.cellClick += 1;
               }
             });
-            // }
-            console.log(this.data[0].maxAllotPeriods);
-            console.log(this.cellClick);
-
           })
         })
 
@@ -288,8 +279,6 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
 
     if (rsvdayperiod !== '' && !rsvdayperiod.endsWith('ê')) rsvdayperiod += 'ê';
 
-    console.log(rsvdayperiod);
-
     // Now 'rsvdayperiod' contains the formatted string
 
 
@@ -304,7 +293,6 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
       cmbshiftid: this.form.value.shiftId,
     }
     this.service.postHttpService(postData, 'saveDefinedClass').subscribe(response => {
-      console.log('SaveCombinedClass', response);
 
       if (response.status) {
         Swal.fire({

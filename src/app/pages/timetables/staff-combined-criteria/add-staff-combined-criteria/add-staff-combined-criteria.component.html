@@ -120,7 +120,7 @@
 
             <div class="card-footer">
                 <div class="btns text-end">
-                    <button class="btn btn-primary " [disabled]="!form.valid && data.length == 0" (click)="onSubmit()">Save</button>
+                    <button class="btn btn-primary " [disabled]="!form.valid || data.length == 0" (click)="onSubmit()">Save</button>
                     <button class="btn btn-secondary ms-2" routerLink="/StaffCombinedCriteria">Cancel</button>
                 </div>
             </div>
