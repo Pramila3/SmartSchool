@@ -52,7 +52,8 @@ let URI = {
     'findDefinedClass': 'DefinedClass/GetDefinedetailsbyid',
 
     // process timetable
-    'ProcessTimetableList':'ProcessTimetable/ProcessTimetableList'
+    'ProcessTimetableList':'ProcessTimetable/ProcessTimetableList',
+    'ProcessTimetable': 'ProcessTimetable/ProcessTimetable'
 }
 
 export { URI }
