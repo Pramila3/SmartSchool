@@ -60,7 +60,7 @@ export class ProcessTimetableComponent implements OnInit {
           title: "API Error",
           text: "An error occurred while fetching data from the API.",
           icon: 'error',
-          timer: 3000 // Adjust the timer as needed
+          // timer: 3000 // Adjust the timer as needed
         });
       }
     );
