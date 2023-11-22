@@ -53,7 +53,18 @@ let URI = {
 
     // process timetable
     'ProcessTimetableList':'ProcessTimetable/ProcessTimetableList',
-    'ProcessTimetable': 'ProcessTimetable/ProcessTimetable'
+    'ProcessTimetable': 'ProcessTimetable/ProcessTimetable',
+
+    // replace staff
+    'getBindStaffList':'ReplaceStaff/Bindstaffs',
+    'getBindReplaceStaffStaffList':'ReplaceStaff/BindReplacestaff',
+    'getBindGridList': 'ReplaceStaff/BindGrid',
+    'ClickReplaceStaff':'ReplaceStaff/ReplaceStaff',
+
+    // view module
+    'ViewTimetableClasswise':'View/ViewTimetableClasswise',
+    'ViewTimetableSubjectwise':'View/ViewTimetableSubwise',
+    'ViewTimetableStaff':'View/ViewTimetableStaff'
 }
 
 export { URI }
