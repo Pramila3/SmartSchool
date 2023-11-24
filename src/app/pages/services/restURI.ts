@@ -64,7 +64,11 @@ let URI = {
     // view module
     'ViewTimetableClasswise':'View/ViewTimetableClasswise',
     'ViewTimetableSubjectwise':'View/ViewTimetableSubwise',
-    'ViewTimetableStaff':'View/ViewTimetableStaff'
+    'ViewTimetableStaff':'View/ViewTimetableStaff',
+
+    // manual adjustments 
+    'BindNonFixedSubjects':'ManualAdjustment/BindNonFixedSubjects',
+    'BindGridManualAdjustment':'ManualAdjustment/BindGridManualAdjustment'
 }
 
 export { URI }

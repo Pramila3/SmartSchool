@@ -72,27 +72,10 @@
 }
 
 .list-group-item {
-    margin-bottom: 10px;
-    height: 50px;
-    /* text-align: center; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    border-radius: 13px;
-    color: #fff;
+    margin-bottom: 5px;
+   border-radius: 5px;
 }
-.list-group .active{
-    position: relative;
-}
-.list-group .active::after{
-    content: "";
-    border-top: 11px solid transparent;
-    border-left: 11px solid #0e6ffd;
-    border-bottom: 12px solid transparent;
-    position: absolute;
-    right: -14px;
-}
+
 
 .break{
     background-color: #866fd8c4;
@@ -131,4 +114,9 @@
   
   .text-warning-custum{
     color: #ffa500;
+  }
+
+  .non-fixed-periods{
+    position: fixed;
+    width: 23%;
   }
