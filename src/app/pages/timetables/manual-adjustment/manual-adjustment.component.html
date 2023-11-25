@@ -47,9 +47,10 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let row of generateArray(+classData.noofDays); let rowIndex = index"
-                                        cdkDropList>
+                                        cdkDropList (cdkDropListDropped)="onDrop($event)"  [cdkDropListData]="yourDataArray">
                                         <td cdkDrag
-                                            *ngFor="let col of generateArray(+classData.noofPeriods); let colIndex = index">
+                                            *ngFor="let col of generateArray(+classData.noofPeriods); let colIndex = index"
+                                            [cdkDragDisabled]="shouldDisableDrag(rowIndex, colIndex, getSubject(classData.timetableData, rowIndex, colIndex))">
                                             {{ getSubject(classData.timetableData, rowIndex, colIndex) }}
                                         </td>
                                     </tr>

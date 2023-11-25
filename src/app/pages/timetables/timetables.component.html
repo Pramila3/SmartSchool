@@ -61,13 +61,11 @@
                     Preview
                 </button>
 
-                <button mat-icon-button class="text-success" (click)="downloadDocument()"> <svg
-                        xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
-                        class="bi bi-file-earmark-word-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.485 6.879l1.036 4.144.997-3.655a.5.5 0 0 1 .964 0l.997 3.655 1.036-4.144a.5.5 0 0 1 .97.242l-1.5 6a.5.5 0 0 1-.967.01L8 9.402l-1.018 3.73a.5.5 0 0 1-.967-.01l-1.5-6a.5.5 0 1 1 .97-.242z" />
-                    </svg></button>
-                <button mat-icon-button color="accent" (click)="downloadAsExcel()"> <svg
+                <button mat-icon-button class="text-primary" (click)="downloadDocument()"> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-word" viewBox="0 0 16 16">
+                    <path d="M5.485 6.879a.5.5 0 1 0-.97.242l1.5 6a.5.5 0 0 0 .967.01L8 9.402l1.018 3.73a.5.5 0 0 0 .967-.01l1.5-6a.5.5 0 0 0-.97-.242l-1.036 4.144-.997-3.655a.5.5 0 0 0-.964 0l-.997 3.655L5.485 6.88z"/>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                  </svg></button>
+                <button mat-icon-button class="text-success" (click)="downloadAsExcel()"> <svg
                         xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
                         class="bi bi-filetype-xls" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -85,6 +83,23 @@
                     <div class="overflow-auto">
                         <div *ngIf="timetableList">
                             <div [innerHTML]="timetableList"></div>
+                            <!-- <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Class</th>
+                                </tr>
+                                <tr>
+                                    <td>Franklin</td>
+                                    <td>24</td>
+                                    <td>1std</td>
+                                </tr>
+                                <tr>
+                                    <td>Pathis</td>
+                                    <td>25</td>
+                                    <td>0std</td>
+                                </tr>
+                            </table> -->
                         </div>
                         <div *ngIf="!timetableList" class="text-danger text-center">
                             No data found.
