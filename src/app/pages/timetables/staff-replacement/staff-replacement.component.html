@@ -10,49 +10,60 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col-lg-5">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Staff</mat-label>
-                        <mat-select [(ngModel)]="selectedValue" name="Staff">
-                            <mat-option *ngFor="let Staff of Staff" [value]="Staff.value">
-                                {{Staff.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-lg-5">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Staff Replace </mat-label>
-                        <mat-select [(ngModel)]="selectedValuereplace" name="Replace">
-                            <mat-option *ngFor="let Replace of Replace" [value]="Replace.value">
-                                {{Replace.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-lg-2">
-                    <button class="btn btn-info mb-3">Replace</button>
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-warning custum_auto_with_alert p-2" *ngIf="ttlPercentage">
+                    <p class="mb-0 fw-bold"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                        </svg> {{ttlPercentage}}</p>
                 </div>
             </div>
+            <form action="" [formGroup]="form">
+                <div class="row align-items-center">
+                    <div class="col-lg-5">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Staff</mat-label>
+                            <mat-select formControlName="Staff" name="Staff" (selectionChange)="getBindGridList($event.value)">
+                                <mat-option *ngFor="let staff of BindStaffList" [value]="staff.staffNo">
+                                    {{ staff.staff }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-5">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Staff Replace </mat-label>
+                            <mat-select formControlName="replace" name="replace">
+                                <mat-option *ngFor="let Replace of BindStaffReplaceList" [value]="Replace.staffNo">
+                                    {{Replace.staff}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="button" class="btn btn-info mb-3"  [disabled]="ttlPercentage" (click)="replacestafbtn()">Replace</button>
+                    </div>
+                </div>
+            </form>
+<!-- [disabled]="ttlPercentage" -->
 
 
-            <div class="overflow-auto">
+            <div class="overflow-auto" *ngIf="BindGridList">
                 <table class="table custum_table">
                     <thead>
                         <tr>
                             <th>Class</th>
                             <th>Subject Code</th>
                             <th>Period</th>
-    
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>I Class Mary A </td>
-                            <td>ENGCM</td>
-                            <td>7</td>
-    
+                        <tr  *ngFor="let item of BindGridList">
+                            <td>{{item.classes}}</td>
+                            <td>{{item.subjectcode}}</td>
+                            <td>{{item.period}}</td>
+
                         </tr>
                     </tbody>
                 </table>
