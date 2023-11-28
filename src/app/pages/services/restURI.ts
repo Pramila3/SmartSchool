@@ -68,7 +68,8 @@ let URI = {
 
     // manual adjustments 
     'BindNonFixedSubjects':'ManualAdjustment/BindNonFixedSubjects',
-    'BindGridManualAdjustment':'ManualAdjustment/BindGridManualAdjustment'
+    'BindGridManualAdjustment':'ManualAdjustment/BindGridManualAdjustment',
+    'SaveManualAdjustmentPeriods' : 'ManualAdjustment/SaveManualAdjustment'
 }
 
 export { URI }
