@@ -105,3 +105,19 @@
 .assigned_subject{
     background-color: #56ec5694;
 }
+.badge_label_box {
+    height: 15px;
+    width: 30px;
+}
+
+.badge_group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .badge_items {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
