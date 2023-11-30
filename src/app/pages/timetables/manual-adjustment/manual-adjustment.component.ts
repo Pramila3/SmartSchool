@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonService } from '../../services/common.service';
@@ -20,6 +20,8 @@ export class ManualAdjustmentComponent implements OnInit {
 
   yourDataArray: string[][] = [];
   SaveManualkey: any;
+  dragData: string = "";
+  dropData: string = "";
   ngOnInit(): void {
     this.getNonFixPeriodsList();
     this.getManualAdjustmentPeriodsList();
@@ -88,10 +90,11 @@ export class ManualAdjustmentComponent implements OnInit {
     this.loader.show()
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
-      copiedcell: '',
-      pastedcell: '',
+      copiedcell: this.dragData.trim(),
+      pastedcell: this.dropData.trim(),
     }
-
+    console.log("Drag" + this.dragData);
+    console.log("Drop" + this.dropData);
     this.service.getHttpServiceWithDynamicParams(postData, 'SaveManualAdjustmentPeriods').subscribe(
       (response: any) => {
         if (response.statusCode == 200) {
@@ -103,8 +106,8 @@ export class ManualAdjustmentComponent implements OnInit {
     );
   }
 
-  generateArray(length: number): any[] {
-    return Array(length).fill(0);
+  generateArray(n: number): any[] {
+    return Array(n).fill(0);
   }
 
   getSubject(timetableData: string, rowIndex: number, colIndex: number): string {
@@ -114,17 +117,31 @@ export class ManualAdjustmentComponent implements OnInit {
     return (colIndex < dayData.length && (dayData[colIndex] != '' && dayData[colIndex] != '0')) ? dayData[colIndex] : dayData[colIndex] == '0' ? '' : 'Break';
   }
 
+
+
   shouldDisableDrag(rowIndex: number, colIndex: number, colValue: any): boolean {
     return (colIndex == 0 || colValue == 'Break') ? true : false; // Dragging is enabled by default
   }
-  onDrop(event: CdkDragDrop<string[][]>): void {
-    const { container, previousIndex, currentIndex } = event;
-    console.log(event.previousContainer, event.container);
 
-    moveItemInArray(container.data, previousIndex, currentIndex);
-    this.SaveManualAdjustment()
+  onDrop(event: CdkDragDrop<any[]>, item: any) {
+    console.log(event);
+
+    if (event.previousContainer !== event.container) {
+      // Handle the transfer logic if dropping into a different container
+      console.log();
+      (
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+    moveItemInArray(item, event.previousIndex, event.currentIndex);
+    // Handle other drop logic as needed
+    if(this.dragData && this.dropData){
+      this.SaveManualAdjustment()
+    }
   }
-
 
   numbers = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -186,7 +203,6 @@ export class ManualAdjustmentComponent implements OnInit {
     let currIndex = event.currentIndex != 9 ? event.currentIndex : 8;
     let preIndex = event.previousIndex != 9 ? event.previousIndex : 8;
     let temp = event.container.data[currIndex]
-
     if (![0, 3, 5].includes(currIndex)) {
       if (event.previousContainer === event.container) {
         event.container.data.splice(currIndex, 1, event.container.data[preIndex]);
@@ -199,5 +215,22 @@ export class ManualAdjustmentComponent implements OnInit {
     }
   }
 
+  
+  dragMoved(rowIndex: any, dragData: any,event: any){
+  
+    let dragDataSplit = dragData ? dragData.split('^') : ''
+    if(dragData){
+      this.dropData = ''
+      this.dropData = ''
+      this.dragData = dragDataSplit[1];
+      const match = event.event.target.innerHTML ? event.event.target.innerHTML.match(/<span[^>]*>(.*?)<\/span>/): '';
+      console.log(match[1]);
+      if (match ) {
+        this.dropData = match[1]
+      }
+      console.log("Drag" + this.dragData);
+      console.log("Drop" + this.dropData);
+    }
+  }
 }
 
