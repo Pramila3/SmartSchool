@@ -55,11 +55,12 @@ export class LoginComponent implements OnInit {
                 timer: 1500,
                 showConfirmButton: false
               });
-              this.router.navigate(['/home'])
+              this.router.navigate(['/timetables'])
             } else {
-              this.loader.hide();
+            
               this.Error = true;
               this.logInError = res.statusMessage
+              this.loader.hide();
             }
 
           })
@@ -84,6 +85,7 @@ export class LoginComponent implements OnInit {
         icon: 'info',
         timer: 3000 // Adjust the timer as needed
       });
+      this.loader.hide();
     }
   }
 

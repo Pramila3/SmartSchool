@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://restapi.higrade.co.in/api/'
+  // local use 
+  // apiBaseUrl: 'https://restapi.higrade.co.in/api/'
+  // live
+  apiBaseUrl: 'https://ttlapi.smartschoolplus.co.in/api/'
 };
 
 /*
