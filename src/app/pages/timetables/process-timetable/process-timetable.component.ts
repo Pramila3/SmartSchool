@@ -21,20 +21,20 @@ export class ProcessTimetableComponent implements OnInit {
   timetableList: SafeHtml | undefined;
   timetableName: any;
   ttlPercentage: any;
-  constructor( private service: CommonService, private fb: FormBuilder ,private sanitizer: DomSanitizer, private loader: LoaderService) { 
-    
+  constructor(private service: CommonService, private fb: FormBuilder, private sanitizer: DomSanitizer, private loader: LoaderService) {
+
   }
   ngOnInit(): void {
     // this.getProcessTimetable();
     this.getProcessTimetableList();
   }
-  
+
   getProcessTimetableList() {
     this.loader.show();
     let postData = {
       schoolcode: localStorage.getItem('schoolcode')
     }
-  
+
     this.service.getHttpServiceWithDynamicParams(postData, 'ProcessTimetableList').subscribe(
       (response: any) => {
         if (response.status) {
@@ -54,7 +54,7 @@ export class ProcessTimetableComponent implements OnInit {
         // Handle API error here and show an alert
         console.error('API Error:', error);
         this.loader.hide();
-  
+
         // Show an alert using a library like Swal (SweetAlert2) or your preferred alert mechanism
         Swal.fire({
           title: "API Error",
@@ -66,20 +66,23 @@ export class ProcessTimetableComponent implements OnInit {
     );
   }
   getProcessTimetable() {
-   
+    this.loader.show();
     let postData = {
       schoolcode: localStorage.getItem('schoolcode')
     }
-  
-    this.service.getHttpServiceWithDynamicParams(postData, 'ProcessTimetable').subscribe(
+
+    this.service.postHttpService(postData, 'ProcessTimetable').subscribe(
       (response: any) => {
-        if (response.statusCode==200) {
-        
+        if (response.statusCode == 200) {
+
           this.getProcessTimetableList()
-          // this.loader.hide();
+          this.loader.hide();
         }
-      },
-   
+        else {
+          this.loader.hide();
+        }
+      }
+
     );
   }
 

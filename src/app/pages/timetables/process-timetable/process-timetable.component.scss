@@ -82,10 +82,12 @@
     border-radius: 13px;
     color: #fff;
 }
-.list-group .active{
+
+.list-group .active {
     position: relative;
 }
-.list-group .active::after{
+
+.list-group .active::after {
     content: "";
     border-top: 11px solid transparent;
     border-left: 11px solid #0e6ffd;
@@ -94,10 +96,28 @@
     right: -14px;
 }
 
-.break{
+.break {
     background-color: #866fd8;
     color: #fff;
 }
-.custum_table tr th p{
+
+.custum_table tr th p {
     margin-bottom: 2px;
+}
+
+.badge_label_box {
+    height: 15px;
+    width: 30px;
+}
+
+.badge_group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .badge_items {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 }
