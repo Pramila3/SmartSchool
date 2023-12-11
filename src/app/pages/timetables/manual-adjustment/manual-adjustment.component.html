@@ -15,11 +15,14 @@
                 <div class="card-header fw-bold ">
                     Non Fixed Periods
                 </div>
-                <div class="card-body">
+                <div class="card-body" *ngIf="BindNonFixPeriodsList">
                     <ul class="list-group" *ngFor="let staff of BindNonFixPeriodsList" cdkDropList>
                         <li class="list-group-item" cdkDrag>{{staff}}</li>
                     </ul>
+                    <div  *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">No data available!
+                    </div>
                 </div>
+                
             </div>
         </div>
         <div class="col-lg-9">
@@ -46,21 +49,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr  *ngFor="let row of generateArray(+classData.noofDays); let rowIndex = index" [cdkDropListConnectedTo]="classData.timetableData.split('#')[rowIndex].split('@')"
-                                        cdkDropList #List[rowIndex]="cdkDropList" (cdkDropListDropped)="onDrop($event, classData.timetableData.split('#'))" 
+                                    <tr *ngFor="let row of generateArray(+classData.noofDays); let rowIndex = index"
+                                        [cdkDropListConnectedTo]="classData.timetableData.split('#')[rowIndex].split('@')"
+                                        cdkDropList #List[rowIndex]="cdkDropList"
+                                        (cdkDropListDropped)="onDrop($event, classData.timetableData.split('#'))"
                                         [cdkDropListData]="classData.timetableData.split('#')[rowIndex].split('@')">
-                                        <td cdkDrag [ngClass]="colIndex==0 ? 'days_coloumn' : ' '" [cdkDragData]="colIndex" (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event)"
+                                        <td cdkDrag [ngClass]="colIndex==0 ? 'days_coloumn' : ' '"
+                                            [cdkDragData]="colIndex"
+                                            (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event)"
                                             *ngFor="let col of generateArray(+classData.noofPeriods +1); let colIndex = index"
                                             [cdkDragDisabled]="shouldDisableDrag(rowIndex, colIndex, getSubject(classData.timetableData, rowIndex, colIndex))">
-                                            {{ getSubject(classData.timetableData, rowIndex, colIndex).split("^")[0] }} <span style="display: none;">  {{ getSubject(classData.timetableData, rowIndex, colIndex).split("^")[1] }}</span>
+                                            {{ getSubject(classData.timetableData, rowIndex, colIndex).split("^")[0] }}
+                                            <span style="display: none;"> {{ getSubject(classData.timetableData,
+                                                rowIndex, colIndex).split("^")[1] }}</span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <div *ngIf="!BindGridManualAdjustment" class="text-center p-3 text-danger"> No data Available! </div>
 
-                    <table class="table table-bordered custum_table">
+                    <!-- <table class="table table-bordered custum_table">
                         <tbody>
                             <tr cdkDropList cdkDropListOrientation="horizontal" #day2List="cdkDropList"
                                 [cdkDropListData]="day2"
@@ -98,7 +108,7 @@
                                     cdkDrag>{{item.name}}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
                 </div>
             </div>
         </div>

@@ -55,9 +55,10 @@ export class LoginComponent implements OnInit {
                 timer: 1500,
                 showConfirmButton: false
               });
+              localStorage.setItem('modulName', "Timtable");
               this.router.navigate(['/timetables'])
             } else {
-            
+
               this.Error = true;
               this.logInError = res.statusMessage
               this.loader.hide();

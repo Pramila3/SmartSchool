@@ -317,9 +317,9 @@
 
 </div>
 
-<div class="modal fade" id="addtimings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom " role="document">
+<div class="modal fade" id="addtimings"  aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom " role="document" data-backdrop="static" data-keyboard="false">
         <div class="modal-content custum_modal_dialog">
             <div class="modal-header">
                 <h2 class="modal-title mb-0" id="exampleModalLabel">Add Timings </h2>
@@ -348,7 +348,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">End Time <span class="text-danger">*</span></label>
-                                <ngx-timepicker-field [format]="12" formControlName="endTime" [defaultTime]="this.periodForm.value.endTime" [controlOnly]="true"></ngx-timepicker-field>
+                                <ngx-timepicker-field [format]="12" formControlName="endTime" (timeChanged)="onEndDateChange()" [defaultTime]="this.periodForm.value.endTime" [controlOnly]="true"></ngx-timepicker-field>
                                 <!-- <input type="time" format="HH:mm:aa" class="form-control" formControlName="endTime"> -->
                                 <!-- <input placeholder="Time:" formControlName="endTime" [owlDateTimeTrigger]="dt2"
                                     [owlDateTime]="dt2">

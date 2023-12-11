@@ -93,8 +93,6 @@ export class ManualAdjustmentComponent implements OnInit {
       copiedcell: this.dragData.trim(),
       pastedcell: this.dropData.trim(),
     }
-    console.log("Drag" + this.dragData);
-    console.log("Drop" + this.dropData);
     this.service.getHttpServiceWithDynamicParams(postData, 'SaveManualAdjustmentPeriods').subscribe(
       (response: any) => {
         if (response.statusCode == 200) {

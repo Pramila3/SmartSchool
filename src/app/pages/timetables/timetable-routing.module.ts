@@ -29,6 +29,7 @@ import { ProcessTimetableComponent } from './process-timetable/process-timetable
 import { ByClassComponent } from './by-class/by-class.component';
 import { ByStaffComponent } from './by-staff/by-staff.component';
 import { BySubjectComponent } from './by-subject/by-subject.component';
+import { SelectedStaffSubstituteComponent } from './staff-substitude/selected-staff-substitute/selected-staff-substitute.component';
 
 
 const routes: Routes = [
@@ -143,6 +144,10 @@ const routes: Routes = [
         path: "timetablebysubject",
         component: BySubjectComponent
       },
+      {
+        path: "selectedstafflist",
+        component: SelectedStaffSubstituteComponent
+      }
     ],
 
   },

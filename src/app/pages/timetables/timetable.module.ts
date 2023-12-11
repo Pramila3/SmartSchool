@@ -49,7 +49,8 @@ import { ByClassComponent } from './by-class/by-class.component';
 import { ByStaffComponent } from './by-staff/by-staff.component';
 import { BySubjectComponent } from './by-subject/by-subject.component';
 import { DatePipe } from '@angular/common';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { SelectedStaffSubstituteComponent } from './staff-substitude/selected-staff-substitute/selected-staff-substitute.component';
 
 @NgModule({
   declarations: [
@@ -83,8 +84,8 @@ import { DatePipe } from '@angular/common';
     ByClassComponent,
     ByStaffComponent,
     BySubjectComponent,
-    
-
+    SelectedStaffSubstituteComponent,
+   
   ],
   imports: [
     CommonModule,
@@ -108,11 +109,13 @@ import { DatePipe } from '@angular/common';
     MatDatepickerModule, MatNativeDateModule,
     MatDialogModule,
     DragDropModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    MatIconModule
   ],
   providers: [
     DatePipe, // Add DatePipe to the providers array
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'IST'}
   ],
 })
 export class TimetableModule { }

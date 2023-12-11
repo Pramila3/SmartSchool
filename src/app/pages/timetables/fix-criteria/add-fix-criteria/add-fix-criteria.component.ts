@@ -198,7 +198,7 @@ export class AddFixCriteriaComponent implements OnInit {
       staffid: staffid
     }
     this.staffid = staffid
-
+    this.cellClick = 0
     this.service.getHttpServiceWithDynamicParams(postData, 'getBindPeriodsData').subscribe((response: any) => {
       console.log('table bind data', response);
 
@@ -356,7 +356,23 @@ export class AddFixCriteriaComponent implements OnInit {
     const postRequests: Observable<any>[] = [];
     [0, 1].forEach((type) => {
 
-      if ((type == 0) || (type == 1)) {
+      if ((type == 0) && (rsvdayperiod)) {
+        let postData = {
+          rsvid: this.form.value.id,
+          schoolcode: localStorage.getItem('schoolcode'),
+          rsvclassid: this.classid,
+          rsvsubid: this.subjectid,
+          rsvstaffid: this.staffid,
+          rsvtype: type.toString(),
+          rsvdayperiod: type ? avdayperiod : rsvdayperiod,
+          rsvsftid: this.data[0].sftid
+        }
+        const postRequest = this.service.postHttpService(postData, 'ReservedPeriodsData');
+        console.log(postData);
+
+        postRequests.push(postRequest)
+      }
+      if ((type == 1) && (avdayperiod)) {
         let postData = {
           rsvid: this.form.value.id,
           schoolcode: localStorage.getItem('schoolcode'),

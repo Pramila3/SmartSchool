@@ -284,6 +284,7 @@ export class AddShiftComponent implements OnInit {
     })
   }
   addPeriods(formValue: any, colValue: any, i: number) {
+    this.timeErr = false
     // console.log(formValue);
     // console.log(colValue);
     // console.log(i);
@@ -686,7 +687,7 @@ export class AddShiftComponent implements OnInit {
               let [shours, sminutes] = oldEndTime?.split(':').map(Number);
               oldEndDate.setHours(shours, sminutes, 0, 0);
             }
-            if ((currentDate.getTime() <= oldStartDate.getTime()) || (currentDate.getTime() < oldEndDate.getTime())) {
+            if (((currentDate.getTime() <= oldStartDate.getTime()) || (currentDate.getTime() < oldEndDate.getTime()) && this.periodForm.invalid)) {
               this.timeErr = true
               return
             } else {
@@ -697,7 +698,30 @@ export class AddShiftComponent implements OnInit {
       });
     }
   }
+  onEndDateChange(){
+    let oldStartDate = new Date()
+    let oldEndDate = new Date()
+    let shiftTime = this.convertTo24HourFormat(this.shiftForm.value.endTime);
+    let periodTime = this.convertTo24HourFormat(this.periodForm.value.endTime);
+    if (shiftTime) {
+      if (shiftTime) {
+        let [shours, sminutes] = shiftTime?.split(':').map(Number);
+        oldEndDate.setHours(shours, sminutes, 0, 0);
+      }
+      if (periodTime) {
+        let [shours, sminutes] = periodTime?.split(':').map(Number);
+        oldStartDate.setHours(shours, sminutes, 0, 0);
+      }
+      if ( (oldEndDate.getTime() < oldStartDate.getTime())) {
+        this.timeErr = true
+        return
+      } else {
+        this.timeErr = false
+      }
+    }
+  }
 }
+
 function timeRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
   const startTime = control.get('startTime')?.value;
   const endTime = control.get('endTime')?.value;

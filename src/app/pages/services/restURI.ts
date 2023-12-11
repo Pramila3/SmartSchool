@@ -69,7 +69,16 @@ let URI = {
     // manual adjustments 
     'BindNonFixedSubjects':'ManualAdjustment/BindNonFixedSubjects',
     'BindGridManualAdjustment':'ManualAdjustment/BindGridManualAdjustment',
-    'SaveManualAdjustmentPeriods' : 'ManualAdjustment/SaveManualAdjustment'
+    'SaveManualAdjustmentPeriods' : 'ManualAdjustment/SaveManualAdjustment',
+
+    //Substitute Staff
+    'substituteStaffList': 'StaffSubstitute/BindStaffSubstituteList',
+    'substituteStaffDropDown': 'StaffSubstitute/Stafflookup',
+    'getStaffSubstituteGrid': 'StaffSubstitute/BindGridStaffSubstitute',
+    'getFreeStaffList': 'StaffSubstitute/BindFreeStaffList',
+    'deleteStaffSubstitute': 'StaffSubstitute/DeleteStaffSubstitute',
+    'getStaffSubstituteDetails': 'StaffSubstitute/Viewstafftimetable',
+    'saveStaffSubstitute': 'StaffSubstitute/SaveStaffSubstitute'
 }
 
 export { URI }
