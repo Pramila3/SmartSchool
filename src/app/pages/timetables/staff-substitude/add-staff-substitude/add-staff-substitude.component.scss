@@ -36,3 +36,7 @@
       color: white;
   }
 }
+::ng-deep .mat_wrapper .mat-form-field-wrapper{
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
+}
