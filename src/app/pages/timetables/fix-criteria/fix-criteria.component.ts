@@ -148,7 +148,7 @@ export class FixCriteriaComponent implements OnInit {
       let splitdata = data.rsvid.split('@');
       console.log(splitdata);
       
-      this.router.navigate(['/AddFixCriteria'], {state: {id: splitdata[0], classId: splitdata[1], subjectId: splitdata[2], staffId: splitdata[3], type: data.type}})
+      this.router.navigate(['/timetable/AddFixCriteria'], {state: {id: splitdata[0], classId: splitdata[1], subjectId: splitdata[2], staffId: splitdata[3], type: data.type}})
     }
   }
 

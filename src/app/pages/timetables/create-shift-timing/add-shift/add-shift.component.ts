@@ -95,7 +95,7 @@ export class AddShiftComponent implements OnInit {
         this.activeStatus = true
       }
     } else {
-      this.router.navigate(['/CreateShiftTiming'])
+      this.router.navigate(['/timetable/CreateShiftTiming'])
     }
     this.periodFormGroup()
   }

@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { MobiscrollModule } from '@mobiscroll/angular';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatSelectModule } from '@angular/material/select';
-import { BrowserModule } from '@angular/platform-browser';
+// import { BrowserModule } from '@angular/platform-browser';
 import { AllotSubjectComponent } from './allot-subject/allot-subject.component';
 import { StaffAllotmentComponent } from './staff-allotment/staff-allotment.component';
 import { AddStaffAllotmentComponent } from './staff-allotment/add-staff-allotment/add-staff-allotment.component';
@@ -105,7 +105,7 @@ import { SelectedStaffSubstituteComponent } from './staff-substitude/selected-st
     FormsModule,
     ReactiveFormsModule,
     NgFor,
-    BrowserModule,
+    // BrowserModule,
     MatDatepickerModule, MatNativeDateModule,
     MatDialogModule,
     DragDropModule,

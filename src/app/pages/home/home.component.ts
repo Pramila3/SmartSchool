@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   onclick(moduleName: any){
     localStorage.setItem('modulName', moduleName);
     this.defaultLayoutsComponent1.navigationFunction();
-    this.router.navigate(['/timetables'])
+    this.router.navigate(['/pages /timetables'])
 
   }
 }

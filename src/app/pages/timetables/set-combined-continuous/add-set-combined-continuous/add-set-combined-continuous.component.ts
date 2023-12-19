@@ -395,7 +395,7 @@ export class AddSetCombinedContinuousComponent implements OnInit {
           width: '350px',
           heightAuto: false,
         }).then(() => {
-          this.router.navigate(['/SetCombinedContinuous'])
+          this.router.navigate(['/timetable/SetCombinedContinuous'])
         });
       } else {
         this.loader.hide()

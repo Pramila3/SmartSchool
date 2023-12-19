@@ -25,7 +25,11 @@ export class DefaultLayoutsComponent implements OnInit {
     console.log(this.moduleName);
   }
   logout(){
-    this.router.navigate(['/'])
     localStorage.removeItem('modulName');
+    localStorage.removeItem('Access-Token');
+    localStorage.removeItem('');
+    console.log(localStorage.getItem('Access-Token'));
+
+    this.router.navigate(['/'])
   }
 }

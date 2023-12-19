@@ -73,7 +73,7 @@ export class SetCombinedContinuousComponent implements OnInit {
 
   onEdit(data: any) {
     if (data.cmbid) {
-      this.router.navigate(['/AddSetCombinedContinuous'], {state: {id : data.cmbid}})
+      this.router.navigate(['/timetable/AddSetCombinedContinuous'], {state: {id : data.cmbid}})
     }
   }
 

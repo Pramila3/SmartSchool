@@ -302,7 +302,7 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
           width: '350px',
           heightAuto: false,
         }).then(() => {
-          this.router.navigate(['/StaffCombinedCriteria'])
+          this.router.navigate(['/timetable/StaffCombinedCriteria'])
         });
       } else {
         this.loader.hide()

@@ -27,15 +27,22 @@ const routes: Routes = [
         path: "students",
         component: StudentsComponent,
       },
+      {
+        path: 'timetable',
+        loadChildren: () =>
+          import('../pages/timetables/timetable.module').then((m) => m.TimetableModule),
+      },
      
     ],
+    
 
   },
+  
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class PagesRoutingModule { }

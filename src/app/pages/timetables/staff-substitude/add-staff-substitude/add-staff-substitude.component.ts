@@ -89,6 +89,7 @@ export class AddStaffSubstitudeComponent implements OnInit {
         this.dataSource = new MatTableDataSource(response.resultData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.cdr.detectChanges()
         this.loader.hide()
       }else{
         this.loader.hide()
@@ -99,7 +100,7 @@ export class AddStaffSubstitudeComponent implements OnInit {
   }
 
   getFreeStaffList(data: any) {
-    this.router.navigate(['/selectedstafflist'], { state: { data: data } })
+    this.router.navigate(['/timetable/selectedstafflist'], { state: { data: data } })
   }
 }
 

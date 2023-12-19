@@ -102,7 +102,7 @@ export class StaffSubstitudeComponent implements OnInit {
       width: '350px',
     }).then((result) => {
       if (result.value) {
-        this.service.getHttpServiceWithDynamicParams(postData, 'deleteStaffSubstitute').subscribe((response) => {
+        this.service.deleteHttpService(postData, 'deleteStaffSubstitute').subscribe((response) => {
           if (response.status) {
             Swal.fire({
               title: "Success",

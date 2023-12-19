@@ -120,37 +120,37 @@
                     </li>
 
                     <mat-menu #Timetables="matMenu" class="mt-3">
-                        <a mat-menu-item routerLink="/CreateShiftTiming" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/CreateShiftTiming" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Create Shift Timing</a>
                         <a mat-menu-item [matMenuTriggerFor]="Allotment" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Allotment</a>
 
-                        <a mat-menu-item routerLink="/FixCriteria" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/FixCriteria" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Fix Criteria</a>
-                        <a mat-menu-item routerLink="/SetCombinedContinuous" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/SetCombinedContinuous" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Set Combined & Continuous</a>
-                        <a mat-menu-item routerLink="/StaffCombinedCriteria" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/StaffCombinedCriteria" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Define Staff Combined</a>
                         <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
                             Timetable</a>
-                        <a mat-menu-item routerLink="/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Process
                             Timetable</a>
-                        <a mat-menu-item routerLink="/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Manual Adjustment</a>
-                        <a mat-menu-item routerLink="/ImportTimeTable" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/ImportTimeTable" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Import Timetables</a>
-                        <a mat-menu-item routerLink="/TemporaryTimetable" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/TemporaryTimetable" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Create Temporary Timetable</a>
-                        <a mat-menu-item routerLink="/StaffSubstitude" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/StaffSubstitude" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Substitute Staff</a>
-                        <a mat-menu-item routerLink="/OnlineMonitor" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/OnlineMonitor" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Online Monitor</a>
-                        <a mat-menu-item routerLink="/StaffReplacement" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/StaffReplacement" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Replace Staff</a>
-                        <a mat-menu-item routerLink="/SearchStaffstudent" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/SearchStaffstudent" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Search Student/Staff</a>
-                        <a mat-menu-item routerLink="/Customization" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/Customization" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Customize</a>
                         <a mat-menu-item [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">View</a>
@@ -158,11 +158,11 @@
                     </mat-menu>
 
                     <mat-menu #Allotment="matMenu">
-                        <a mat-menu-item routerLink="/AllotSubject" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/AllotSubject" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">Allot Subject</a>
-                        <a mat-menu-item routerLink="/StaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
+                        <a mat-menu-item routerLink="/timetable/StaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active"> Staff Allotment</a>
-                        <a mat-menu-item routerLink="/ClasswiseStaffAllotment"
+                        <a mat-menu-item routerLink="/timetable/ClasswiseStaffAllotment"
                             [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Classwise Staff
                             Alotment</a>
 
@@ -170,11 +170,11 @@
                     <mat-menu #View="matMenu">
                         <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">General Timetable</a>
-                        <a mat-menu-item routerLink="/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        <a mat-menu-item routerLink="/timetable/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                             Class</a>
-                        <a mat-menu-item  routerLink="/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        <a mat-menu-item  routerLink="/timetable/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                             Subject</a>
-                        <a mat-menu-item routerLink="/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        <a mat-menu-item routerLink="/timetable/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                             Staff</a>
                     </mat-menu>
     
@@ -248,7 +248,7 @@
                     Bangalore, India</a>
             </div>
             <div class="" (click)="logout()">
-                <a class="nav-link " mat-button aria-current="page"><span class="me-1">
+                <a class="nav-link " href="javascript:void(0);" mat-button aria-current="page"><span class="me-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -379,37 +379,37 @@
                 </li>
 
                 <mat-menu #Timetables="matMenu" class="mt-3">
-                    <a mat-menu-item routerLink="/CreateShiftTiming" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/CreateShiftTiming" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Create Shift Timing</a>
                     <a mat-menu-item [matMenuTriggerFor]="Allotment" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Allotment</a>
 
-                    <a mat-menu-item routerLink="/FixCriteria" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/FixCriteria" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Fix Criteria</a>
-                    <a mat-menu-item routerLink="/SetCombinedContinuous" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/SetCombinedContinuous" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Set Combained & Continuous</a>
-                    <a mat-menu-item routerLink="/StaffCombinedCriteria" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/StaffCombinedCriteria" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Define Staff Combined</a>
                     <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
                         Timetable</a>
-                    <a mat-menu-item routerLink="/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Process
                         Timetable</a>
-                    <a mat-menu-item routerLink="/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Manual Adjustment</a>
-                    <a mat-menu-item routerLink="/ImportTimeTable" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/ImportTimeTable" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Import Timetables</a>
-                    <a mat-menu-item routerLink="/TemporaryTimetable" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/TemporaryTimetable" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Create Temporary Timetable</a>
-                    <a mat-menu-item routerLink="/StaffSubstitude" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/StaffSubstitude" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Substitute Staff</a>
-                    <a mat-menu-item routerLink="/OnlineMonitor" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/OnlineMonitor" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Online Monitor</a>
-                    <a mat-menu-item routerLink="/StaffReplacement" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/StaffReplacement" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Replace Staff</a>
-                    <a mat-menu-item routerLink="/SearchStaffstudent" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/SearchStaffstudent" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Search Student/Staff</a>
-                    <a mat-menu-item routerLink="/Customization" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/Customization" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Customize</a>
                     <a mat-menu-item [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">View</a>
@@ -417,11 +417,11 @@
                 </mat-menu>
 
                 <mat-menu #Allotment="matMenu">
-                    <a mat-menu-item routerLink="/AllotSubject" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/timetable/AllotSubject" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Allot Subject</a>
-                    <a mat-menu-item routerLink="/StaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/timetable/StaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active"> Staff Allotment</a>
-                    <a mat-menu-item routerLink="/ClasswiseStaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
+                    <a mat-menu-item routerLink="/timetable/timetable/ClasswiseStaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Classwise Staff
                         Alotment</a>
 
@@ -429,11 +429,11 @@
                 <mat-menu #View="matMenu">
                     <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">General Timetable</a>
-                    <a mat-menu-item routerLink="/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                    <a mat-menu-item routerLink="/timetable/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                         Class</a>
-                    <a mat-menu-item  routerLink="/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                    <a mat-menu-item  routerLink="/timetable/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                         Subject</a>
-                    <a mat-menu-item routerLink="/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                    <a mat-menu-item routerLink="/timetable/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                         Staff</a>
                 </mat-menu>
 

@@ -111,7 +111,7 @@ export class StaffCombinedCriteriaComponent implements OnInit {
     });
   }
   onEdit(id: any) {
-    this.router.navigate(['/AddStaffCombinedCriteria'], { state: { id: id } })
+    this.router.navigate(['/timetable/AddStaffCombinedCriteria'], { state: { id: id } })
   }
 
 

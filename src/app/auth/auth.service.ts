@@ -87,6 +87,7 @@ export class AuthService {
         localStorage.setItem("schoolcode", data.resultData.objUserDetail.username);
         localStorage.setItem("username", data.resultData.objUserDetail.username);
         localStorage.setItem('academicYear', new Date().getFullYear().toString());
+        localStorage.setItem('modulName', "Timtable");
       }
       return data;
     }), catchError(this.handleError));

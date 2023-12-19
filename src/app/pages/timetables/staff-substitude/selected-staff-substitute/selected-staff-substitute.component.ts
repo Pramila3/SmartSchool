@@ -30,7 +30,7 @@ export class SelectedStaffSubstituteComponent implements OnInit {
       this.getFreeStaffList();
       this.getLocationList();
     }else{
-      this.router.navigate(['/AddStaffSubstitude'])
+      this.router.navigate(['/timetable/AddStaffSubstitude'])
     }
   }
   getFreeStaffList() {
@@ -70,7 +70,7 @@ export class SelectedStaffSubstituteComponent implements OnInit {
       ids: this.data.ids,
       staffsubid: element.subjectid
     }
-    this.service.getHttpServiceWithDynamicParams(postData, 'saveStaffSubstitute').subscribe((response: any)=>{
+    this.service.postHttpService(postData, 'saveStaffSubstitute').subscribe((response: any)=>{
       if(response.status){
         Swal.fire({
           title: "Success",

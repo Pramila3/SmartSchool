@@ -212,7 +212,7 @@ export class CreateShiftTimingComponent implements OnInit {
     }
   }
   onAddShift(id: number, timtableName: string, status: any) {
-    this.router.navigate(['/Addshift'], { state: { id: id, timetableName: timtableName, status: status } })
+    this.router.navigate(['/timetable/Addshift'], { state: { id: id, timetableName: timtableName, status: status } })
   }
 
 

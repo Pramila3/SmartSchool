@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   get f() {
     return this.loginForm.controls;
   }
-  login() {
+  async login() {
     this.submitted = true
     let body = { ...this.loginForm.value }
     body.schoolCode = body.userName
@@ -46,25 +46,23 @@ export class LoginComponent implements OnInit {
       if (+(this.userInput) === this.randomNumber) {
         if (this.loginForm.valid) {
           this.loader.show();
-          this.authService.postHttpServicesighIn(body, 'usersLogin').subscribe((res: any) => {
-            if (res.status) {
-              this.loader.hide();
-              Swal.fire({
-                title: "Signed in successfully",
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false
-              });
-              localStorage.setItem('modulName', "Timtable");
-              this.router.navigate(['/timetables'])
-            } else {
+          let data = await this.authService.postHttpServicesighIn(body, 'usersLogin').toPromise();
+          if (data.status) {
+            this.loader.hide();
+            await Swal.fire({
+              title: "Signed in successfully",
+              icon: 'success',
+              timer: 1500,
+              showConfirmButton: false
+            });
+            this.router.navigate(['/timetables'])
+          } else {
 
-              this.Error = true;
-              this.logInError = res.statusMessage
-              this.loader.hide();
-            }
+            this.Error = true;
+            this.logInError = data.statusMessage
+            this.loader.hide();
+          }
 
-          })
         }
       }
       // else {

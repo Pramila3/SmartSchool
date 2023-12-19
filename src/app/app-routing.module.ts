@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -8,17 +9,15 @@ const routes: Routes = [
     path: 'login', component: LoginComponent,
     data: { returnUrl: window.location.pathname }
   },
+
   {
-    path: 'timetable',
-    loadChildren: () =>
-      import('./pages/timetables/timetable.module').then((m) => m.TimetableModule),
-  },
-  {
-    path: 'pages',
+    path: '',
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
+    canActivate: [AuthGuard]
+
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // { path: '', redirectTo: 'login', pathMatch: 'full' },
   // { path: '**', redirectTo: 'login', pathMatch: 'full' },
 
 

@@ -12,7 +12,10 @@ export class CommonService {
 
   baseUrl = `${environment.apiBaseUrl}`;
   token = "Bearer " + localStorage.getItem("Access-Token");
-  constructor(private http: HttpClient, private router: Router,) { }
+  constructor(private http: HttpClient, private router: Router,) { 
+    console.log(this.token);
+    
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
