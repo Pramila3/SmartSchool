@@ -36,6 +36,7 @@ export class AddFixCriteriaComponent implements OnInit {
   cellClick = 0;
   fixCriteriaId!: any;
   type!: any;
+  submitted!: boolean;
   constructor(private service: CommonService, private router: Router, private cdr: ChangeDetectorRef,
     private fb: FormBuilder, private loader: LoaderService, private datePipe: DatePipe) { }
 
@@ -241,11 +242,11 @@ export class AddFixCriteriaComponent implements OnInit {
 
   manageClick = (rowIndex: number, colIndex: number) => {
     if (this.selectedAction === 'X' || this.selectedAction === 'R') {
-      if(this.data[0].perioddetails[rowIndex][colIndex] === 'R'){
+      if (this.data[0].perioddetails[rowIndex][colIndex] === 'R') {
         this.data[0].perioddetails[rowIndex][colIndex] = (this.data[0].perioddetails[rowIndex][colIndex] != 'R' && this.data[0].perioddetails[rowIndex][colIndex] != 'X') ? this.selectedAction : null;
         // this.cellClick -= 1;
-      }else{
-        this.data[0].perioddetails[rowIndex][colIndex] =  (this.data[0].perioddetails[rowIndex][colIndex] != 'R' && this.data[0].perioddetails[rowIndex][colIndex] != 'X') ? this.selectedAction : null;
+      } else {
+        this.data[0].perioddetails[rowIndex][colIndex] = (this.data[0].perioddetails[rowIndex][colIndex] != 'R' && this.data[0].perioddetails[rowIndex][colIndex] != 'X') ? this.selectedAction : null;
       }
     } else if (this.data[0].perioddetails[rowIndex][colIndex] === 'R' || this.data[0].perioddetails[rowIndex][colIndex] === 'X') {
       // Toggle between 'R' and 'X' if one of them is already present
@@ -279,8 +280,8 @@ export class AddFixCriteriaComponent implements OnInit {
     }
     if (this.selectedAction == selectedValue) {
       this.data[0].perioddetails[rowIndex][colIndex] = '0';
-      if(selectedValue == 'R'){
-      this.cellClick -= 1;
+      if (selectedValue == 'R') {
+        this.cellClick -= 1;
       }
     }
   }
@@ -288,160 +289,162 @@ export class AddFixCriteriaComponent implements OnInit {
 
   SavePeriods() {
     // console.log('staffid', staffid);d
-    this.loader.show();
     let responseStatus = false;
+    this.submitted = true
+    if (this.form.valid) {
+      this.loader.show();
+      // Assuming this is your grid data structure
+      const gridData = this.data[0].perioddetails;
 
-    // Assuming this is your grid data structure
-    const gridData = this.data[0].perioddetails;
+      // Initialize variables to store the formatted string
+      let rsvdayperiod = '';
+      let avdayperiod = '';
+      let end1 = false;
+      let end2 = false;
+      // Iterate through the grid data
+      for (let rowIndex = 0; rowIndex < gridData.length; rowIndex++) {
+        for (let colIndex = 0; colIndex < gridData[rowIndex].length; colIndex++) {
+          const cellValue = gridData[rowIndex][colIndex];
 
-    // Initialize variables to store the formatted string
-    let rsvdayperiod = '';
-    let avdayperiod = '';
-    let end1 = false;
-    let end2 = false;
-    // Iterate through the grid data
-    for (let rowIndex = 0; rowIndex < gridData.length; rowIndex++) {
-      for (let colIndex = 0; colIndex < gridData[rowIndex].length; colIndex++) {
-        const cellValue = gridData[rowIndex][colIndex];
+          if (!end1)
+            end1 = colIndex == gridData[rowIndex].length - 1;
+          if (!end2)
+            end2 = colIndex == gridData[rowIndex].length - 1;
 
-        if (!end1)
-          end1 = colIndex == gridData[rowIndex].length - 1;
-        if (!end2)
-          end2 = colIndex == gridData[rowIndex].length - 1;
-
-        //combine reserve
-        if (cellValue === 'R') {
-          // Add "ê" to separate rows or "@" to separate columns if needed
-          if (end1) {
-            if (rsvdayperiod != '')
-              rsvdayperiod += 'ê';
-            end1 = false;
-          }
-          // Append the period information in the format 'row@col' to the string
-          if (rsvdayperiod == '' || rsvdayperiod.endsWith('ê')) {
-            rsvdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
-          } else {
-            // rsvdayperiod += `ê${colIndex + 1}`;
-            rsvdayperiod += 'ê' + `${rowIndex + 1}@${colIndex + 1}`;
-
-          }
-        }
-        //for avoid
-        if (cellValue === 'X') {
-          // Add "ê" to separate rows or "@" to separate columns if needed
-          if (end2) {
-            if (avdayperiod != '')
-              avdayperiod += 'ê';
-            end2 = false;
-          }
-          // Append the period information in the format 'row@col' to the string
-          if (avdayperiod == '' || avdayperiod.endsWith('ê')) {
-            avdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
-          } else {
-            // avdayperiod += `ê${colIndex + 1}`;
-            avdayperiod += 'ê' + `${rowIndex + 1}@${colIndex + 1}`;
-
-          }
-
-        }
-      }
-    }
-
-    if (rsvdayperiod !== '' && !rsvdayperiod.endsWith('ê')) rsvdayperiod += 'ê';
-    if (avdayperiod !== '' && !avdayperiod.endsWith('ê')) avdayperiod += 'ê';
-    console.log(rsvdayperiod, avdayperiod);
-
-    // Now 'rsvdayperiod' contains the formatted string
-
-    const postRequests: Observable<any>[] = [];
-    [0, 1].forEach((type) => {
-
-      if ((type == 0) && (rsvdayperiod)) {
-        let postData = {
-          rsvid: this.form.value.id,
-          schoolcode: localStorage.getItem('schoolcode'),
-          rsvclassid: this.classid,
-          rsvsubid: this.subjectid,
-          rsvstaffid: this.staffid,
-          rsvtype: type.toString(),
-          rsvdayperiod: type ? avdayperiod : rsvdayperiod,
-          rsvsftid: this.data[0].sftid
-        }
-        const postRequest = this.service.postHttpService(postData, 'ReservedPeriodsData');
-        console.log(postData);
-
-        postRequests.push(postRequest)
-      }
-      if ((type == 1) && (avdayperiod)) {
-        let postData = {
-          rsvid: this.form.value.id,
-          schoolcode: localStorage.getItem('schoolcode'),
-          rsvclassid: this.classid,
-          rsvsubid: this.subjectid,
-          rsvstaffid: this.staffid,
-          rsvtype: type.toString(),
-          rsvdayperiod: type ? avdayperiod : rsvdayperiod,
-          rsvsftid: this.data[0].sftid
-        }
-        const postRequest = this.service.postHttpService(postData, 'ReservedPeriodsData');
-        console.log(postData);
-
-        postRequests.push(postRequest)
-      }
-
-    })
-    if (postRequests.length > 0) {
-      forkJoin(postRequests).subscribe((response: any) => {
-        console.log(response);
-        if (response.length > 0) {
-          if (response.length > 1) {
-            if (response[0].status && response[1].status) {
-              this.loader.hide();
-              Swal.fire({
-                title: "Success",
-                text: "Record saved successfully",
-                icon: 'success',
-                width: '350px',
-                heightAuto: false
-              }).then(() => {
-              });
-            } else {
-              this.loader.hide();
-              responseStatus = false;
-              Swal.fire({
-                title: "Error",
-                text: !response[0].status ? response[0].statusMessage : response[1].statusMessage,
-                icon: 'warning',
-                width: '350px',
-                heightAuto: false
-              });
+          //combine reserve
+          if (cellValue === 'R') {
+            // Add "ê" to separate rows or "@" to separate columns if needed
+            if (end1) {
+              if (rsvdayperiod != '')
+                rsvdayperiod += 'ê';
+              end1 = false;
             }
-          } else {
-            if (response[0].status) {
-              this.loader.hide();
-              Swal.fire({
-                title: "Success",
-                text: "Record saved successfully",
-                icon: 'success',
-                width: '350px',
-                heightAuto: false
-              }).then(() => {
-              });
+            // Append the period information in the format 'row@col' to the string
+            if (rsvdayperiod == '' || rsvdayperiod.endsWith('ê')) {
+              rsvdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
             } else {
-              this.loader.hide();
-              responseStatus = false;
-              Swal.fire({
-                title: "Error",
-                text: !response[0].status ? response[0].statusMessage : response[1].statusMessage,
-                icon: 'warning',
-                width: '350px',
-                heightAuto: false
-              });
+              // rsvdayperiod += `ê${colIndex + 1}`;
+              rsvdayperiod += 'ê' + `${rowIndex + 1}@${colIndex + 1}`;
+
             }
           }
-          console.log('SaveReservedPeriods', response);
+          //for avoid
+          if (cellValue === 'X') {
+            // Add "ê" to separate rows or "@" to separate columns if needed
+            if (end2) {
+              if (avdayperiod != '')
+                avdayperiod += 'ê';
+              end2 = false;
+            }
+            // Append the period information in the format 'row@col' to the string
+            if (avdayperiod == '' || avdayperiod.endsWith('ê')) {
+              avdayperiod += `${rowIndex + 1}@${colIndex + 1}`;
+            } else {
+              // avdayperiod += `ê${colIndex + 1}`;
+              avdayperiod += 'ê' + `${rowIndex + 1}@${colIndex + 1}`;
+
+            }
+
+          }
         }
+      }
+
+      if (rsvdayperiod !== '' && !rsvdayperiod.endsWith('ê')) rsvdayperiod += 'ê';
+      if (avdayperiod !== '' && !avdayperiod.endsWith('ê')) avdayperiod += 'ê';
+      console.log(rsvdayperiod, avdayperiod);
+
+      // Now 'rsvdayperiod' contains the formatted string
+
+      const postRequests: Observable<any>[] = [];
+      [0, 1].forEach((type) => {
+
+        if ((type == 0) && (rsvdayperiod)) {
+          let postData = {
+            rsvid: this.form.value.id,
+            schoolcode: localStorage.getItem('schoolcode'),
+            rsvclassid: this.classid,
+            rsvsubid: this.subjectid,
+            rsvstaffid: this.staffid,
+            rsvtype: type.toString(),
+            rsvdayperiod: type ? avdayperiod : rsvdayperiod,
+            rsvsftid: this.data[0].sftid
+          }
+          const postRequest = this.service.postHttpService(postData, 'ReservedPeriodsData');
+          console.log(postData);
+
+          postRequests.push(postRequest)
+        }
+        if ((type == 1) && (avdayperiod)) {
+          let postData = {
+            rsvid: this.form.value.id,
+            schoolcode: localStorage.getItem('schoolcode'),
+            rsvclassid: this.classid,
+            rsvsubid: this.subjectid,
+            rsvstaffid: this.staffid,
+            rsvtype: type.toString(),
+            rsvdayperiod: type ? avdayperiod : rsvdayperiod,
+            rsvsftid: this.data[0].sftid
+          }
+          const postRequest = this.service.postHttpService(postData, 'ReservedPeriodsData');
+          console.log(postData);
+
+          postRequests.push(postRequest)
+        }
+
       })
+      if (postRequests.length > 0) {
+        forkJoin(postRequests).subscribe((response: any) => {
+          console.log(response);
+          if (response.length > 0) {
+            if (response.length > 1) {
+              if (response[0].status && response[1].status) {
+                this.loader.hide();
+                Swal.fire({
+                  title: "Success",
+                  text: "Record saved successfully",
+                  icon: 'success',
+                  width: '350px',
+                  heightAuto: false
+                }).then(() => {
+                });
+              } else {
+                this.loader.hide();
+                responseStatus = false;
+                Swal.fire({
+                  title: "Error",
+                  text: !response[0].status ? response[0].statusMessage : response[1].statusMessage,
+                  icon: 'warning',
+                  width: '350px',
+                  heightAuto: false
+                });
+              }
+            } else {
+              if (response[0].status) {
+                this.loader.hide();
+                Swal.fire({
+                  title: "Success",
+                  text: "Record saved successfully",
+                  icon: 'success',
+                  width: '350px',
+                  heightAuto: false
+                }).then(() => {
+                });
+              } else {
+                this.loader.hide();
+                responseStatus = false;
+                Swal.fire({
+                  title: "Error",
+                  text: !response[0].status ? response[0].statusMessage : response[1].statusMessage,
+                  icon: 'warning',
+                  width: '350px',
+                  heightAuto: false
+                });
+              }
+            }
+            console.log('SaveReservedPeriods', response);
+          }
+        })
+      }
     }
   }
   errorMsgShow(errMsg: string) {

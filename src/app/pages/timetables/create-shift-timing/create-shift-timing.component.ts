@@ -19,7 +19,7 @@ export class CreateShiftTimingComponent implements OnInit {
   dataSource: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Make sure to import MatPaginator
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
   @ViewChild('closeModal') closeModal!: ElementRef
   input: any

@@ -32,7 +32,7 @@
 
                         </mat-form-field>
                         <div class="form-check-under-mat"
-                            *ngIf="form.get('classes').touched && form.get('classes').invalid">
+                            *ngIf="(form.get('classes').touched || submitted) && form.get('classes').invalid">
                             <div class="text-danger">Class is required</div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             </mat-select>
                         </mat-form-field>
                         <div class="form-check-under-mat"
-                            *ngIf="form.get('subjectList').touched && form.get('subjectList').invalid">
+                            *ngIf="(form.get('subjectList').touched || submitted) && form.get('subjectList').invalid">
                             <div class="text-danger">Subject is required</div>
                         </div>
 
@@ -75,7 +75,7 @@
                             </mat-select>
                         </mat-form-field>
                         <div class="form-check-under-mat"
-                            *ngIf="form.get('staffs').touched && form.get('staffs').invalid">
+                            *ngIf="(form.get('staffs').touched || submitted) && form.get('staffs').invalid">
                             <div class="text-danger">Staff is required</div>
                         </div>
                     </div>
@@ -147,8 +147,8 @@
         </div>
 
         <div class="card-footer">
-            <div class="btns text-end">
-                <button class="btn btn-primary " (click)="SavePeriods()">Save</button>
+            <div class="btns text-end" >
+                <button class="btn btn-primary " (click)="SavePeriods()" [disabled]="data.length ==0">Save</button>
                 <button class="btn btn-secondary ms-2" routerLink="/timetable/FixCriteria">Cancel</button>
             </div>
         </div>

@@ -86,9 +86,9 @@ export class AddShiftComponent implements OnInit {
     this.status = history.state.status
 
     if (this.shiftTimingId) {
+      this.formGroup();
       this.getShiftList(this.shiftTimingId);
       this.getClassList();
-      this.formGroup();
       this.getDayList();
       if (this.status == 'Active') {
         this.ischecked = true
@@ -106,8 +106,8 @@ export class AddShiftComponent implements OnInit {
       class: [null, Validators.required],
       startTime: [null, Validators.required],
       endTime: [null, Validators.required],
-      noOfdaysPerWeek: [null,[Validators.required, Validators.pattern('^[0-9]$')]],
-      noOfPeriodsPerDay: [null, Validators.required],
+      noOfdaysPerWeek: [null, [Validators.required, Validators.pattern('^[0-9]$'), Validators.min(1)]],
+      noOfPeriodsPerDay: [null, [Validators.required, Validators.min(1)]],
       startingDay: [null, Validators.required],
       saveType: 'add',
       shiftFormArr: this.fb.array([])
@@ -173,7 +173,8 @@ export class AddShiftComponent implements OnInit {
     let postData = {
       shiftclstimetableid: this.shiftTimingId,
       schoolcode: localStorage.getItem('schoolcode'),
-      academicyear: localStorage.getItem('academicYear')
+      academicyear: localStorage.getItem('academicYear'),
+      isadd: this.shiftForm.value.shiftId ? 1 : 0
     }
     this.service.getHttpServiceWithDynamicParams(postData, 'getClassDropDownList').subscribe((response: any) => {
       if (response.status) {
@@ -183,6 +184,7 @@ export class AddShiftComponent implements OnInit {
   }
   addShift() {
     this.formGroup()
+    this.getClassList()
     this.periodFormGroup()
     this.colvalues = []
     this.toppings = new FormControl()
@@ -476,6 +478,7 @@ export class AddShiftComponent implements OnInit {
   }
   onEditShift(id: String) {
     this.shiftForm.get('shiftId')?.setValue(id);
+    this.getClassList()
     let postData = {
       shiftid: id,
       schoolcode: localStorage.getItem('schoolcode')
@@ -546,6 +549,7 @@ export class AddShiftComponent implements OnInit {
 
         }
       }
+      return null
     })
   }
   onDeleteShift(id: string) {

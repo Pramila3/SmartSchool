@@ -30,7 +30,7 @@
                             </mat-select>
                         </mat-form-field>
                         <div class="form-check-under-mat"
-                            *ngIf="form?.get('shift')?.touched && form.get('shift')?.invalid">
+                            *ngIf="(form?.get('shift')?.touched || submitted) && form.get('shift')?.invalid">
                             <div class="text-danger">Shift is required</div>
                         </div>
                     </div>
@@ -58,36 +58,44 @@
 
                         </mat-form-field>
                         <div class="form-check-under-mat"
-                            *ngIf="form?.get('class')?.touched && form.get('class')?.invalid">
+                            *ngIf="(form?.get('class')?.touched || submitted) && form.get('class')?.invalid">
                             <div class="text-danger">class is required</div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <mat-form-field appearance="outline">
                             <mat-label>Class - Subject - Staff </mat-label>
-                            <mat-select multiple formControlName="subjectClass"
-                                (selectionChange)="getBindPeriodtable()">
+                            <mat-select multiple  [formControl]="staffFormControl"
+                                (selectionChange)="getBindPeriodtable($event)" (openedChange)="multiSelectChange($event)">
                                 <div class="search-wraper">
                                     <input (input)="applyClassStaffSubjectFilter($event)" placeholder="Search..."
-                                        class="form-control search-mat-option">
+                                        class="form-control search-mat-option" [formControl]="searchTextboxControl">
                                 </div>
                                 <mat-select-trigger>
-                                    {{ form.value.subjectClass?.[0] || '' }}
-                                    <span *ngIf="(form.value.subjectClass?.length || 0) > 1"
+                                    {{ staffFormControl.value?.[0] || '' }}
+                                    <span *ngIf="(staffFormControl.value?.length || 0) > 1"
                                         class="example-additional-selection">
-                                        (+{{ (form.value.subjectClass?.length || 0) - 1 }} {{
-                                        form.value.subjectClass?.length === 2 ?
+                                        (+{{ (staffFormControl.value?.length || 0) - 1 }} {{
+                                            staffFormControl.value?.length === 2 ?
                                         'other' : 'others' }})
                                     </span>
                                 </mat-select-trigger>
-                                <mat-option *ngFor="let item of ClassStaffSubject"
+                                <!-- <mat-optgroup >
+                                    <mat-form-field style="width:100%;">
+                                      <input #search autocomplete="off" placeholder="Search" aria-label="Search" matInput [formControl]="searchTextboxControl">
+                                      <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+                                      <mat-icon >close</mat-icon>
+                                    </button>
+                                           </mat-form-field>
+                                      </mat-optgroup> -->
+                                <mat-option *ngFor="let item of ClassStaffSubject" (onSelectionChange)="selectionChange($event)" 
                                     [value]="item.staff">{{item.staff}}</mat-option>
                                 <mat-option *ngIf="ClassStaffSubject.length === 0" disabled>No Data found</mat-option>
 
                             </mat-select>
                         </mat-form-field>
                         <div class="form-check-under-mat"
-                            *ngIf="form?.get('subjectClass')?.touched && form.get('subjectClass')?.invalid">
+                            *ngIf="(staffFormControl?.touched || submitted) && staffFormControl?.invalid">
                             <div class="text-danger">Class - Subject - Staff is required</div>
                         </div>
                     </div>
@@ -121,7 +129,7 @@
 
             <div class="card-footer">
                 <div class="btns text-end">
-                    <button class="btn btn-primary " (click)="SaveCombineddates()">Save</button>
+                    <button class="btn btn-primary " (click)="SaveCombineddates()" [disabled]="data.length ==0">Save</button>
                     <button class="btn btn-secondary ms-2" routerLink="/timetable/SetCombinedContinuous">Cancel</button>
                 </div>
             </div>

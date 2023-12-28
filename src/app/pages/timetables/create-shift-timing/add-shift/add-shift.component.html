@@ -221,6 +221,10 @@
                                     *ngIf="(shiftFormControl.noOfdaysPerWeek.touched || submitted) && shiftFormControl.noOfdaysPerWeek.errors?.required">
                                     No of Days per Week is required
                                 </span>
+                                <span class="text-danger form-check-under-mat"
+                                *ngIf=" shiftFormControl.noOfdaysPerWeek.errors?.min">
+                               Please enter valid number
+                            </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -228,13 +232,17 @@
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
                                     <mat-label>No of Periods per Day</mat-label>
-                                    <input matInput type="number" maxlength="2" (keypress)="doubleLengthValidator($event)" placeholder="No of Periods per Day" [readonly]="shiftForm.value.shiftId"
+                                    <input matInput type="number" maxlength="2" min="1" (keypress)="doubleLengthValidator($event)" placeholder="No of Periods per Day" [readonly]="shiftForm.value.shiftId"
                                         formControlName="noOfPeriodsPerDay" (change)="onChangePeriod($event)">
 
                                 </mat-form-field>
                                 <span class="text-danger form-check-under-mat"
                                     *ngIf="(shiftFormControl.noOfPeriodsPerDay.touched || submitted) && shiftFormControl.noOfPeriodsPerDay.errors?.required">
                                     No of Periods per Day is required
+                                </span>
+                                <span class="text-danger form-check-under-mat"
+                                    *ngIf=" shiftFormControl.noOfPeriodsPerDay.errors?.min">
+                                   Please enter valid number
                                 </span>
                             </div>
                         </div>
@@ -307,7 +315,7 @@
             <button class="btn btn-success " (click)="onSubmit()" [disabled]="shiftForm.invalid">
                 Save
             </button>
-            <button class="btn btn-secondary ms-2">
+            <button class="btn btn-secondary ms-2" routerLink="/timetable/CreateShiftTiming">
                 Cancel
             </button>
         </div>
