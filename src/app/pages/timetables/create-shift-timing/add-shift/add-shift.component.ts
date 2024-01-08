@@ -30,7 +30,8 @@ export class AddShiftComponent implements OnInit {
   shiftFormArr!: FormArray;
   periodForm!: FormGroup;
 
-  toppings = new FormControl(['', [Validators.required]]);
+  classFormControl = new FormControl([], Validators.required);
+  searchTextboxControl = new FormControl();
   searchValue = '';
   toppingList = ['LKG', '1 A', '1 B', '2 A', '2 B'];
   submitted!: boolean;
@@ -48,14 +49,18 @@ export class AddShiftComponent implements OnInit {
   timeErr!: boolean;
   startTime: any;
   modalTarget!: string;
+  classSelectedValues: any =[]
+  @ViewChild('search') searchTextBox!: ElementRef;
 
   get filteredClassList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
+    this.setSelectedClassValues();
+    this.classFormControl.patchValue(this.classSelectedValues);
     return this.classList.filter((element: any) => element.class.toLowerCase().includes(lowerCaseSearch));
   }
 
   get selectedToppingsText() {
-    const selectedToppings = this.toppings.value || [];
+    const selectedToppings = this.classFormControl.value || [];
     if (selectedToppings.length === 0) {
       return '';
     } else if (selectedToppings.length === 1) {
@@ -187,7 +192,7 @@ export class AddShiftComponent implements OnInit {
     this.getClassList()
     this.periodFormGroup()
     this.colvalues = []
-    this.toppings = new FormControl()
+    this.classFormControl = new FormControl([], Validators.required)
     this.isAddShiftShow = true;
 
   }
@@ -213,7 +218,7 @@ export class AddShiftComponent implements OnInit {
   showPeriods() {
     let formArray = this.shiftForm.get('shiftFormArr') as FormArray;
     this.timeErr = false
-    const arrayValue = this.toppings.value;
+    const arrayValue = this.classFormControl.value;
     if (Array.isArray(arrayValue)) {
       const arrayAsString = arrayValue.join(', ');
       this.shiftForm.get('class')?.setValue(arrayAsString);
@@ -364,10 +369,10 @@ export class AddShiftComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.shiftForm.value);
-    console.log(this.toppings.value);
+    console.log(this.classFormControl.value);
     this.loader.show()
     let classStr = '';
-    const selectedToppings = this.toppings.value
+    const selectedToppings = this.classFormControl.value
     if (selectedToppings !== null && Array.isArray(selectedToppings)) {
       if (selectedToppings?.length > 0) {
         selectedToppings.forEach((element: any, index: number) => {
@@ -478,6 +483,8 @@ export class AddShiftComponent implements OnInit {
   }
   onEditShift(id: String) {
     this.shiftForm.get('shiftId')?.setValue(id);
+    this.classSelectedValues =[]
+    this.classFormControl = new FormControl([], Validators.required)
     this.getClassList()
     let postData = {
       shiftid: id,
@@ -494,7 +501,7 @@ export class AddShiftComponent implements OnInit {
           }
         });
         if (response.resultData[0].classes) {
-          this.toppings.setValue(response.resultData[0].classes.split(','));
+          this.classFormControl.setValue(response.resultData[0].classes.split(','));
         }
 
         this.shiftForm.patchValue({
@@ -663,7 +670,8 @@ export class AddShiftComponent implements OnInit {
         class: null
       })
     }
-
+    this.searchTextboxControl.patchValue('');
+    this.searchValue = ''
   }
   onStartTimeChange(event: any) {
     let currentDate = new Date()
@@ -722,6 +730,23 @@ export class AddShiftComponent implements OnInit {
       } else {
         this.timeErr = false
       }
+    }
+  }
+
+  multiSelectChange(e: any) {
+    this.searchTextboxControl.patchValue('');
+    this.searchValue = '';
+    if (e == true) {
+      this.searchTextBox.nativeElement.focus();
+    }
+  }
+  setSelectedClassValues() {
+    if (this.classFormControl.value && this.classFormControl.value.length > 0) {
+      this.classFormControl.value.forEach((e: any) => {
+        if (this.classSelectedValues.indexOf(e) == -1) {
+          this.classSelectedValues.push(e);
+        }
+      });
     }
   }
 }

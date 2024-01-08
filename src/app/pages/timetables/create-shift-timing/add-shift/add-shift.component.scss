@@ -125,3 +125,24 @@
     right: 0;
     color: #333; /* Adjust icon color as needed */
   }
+
+  .search-wraper {
+    width: 100%;
+    background-color: #6d6fcdbd;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.search-mat-option {
+    padding-left: 5px;
+    width: -webkit-fill-available;
+    color: white;
+    background-color: #6d6fcdbd;
+    &::placeholder{
+        color: white;
+    }
+&:focus{
+    box-shadow: none;
+}
+}

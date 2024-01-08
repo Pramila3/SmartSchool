@@ -22,6 +22,9 @@
                 <mat-button-toggle value="underline" (click)="ViewTimetableSubjectwise()">By Subject</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
+        <select *ngIf="shiftList.length > 0" name="" class="form-control" id="" [(ngModel)]= "shiftId">
+            <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
+        </select>
     </div>
     <div class="mt-2">
         <div class="ps-2 mb-2 d-flex align-items-center justify-content-between flex-wrap">

@@ -47,9 +47,13 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
   cellClick = 0;
   combineid: any
   staffFormControl = new FormControl([], Validators.required);
+  classFormControl = new FormControl([], Validators.required);
   searchTextboxControl = new FormControl();
+  clasSearchTextboxControl = new FormControl();
+
 
   @ViewChild('search') searchTextBox!: ElementRef;
+  classSelectedValues: any = [];
 
   constructor(private service: CommonService, private loader: LoaderService, private cdr: ChangeDetectorRef,
     private fb: FormBuilder, private router: Router,) { }
@@ -71,7 +75,7 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
     this.form = this.fb.group({
       id: [null],
       shift: [null, Validators.required],
-      class: [null, Validators.required],
+      class: [null],
       subjectClass: [null]
     })
   }
@@ -93,7 +97,7 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
         className.push(this.classDropdownList.filter((list: any) => list.classid == classid)[0]?.class)
       });
       this.form.get('class').setValue(className);
-
+      this.classFormControl.patchValue(className);
       await this.getClassSubjectList();
 
       let staffSub: any = [];
@@ -152,6 +156,9 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
   }
   get ClassList() {
     const lowerCaseSearch = this.searchValue1.toLowerCase();
+    this.setSelectedClassValues();
+    
+    this.classFormControl.patchValue(this.classSelectedValues);
     return this.classDropdownList.filter((element: any) => element.class?.toLowerCase().includes(lowerCaseSearch));
   }
   async getClassList() {
@@ -183,9 +190,12 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
     this.classStaffDropdownList = []
     this.staffSelectedValues = []
     this.staffFormControl = new FormControl([], Validators.required)
+    // this.classFormControl = new FormControl([], Validators.required)
     this.data = []
-    if (this.form.value.class) {
-      this.form.value.class.forEach((element: any) => {
+    console.log(this.classFormControl.value);
+    
+    if (this.classFormControl.value) {
+      this.classFormControl.value.forEach((element: any) => {
         let checkValue = this.classDropdownList.find((data: any) => data.class == element)
         checkValue
         if (checkValue) {
@@ -193,7 +203,8 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
         }
       });
     }
-
+    this.searchTextboxControl.patchValue('');
+    this.searchValue1 = '';
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
       classid: classIdArr.length > 0 ? classIdArr.join(', ') : '',
@@ -225,8 +236,8 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
 
     this.setSelectedValues()
     let classIdArr: any[] = []
-    if (this.form.value.class) {
-      this.form.value.class.forEach((element: any) => {
+    if (this.classFormControl.value) {
+      this.classFormControl.value.forEach((element: any) => {
         let checkValue = this.classDropdownList.find((data: any) => data.class == element)
         checkValue
         if (checkValue) {
@@ -234,7 +245,8 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
         }
       });
     }
-
+    this.searchTextboxControl.patchValue('');
+    this.searchValue2 = ''
     let subjectIdArr: any[] = []
     // if (this.form.value.subjectClass) {
     //   this.form.value.subjectClass.forEach((element: any) => {
@@ -268,7 +280,7 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
     // console.log('subjectIdArr', subjectIdArr);
 
 
-    if (this.form.valid && this.staffFormControl.valid) {
+    if (this.form.valid && this.staffFormControl.valid && this.classFormControl.valid) {
       this.loader.show()
       this.service.getHttpServiceWithDynamicParams(postData, 'getBindperiodtable').subscribe(response => {
 
@@ -329,8 +341,8 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
   SaveCombineddates() {
 
     let classIdArr: any[] = []
-    if (this.form.value.class) {
-      this.form.value.class.forEach((element: any) => {
+    if (this.classFormControl.value) {
+      this.classFormControl.value.forEach((element: any) => {
         let checkValue = this.classDropdownList.find((data: any) => data.class == element)
         checkValue
         if (checkValue) {
@@ -451,12 +463,31 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
       this.searchTextBox.nativeElement.focus();
     }
   }
+  classMultiSelectChange(e: any) {
+    // Set search textbox value as empty while opening selectbox 
+    this.clasSearchTextboxControl.patchValue('');
+    this.searchValue2 = '';
+    // Focus to search textbox while clicking on selectbox
+    if (e == true) {
+      this.searchTextBox.nativeElement.focus();
+    }
+  }
 
   setSelectedValues() {
     if (this.staffFormControl.value && this.staffFormControl.value.length > 0) {
       this.staffFormControl.value.forEach((e: any) => {
         if (this.staffSelectedValues.indexOf(e) == -1) {
           this.staffSelectedValues.push(e);
+        }
+      });
+    }
+  }
+
+  setSelectedClassValues() {
+    if (this.classFormControl.value && this.classFormControl.value.length > 0) {
+      this.classFormControl.value.forEach((e: any) => {
+        if (this.classSelectedValues.indexOf(e) == -1) {
+          this.classSelectedValues.push(e);
         }
       });
     }
@@ -469,6 +500,18 @@ export class AddSetCombinedContinuousComponent implements OnInit, AfterViewInit 
       console.log(this.staffSelectedValues.length);
 
       if (this.staffSelectedValues.length == 0) {
+        this.data = []
+      }
+    }
+  }
+
+  classSelectionChange(event: any) {
+    if (event.isUserInput && event.source.selected == false) {
+      let index = this.classSelectedValues.indexOf(event.source.value);
+      this.classSelectedValues.splice(index, 1)
+      console.log(this.classSelectedValues.length);
+
+      if (this.classSelectedValues.length == 0) {
         this.data = []
       }
     }

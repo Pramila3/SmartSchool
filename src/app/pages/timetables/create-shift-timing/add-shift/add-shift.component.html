@@ -140,12 +140,23 @@
                             </mat-form-field> -->
                                 <mat-form-field appearance="outline">
                                     <mat-label>Classes</mat-label>
-                                    <mat-select [formControl]="toppings" multiple (selectionChange)="onSelectChange($event)">
-                                        <mat-select-trigger>
-                                            {{ selectedToppingsText }}
-                                        </mat-select-trigger>
-                                        <input matInput placeholder="Search Class" formControlName="class"
-                                            (input)="applyFilter($event)" class="search-mat-option">
+                                    <mat-select  multiple  [formControl]="classFormControl" (selectionChange)="onSelectChange($event)" 
+                                    (openedChange)="multiSelectChange($event)">
+                                    <div class="search-wraper">
+                                        <input (input)="applyFilter($event)" placeholder="Search..."
+                                            class="form-control search-mat-option" [formControl]="searchTextboxControl">
+                                    </div>
+                                    <mat-select-trigger>
+                                        {{ classFormControl.value?.[0] || '' }}
+                                        <span *ngIf="(classFormControl.value?.length || 0) > 1"
+                                            class="example-additional-selection">
+                                            (+{{ (classFormControl.value?.length || 0) - 1 }} {{
+                                                classFormControl.value?.length === 2 ?
+                                            'other' : 'others' }})
+                                        </span>
+                                    </mat-select-trigger>
+                                        <!-- <input matInput placeholder="Search Class" formControlName="class"
+                                            (input)="applyFilter($event)" class="search-mat-option" [formControl]="searchTextboxControl"> -->
                                         <mat-option *ngFor="let item of filteredClassList" [value]="item.class">
                                             {{ item.class }}
                                         </mat-option>

@@ -37,20 +37,20 @@
                     <div class="col-lg-4">
                         <mat-form-field appearance="outline">
                             <mat-label>Classes </mat-label>
-                            <mat-select (selectionChange)="getClassSubjectList()" formControlName="class" multiple>
+                            <mat-select [formControl]="classFormControl" (selectionChange)="getClassSubjectList()"  (openedChange)="classMultiSelectChange($event)" multiple>
                                 <div class="search-wraper">
                                     <input (input)="applyClassFilter($event)" placeholder="Search"
-                                        class=" form-control search-mat-option">
+                                        class=" form-control search-mat-option" [formControl]="clasSearchTextboxControl">
                                 </div>
                                 <mat-select-trigger>
-                                    {{ form.value.class?.[0] || '' }}
-                                    <span *ngIf="(form.value.class?.length || 0) > 1"
+                                    {{ classFormControl.value?.[0] || '' }}
+                                    <span *ngIf="(classFormControl.value?.length || 0) > 1"
                                         class="example-additional-selection">
-                                        (+{{ (form.value.class?.length || 0) - 1 }} {{ form.value.class?.length === 2 ?
+                                        (+{{ (classFormControl.value?.length || 0) - 1 }} {{ classFormControl.value?.length === 2 ?
                                         'other' : 'others' }})
                                     </span>
                                 </mat-select-trigger>
-                                <mat-option *ngFor="let item of ClassList" [value]="item.class">{{ item.class}}</mat-option>
+                                <mat-option *ngFor="let item of ClassList" [value]="item.class" (onSelectionChange)="classSelectionChange($event)">{{ item.class}}</mat-option>
                                 <mat-option *ngIf="ClassList.length === 0" disabled>No Data found</mat-option>
 
                             </mat-select>

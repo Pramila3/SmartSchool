@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -18,10 +18,29 @@ export class TimetablesComponent implements OnInit {
   timetableName: any;
   ttlPercentage: any;
 
-  constructor(private service: CommonService, private fb: FormBuilder, private sanitizer: DomSanitizer, private loader: LoaderService) { }
+  shiftId: any
+  shiftList: any = []
+  constructor(private service: CommonService, private fb: FormBuilder, private sanitizer: DomSanitizer,
+     private loader: LoaderService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.getShiftList()
+  }
+  getShiftList() {
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode')
+    }
+    this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedShiftList').subscribe(response => {
+      if (response.status) {
+        this.shiftList = response.resultData
+        this.shiftId = this.shiftList.length > 0 ? this.shiftList[0].sftid : '';
+        console.log(this.shiftId);
+        
+       }
     this.ViewTimetableClasswise()
+    this.cdr.detectChanges()    
+
+    })
   }
   showTab(tabId: string): void {
     const tabs = document.querySelectorAll('.nav-link');
@@ -36,7 +55,8 @@ export class TimetablesComponent implements OnInit {
   ViewTimetableClasswise() {
     this.loader.show();
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode')
+      schoolcode: localStorage.getItem('schoolcode'),
+      shiftId: this.shiftId
     }
 
     this.service.getHttpServiceWithDynamicParams(postData, 'ViewTimetableClasswise').subscribe(
@@ -205,7 +225,7 @@ export class TimetablesComponent implements OnInit {
 
     // if (content instanceof HTMLElement) {
     //   const table = content.querySelector('table');
-      
+
     //   if (table) {
     //     const wb = XLSX.utils.book_new();
     //     const ws = XLSX.utils.table_to_sheet(table);
@@ -224,26 +244,26 @@ export class TimetablesComponent implements OnInit {
 
     if (content instanceof HTMLElement) {
       const table = content.querySelector('table');
-    
+
       if (table) {
         // Create a new workbook and add a worksheet
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sheet1');
-    
+
         // Iterate over rows and cells to add data and apply styles
         table.querySelectorAll('tr').forEach((row, rowIndex) => {
           const excelRow = worksheet.getRow(rowIndex + 1); // Excel uses 1-based indexing
-    
+
           row.querySelectorAll('td, th').forEach((cell, colIndex) => {
             const bgColor = window.getComputedStyle(cell).backgroundColor;
             const textContent = cell.textContent!.trim();
-    
+
             // Add data to the cell
             excelRow.getCell(colIndex + 1).value = textContent;
-    
+
             // Parse the RGB values from the computed background color
             const rgbValues = bgColor.match(/\d+/g);
-    
+
             if (rgbValues && rgbValues.length === 3) {
               // Apply background color to the cell
               excelRow.getCell(colIndex + 1).fill = {
@@ -252,16 +272,16 @@ export class TimetablesComponent implements OnInit {
                 fgColor: { argb: `FF${rgbValues.map(value => (+value).toString(16).padStart(2, '0')).join('')}` }
               };
             }
-              // Apply border styles to the cell
-              excelRow.border = {
-          top: { style: 'thin', color: { argb: 'ced4da' } },
-          left: { style: 'thin', color: { argb: 'ced4da' } },
-          bottom: { style: 'thin', color: { argb: 'ced4da' } },
-          right: { style: 'thin', color: { argb: 'ced4da' } }
-        };
+            // Apply border styles to the cell
+            excelRow.border = {
+              top: { style: 'thin', color: { argb: 'ced4da' } },
+              left: { style: 'thin', color: { argb: 'ced4da' } },
+              bottom: { style: 'thin', color: { argb: 'ced4da' } },
+              right: { style: 'thin', color: { argb: 'ced4da' } }
+            };
           });
         });
-    
+
         // Auto-adjust column widths based on content
         worksheet.columns.forEach((column, colIndex) => {
           let maxLength = 0;
@@ -276,7 +296,7 @@ export class TimetablesComponent implements OnInit {
           });
           column.width = maxLength < 10 ? 10 : maxLength + 2; // Set a minimum width
         });
-    
+
         // Save the workbook
         workbook.xlsx.writeBuffer().then((buffer) => {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -291,7 +311,7 @@ export class TimetablesComponent implements OnInit {
     } else {
       console.error("Element with id 'exceldownload' not found in the document.");
     }
-  
+
   }
-  
+
 }
