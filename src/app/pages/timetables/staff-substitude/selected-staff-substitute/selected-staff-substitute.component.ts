@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/pages/common/loading/loader.service';
 import { CommonService } from 'src/app/pages/services/common.service';
@@ -21,15 +22,17 @@ export class SelectedStaffSubstituteComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Make sure to import MatPaginator
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   loactionList: any = [];
-  constructor(private service: CommonService, private router: Router, 
-    private loader: LoaderService) { }
+  timetableList: any;
+  showStaffView!: boolean;
+  constructor(private service: CommonService, private router: Router,
+    private loader: LoaderService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.data = history.state.data
     if (this.data) {
       this.getFreeStaffList();
       this.getLocationList();
-    }else{
+    } else {
       this.router.navigate(['/timetable/AddStaffSubstitude'])
     }
   }
@@ -39,39 +42,47 @@ export class SelectedStaffSubstituteComponent implements OnInit {
       schoolcode: localStorage.getItem('schoolcode'),
       ids: this.data.ids
     }
-    this.service.getHttpServiceWithDynamicParams(postData, 'getFreeStaffList').subscribe((response: any)=>{
-      if(response.status){
+    this.service.getHttpServiceWithDynamicParams(postData, 'getFreeStaffList').subscribe((response: any) => {
+      if (response.status) {
         this.dataSource = new MatTableDataSource(response.resultData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.loader.hide()
-      }else{
+      } else {
         this.loader.hide()
       }
-    }, error=>{
+    }, error => {
       this.loader.hide()
     })
   }
 
-  getLocationList(){
+  getLocationList() {
     let postData = {
       schoolcode: localStorage.getItem('schoolcode')
     }
-    this.service.getHttpServiceWithDynamicParams(postData, 'BindAllotSubject').subscribe((response)=>{
-      if(response.status){
+    this.service.getHttpServiceWithDynamicParams(postData, 'BindAllotSubject').subscribe((response) => {
+      if (response.status) {
         this.loactionList = response.resultData;
       }
     })
   }
-
-  onSubmit(element: any){
+  onRoomChange(event: any, index: any) {
+    this.dataSource.filteredData[index].roomId = event.target.value
+  }
+  onSubmit(element: any) {
+    let id = this.data.ids + (element.staffno ? element.staffno : '')
+    let subj
+    if (element.staffno) {
+      subj =  element.staffno + (element.subjectid ? '@' + element.subjectid : '')
+    }
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
-      ids: this.data.ids,
-      staffsubid: element.subjectid
+      ids: id,
+      stfsubid: subj,
+      roomid: element.roomId
     }
-    this.service.postHttpService(postData, 'saveStaffSubstitute').subscribe((response: any)=>{
-      if(response.status){
+    this.service.postHttpService(postData, 'saveStaffSubstitute').subscribe((response: any) => {
+      if (response.status) {
         Swal.fire({
           title: "Success",
           text: "Record saved successfully",
@@ -92,15 +103,25 @@ export class SelectedStaffSubstituteComponent implements OnInit {
       }
     })
   }
-  getStaffSubstitutionList(element: any){
-    let postData ={
+  getStaffSubstitutionList(element: any) {
+    let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
-      staffidname: element.id
+      ids: this.data.ids,
+      staffidname: element.staffno + '@' + element.staffName
     }
-    this.service.getHttpServiceWithDynamicParams(postData, 'getStaffSubstituteDetails').subscribe((response: any)=>{
-      if(response.status){
-
+    this.loader.show()
+    this.showStaffView = false
+    this.service.getHttpServiceWithDynamicParams(postData, 'getStaffSubstituteDetails').subscribe((response: any) => {
+      if (response.status) {
+        this.timetableList = this.sanitizer.bypassSecurityTrustHtml(response.resultData);
+        this.showStaffView = true
+        this.loader.hide()
+      } else {
+        this.showStaffView = false
+        this.loader.hide()
       }
+    }, error => {
+      this.loader.hide()
     })
   }
 }

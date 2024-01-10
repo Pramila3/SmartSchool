@@ -86,7 +86,9 @@ export class AuthService {
         localStorage.setItem("Access-Token", data.resultData.objUserDetail.token);
         localStorage.setItem("schoolcode", data.resultData.objUserDetail.username);
         localStorage.setItem("username", data.resultData.objUserDetail.username);
-        localStorage.setItem('academicYear', new Date().getFullYear().toString());
+        // localStorage.setItem('academicYear', new Date().getFullYear().toString());
+        localStorage.setItem('academicYear', "2023");
+
         localStorage.setItem('modulName', "Timtable");
       }
       return data;

@@ -49,7 +49,7 @@ export class AddShiftComponent implements OnInit {
   timeErr!: boolean;
   startTime: any;
   modalTarget!: string;
-  classSelectedValues: any =[]
+  classSelectedValues: any = []
   @ViewChild('search') searchTextBox!: ElementRef;
 
   get filteredClassList() {
@@ -121,16 +121,16 @@ export class AddShiftComponent implements OnInit {
   // Custom validator function for maxlength
   singleLengthValidator(event: any) {
     // console.log('eventinput', event);
-    event.target.value = Math.max(), Math.min(1, Number(event.target.value));
+    // event.target.value = Math.max(), Math.min(1, Number(event.target.value));
   }
   doubleLengthValidator(event: any) {
-    const inputValue = Number(event.target.value);
-    
-    if (!isNaN(inputValue)) {
-      inputValue.toString().length<=1 ? (event.target.value = event.target.value.slice(0,1)) : (event.target.value = this.shiftForm.controls['noOfPeriodsPerDay'].setValue(0))
-    } else {
-      event.target.value = '';
-    }
+    // const inputValue = Number(event.target.value);
+
+    // if (!isNaN(inputValue)) {
+    //   inputValue.toString().length<=1 ? (event.target.value = event.target.value.slice(0,1)) : (event.target.value = this.shiftForm.controls['noOfPeriodsPerDay'].setValue(0))
+    // } else {
+    //   event.target.value = '';
+    // }
   }
   periodFormGroup() {
     this.periodForm = this.fb.group({
@@ -196,9 +196,9 @@ export class AddShiftComponent implements OnInit {
     this.isAddShiftShow = true;
 
   }
-  onChangePeriod(event:any) {
-    console.log("called",event.target.value);
-    
+  onChangePeriod(event: any) {
+    console.log("called", event.target.value);
+
     this.colvalues = []
     for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
       this.colvalues.push({ col: "period" + j })
@@ -224,10 +224,13 @@ export class AddShiftComponent implements OnInit {
       this.shiftForm.get('class')?.setValue(arrayAsString);
     }
     this.submitted = true;
-    if (this.shiftForm.valid) {
+    if (this.shiftForm.controls['shiftName'].valid && this.shiftForm.controls['class'].valid &&
+      this.shiftForm.controls['startTime'].valid && this.shiftForm.controls['endTime'].valid &&
+      this.shiftForm.controls['noOfdaysPerWeek'].valid && this.shiftForm.controls['noOfPeriodsPerDay'].valid
+      && this.shiftForm.controls['startingDay'].valid) {
       let dayArr = (this.shiftForm.value.startingDay).split('@')
       if (!this.shiftForm.value.shiftId) {
-        formArray.clear()
+        // formArray.clear()
         for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
           let arr = []
           let obj: { [key: string]: any } = {};
@@ -245,7 +248,50 @@ export class AddShiftComponent implements OnInit {
           const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
           formArray.push(newFormGroup);
         }
-      } else {
+      } 
+      // else {
+      //   let columnLength: number
+
+      //   // this.colvalues = []
+      //   // for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
+      //   //   this.colvalues.push({ col: "period" + j })
+      //   // }
+
+      //   let dayArr = (this.shiftForm.value.startingDay).split('@')
+      //   console.log(this.shiftForm.value.shiftFormArr);
+
+      //   for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
+      //     if (i >= this.shiftForm.value.shiftFormArr.length) {
+      //       let obj: { [key: string]: any } = {};
+      //       this.colvalues.forEach((element2: any, j: number) => {
+      //         obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
+      //       })
+      //       this.shiftFormArray.push(this.fb.group({
+      //         day: dayArr[i], ...obj
+      //       }))
+      //       // const newFormGroup = this.fb.group({
+      //       //   day: dayArr[i], ...obj
+      //       // });
+      //       // const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
+      //       // formArray.push(newFormGroup);
+      //     }
+      //   }
+      //   this.shiftForm.value.shiftFormArr.forEach((element: any, i: number) => {
+      //     columnLength = Object.keys(element).length - 1;
+      //     if (columnLength != this.colvalues.length) {
+      //       let lendiff = this.colvalues.length - columnLength;
+      //       this.colvalues.forEach((element2: any, j: number) => {
+      //         if (j >= columnLength) {
+      //           let obj: { [key: string]: any } = {};
+      //           element[element2.col] = [{ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] }];
+
+      //         }
+      //       });
+
+      //     }
+      //   });
+      // }
+      else {
         let columnLength: number
         let dayArr = (this.shiftForm.value.startingDay).split('@')
         for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
@@ -385,10 +431,10 @@ export class AddShiftComponent implements OnInit {
       }
     }
     if (this.shiftForm.value.startingDay) {
-      this.dayValue = this.dayList.find((item: any) => item.weekDays == this.shiftForm.value.startingDay).dayName
-      if (this.dayValue) {
-        this.dayValue = this.dayValue.split(' ')[1]
-      }
+      this.dayValue = this.dayList.find((item: any) => item.weekDays == this.shiftForm.value.startingDay).dayID
+      // if (this.dayValue) {
+      //   this.dayValue = this.dayValue.split(' ')[1]
+      // }
     }
     let shiftDetailArr: string[] = []
     if (this.shiftForm.value.shiftFormArr.length > 0) {
@@ -416,13 +462,14 @@ export class AddShiftComponent implements OnInit {
       shiftName: this.shiftForm.value.shiftName,
       no_of_Days: (this.shiftForm.value.noOfdaysPerWeek).toString(),
       no_of_Periods: (this.shiftForm.value.noOfPeriodsPerDay).toString(),
-      start_Day: this.dayValue ? this.dayValue : this.shiftForm.value.startingDay,
+      start_Day: this.dayValue ? (this.dayValue).toString() : (this.shiftForm.value.startingDay).toString(),
       start_Time: this.shiftForm.value.startTime,
       end_Time: this.shiftForm.value.endTime,
       shift_class: classStr,
       perioddetails: shiftDetailArr.length > 0 ? shiftDetailArr.join('ê') : '',
     }
     console.log(postData);
+    console.log(classStr);
 
     this.service.postHttpService(postData, 'createShiftPreiod').subscribe((response: any) => {
       if (response.status) {
@@ -447,9 +494,9 @@ export class AddShiftComponent implements OnInit {
           heightAuto: false
         })
       }
-    },  error => {	
-      this.loader.hide();	
-    });	
+    }, error => {
+      this.loader.hide();
+    });
   }
   onDayChange(data: any) {
     this.dayValue = ''
@@ -483,7 +530,7 @@ export class AddShiftComponent implements OnInit {
   }
   onEditShift(id: String) {
     this.shiftForm.get('shiftId')?.setValue(id);
-    this.classSelectedValues =[]
+    this.classSelectedValues = []
     this.classFormControl = new FormControl([], Validators.required)
     this.getClassList()
     let postData = {
@@ -495,7 +542,8 @@ export class AddShiftComponent implements OnInit {
     this.service.getHttpServiceWithDynamicParams(postData, 'findShiftDetails').subscribe((response: any) => {
       if (response.status) {
         let day = this.dayList.filter((item: any) => {
-          let splitDay = item.dayName.split(' ')[1]
+          // let splitDay = item.dayName.split(' ')[1]
+          let splitDay = item.dayID;
           if (splitDay == response.resultData[0].start_Day) {
             return item;
           }
@@ -710,7 +758,7 @@ export class AddShiftComponent implements OnInit {
       });
     }
   }
-  onEndDateChange(){
+  onEndDateChange() {
     let oldStartDate = new Date()
     let oldEndDate = new Date()
     let shiftTime = this.convertTo24HourFormat(this.shiftForm.value.endTime);
@@ -724,7 +772,7 @@ export class AddShiftComponent implements OnInit {
         let [shours, sminutes] = periodTime?.split(':').map(Number);
         oldStartDate.setHours(shours, sminutes, 0, 0);
       }
-      if ( (oldEndDate.getTime() < oldStartDate.getTime())) {
+      if ((oldEndDate.getTime() < oldStartDate.getTime())) {
         this.timeErr = true
         return
       } else {
