@@ -13,7 +13,7 @@
         <div class="card-body">
 
             <form action="" [formGroup]="form">
-                <div class="row align-items-end mb-2">
+                <div class="row align-items-center mb-2">
                     <div class="col-lg-3">
                         <!-- <mat-form-field appearance="outline">
                             <mat-label>Staff</mat-label>
@@ -24,7 +24,7 @@
                             </mat-select>
                         </mat-form-field> -->
 
-                        <mat-form-field appearance="outline" class="mat_wrapper mt-1">
+                        <mat-form-field appearance="outline" class="mat_wrapper ">
                             <mat-label>Staff </mat-label>
                             <mat-select [(ngModel)]="selectedValuesetting" formControlName="staff" name="staff">
                                 <div class="search-wraper">
@@ -39,21 +39,18 @@
                         </mat-form-field>
                     </div>
                     <div class="col-lg-3">
-                        <label for="" class="fw-bold mb-1">Start Date</label>
+                        <!-- <label for="" class="fw-bold mb-1">Start Date</label> -->
                         <div class="input-group">
-
-                            <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName="fromDate"
-                                placeholder="Enter From Date" class="form-control" id="text-input">
+                            <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" formControlName="fromDate" 
+                                placeholder="Enter From Date" class="form-control owl_date_picker" id="text-input">
                             <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <label for="" class="fw-bold mb-1">End Date</label>
-
+                        <!-- <label for="" class="fw-bold mb-1">End Date</label> -->
                         <div class="input-group">
-
                             <input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Enter To Date"
-                                class="form-control" id="text-input" formControlName="toDate"
+                                class="form-control owl_date_picker" id="text-input" formControlName="toDate"
                                 min="{{form.value.fromDate}}">
                             <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
                         </div>
@@ -140,8 +137,8 @@
                     </table>
 
                     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                        aria-label="Select page of periodic elements">
-                    </mat-paginator>
+                    aria-label="Select page of periodic elements" [length]="dataSource.data.length">
+                  </mat-paginator>
                 </div>
             </div>
         </div>

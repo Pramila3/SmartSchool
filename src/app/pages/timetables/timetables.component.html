@@ -13,7 +13,7 @@
 </div>
 
 <div class="content-wrapper">
-    <div class="d-flex align-items-center justify-content-between mb-2">
+    <div class="d-flex align-items-center justify-content-start mb-2">
 
         <div class="pe-3">
             <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
@@ -22,9 +22,12 @@
                 <mat-button-toggle value="underline" (click)="ViewTimetableSubjectwise()">By Subject</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
+       <div class="col-lg-2 ">
         <select *ngIf="shiftList.length > 0" name="" class="form-control" id="" [(ngModel)]= "shiftId">
+            <option value="" selected disabled>-- Select --</option>
             <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
         </select>
+       </div>
     </div>
     <div class="mt-2">
         <div class="ps-2 mb-2 d-flex align-items-center justify-content-between flex-wrap">
