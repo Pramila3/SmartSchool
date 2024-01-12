@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { CommonService } from '../../services/common.service';
-import { LoaderService } from '../../common/loading/loader.service';
-import Swal from 'sweetalert2';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { CommonService } from "../../services/common.service";
+import { LoaderService } from "../../common/loading/loader.service";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-staff-replacement',
-  templateUrl: './staff-replacement.component.html',
-  styleUrls: ['./staff-replacement.component.scss']
+  selector: "app-staff-replacement",
+  templateUrl: "./staff-replacement.component.html",
+  styleUrls: ["./staff-replacement.component.scss"],
 })
 export class StaffReplacementComponent implements OnInit {
-
   selectedValue: string | undefined;
-  selectedValuereplace: string | undefined
+  selectedValuereplace: string | undefined;
 
-  input: any
+  input: any;
   form: FormGroup | any;
   submitted!: boolean;
   BindStaffList: any;
@@ -26,8 +25,15 @@ export class StaffReplacementComponent implements OnInit {
   staffNo: any;
   value: any;
   BindList: any;
-  constructor(private router: Router, public dialog: MatDialog, private service: CommonService, private fb: FormBuilder, private loader: LoaderService) { }
-
+  searchValue = "";
+  staffList: any = [];
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private service: CommonService,
+    private fb: FormBuilder,
+    private loader: LoaderService
+  ) {}
 
   ngOnInit(): void {
     this.formGroup();
@@ -39,133 +45,147 @@ export class StaffReplacementComponent implements OnInit {
     this.form = this.fb.group({
       Staff: [null, Validators.required],
       replace: [null, Validators.required],
-    })
+    });
   }
   getBindStaffList() {
-    this.loader.show()
+    this.loader.show();
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode')
-    }
+      schoolcode: localStorage.getItem("schoolcode"),
+    };
 
-    this.service.getHttpServiceWithDynamicParams(postData, 'getBindStaffList').subscribe(
-      (response: any) => {
-        console.log('getBindStaffList', response);
+    this.service
+      .getHttpServiceWithDynamicParams(postData, "getBindStaffList")
+      .subscribe((response: any) => {
+        console.log("getBindStaffList", response);
 
         if (response.statusCode == 200) {
           // this.BindStaffList = response.resultData[0].staff
-          this.BindStaffList = response.resultData
+          this.BindStaffList = response.resultData;
           // ?.map((staff: { staff: any; }) => {
           //   return staff.staff
           // })
-          this.ttlPercentage = response.ttlPercentage
-          console.log('getBindStaffList', response, this.BindStaffList);
-          this.loader.hide()
+          this.ttlPercentage = response.ttlPercentage;
+          console.log("getBindStaffList", response, this.BindStaffList);
+          this.loader.hide();
         }
-      },
-
-    );
+      });
   }
   getBindReplaceStaffList() {
-    this.loader.show()
+    this.loader.show();
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode')
-    }
+      schoolcode: localStorage.getItem("schoolcode"),
+    };
 
-    this.service.getHttpServiceWithDynamicParams(postData, 'getBindReplaceStaffStaffList').subscribe(
-      (response: any) => {
+    this.service
+      .getHttpServiceWithDynamicParams(postData, "getBindReplaceStaffStaffList")
+      .subscribe((response: any) => {
         if (response.statusCode == 200) {
           // this.BindList = response.resultData
           // console.log('BindList' , this.BindList);
-          
-          this.BindStaffReplaceList = response.resultData
-          console.log('BindStaffReplaceList-----' , this.BindStaffReplaceList);
-          
+
+          this.BindStaffReplaceList = response.resultData;
+          console.log("BindStaffReplaceList-----", this.BindStaffReplaceList);
+
           // ?.map((staff: { staff: any; }) => {
           //   return staff.staff;
           // })
-          this.loader.hide()
+          this.loader.hide();
         }
-      },
-
+      });
+  }
+  applyStaffFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchValue = inputValue;
+    console.log("ClassFilter", inputValue);
+  }
+  applyStaffReplaceFilter(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchValue = inputValue;
+    console.log("ClassFilter", inputValue);
+  }
+  get filteredstaffList() {
+    const lowerCaseSearch = this.searchValue.toLowerCase();
+    return this.BindStaffList.filter((element: any) =>
+      element.staff.toLowerCase().includes(lowerCaseSearch)
+    );
+  }
+  get filteredstaffReplaceList() {
+    const lowerCaseSearch = this.searchValue.toLowerCase();
+    return this.BindStaffReplaceList.filter((element: any) =>
+      element.staff.toLowerCase().includes(lowerCaseSearch)
     );
   }
   getBindGridList(value: any) {
     console.log(value);
 
-    this.loader.show()
+    this.loader.show();
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode'),
-      staffid: value
+      schoolcode: localStorage.getItem("schoolcode"),
+      staffid: value,
+    };
 
-    }
-
-    this.service.getHttpServiceWithDynamicParams(postData, 'getBindGridList').subscribe(
-      (response: any) => {
-        console.log('getBindGridList', response);
+    this.service
+      .getHttpServiceWithDynamicParams(postData, "getBindGridList")
+      .subscribe((response: any) => {
+        console.log("getBindGridList", response);
 
         if (response.statusCode == 200) {
-          this.BindGridList = response.resultData
-          this.loader.hide()
+          this.BindGridList = response.resultData;
+          this.loader.hide();
         }
-      },
-
-    );
+      });
   }
 
   replacestafbtn() {
-
-    this.loader.show()
+    this.loader.show();
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode'),
-      staff : this.form.value.Staff,
-      replacestaff : this.form.value.replace
-    }
-// console.log('BindStaffReplaceList' , this.form.value.Staff,this.form.value.replace,postData);
+      schoolcode: localStorage.getItem("schoolcode"),
+      staff: this.form.value.Staff,
+      replacestaff: this.form.value.replace,
+    };
+    // console.log('BindStaffReplaceList' , this.form.value.Staff,this.form.value.replace,postData);
 
-    this.service.postHttpService(postData, 'ClickReplaceStaff').subscribe(
-      (response: any) => {
-        console.log('replacestafbtn', response);
+    this.service
+      .postHttpService(postData, "ClickReplaceStaff")
+      .subscribe((response: any) => {
+        console.log("replacestafbtn", response);
         if (response.statusCode == 200) {
-          this.loader.hide()
+          this.loader.hide();
           Swal.fire({
             title: "Success",
             text: "Record Replaced successfully",
-            icon: 'success',
-            width: '350px',
-            heightAuto: false
+            icon: "success",
+            width: "350px",
+            heightAuto: false,
           }).then(() => {
-            this.getBindGridList
+            this.getBindGridList;
           });
-
         } else {
-          this.loader.hide()
+          this.loader.hide();
           Swal.fire({
             title: "Error",
             text: response.statusMessage,
-            icon: 'warning',
-            width: '350px',
-            heightAuto: false
+            icon: "warning",
+            width: "350px",
+            heightAuto: false,
           });
         }
-      },
-
-    );
+      });
   }
   Staff: Staff[] = [
-    { value: '1', viewValue: 'ANTONY BENITOR J  (BSMS32)' },
-    { value: '2', viewValue: 'ARUN  (BKMS0075)' },
-    { value: '3', viewValue: 'AHASTHILINGAM PILLAI  (BKMS0107)' },
-
+    { value: "1", viewValue: "ANTONY BENITOR J  (BSMS32)" },
+    { value: "2", viewValue: "ARUN  (BKMS0075)" },
+    { value: "3", viewValue: "AHASTHILINGAM PILLAI  (BKMS0107)" },
   ];
 
   Replace: Replace[] = [
-    { value: '1', viewValue: 'ABDULHALIM  (BKMHSS136)' },
-    { value: '2', viewValue: 'AHILA S (BKMHSS20)' },
-    { value: '3', viewValue: 'AGNES SHYLINE NISHA I (BKS1714)' },
-    { value: '4', viewValue: 'AJITHKUMAR K  (BKMS0020)' },
-    { value: '5', viewValue: 'ANANDA DAS S B  (BSMS63)' },
-    { value: '6', viewValue: 'ANANTH K (BKMS0009)' },
-    { value: '7', viewValue: 'ANANTH S (BKMS0099)' },
+    { value: "1", viewValue: "ABDULHALIM  (BKMHSS136)" },
+    { value: "2", viewValue: "AHILA S (BKMHSS20)" },
+    { value: "3", viewValue: "AGNES SHYLINE NISHA I (BKS1714)" },
+    { value: "4", viewValue: "AJITHKUMAR K  (BKMS0020)" },
+    { value: "5", viewValue: "ANANDA DAS S B  (BSMS63)" },
+    { value: "6", viewValue: "ANANTH K (BKMS0009)" },
+    { value: "7", viewValue: "ANANTH S (BKMS0099)" },
   ];
 }
 

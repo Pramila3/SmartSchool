@@ -25,9 +25,14 @@
                         <mat-form-field appearance="outline">
                             <mat-label>Staff</mat-label>
                             <mat-select formControlName="Staff" name="Staff" (selectionChange)="getBindGridList($event.value)">
-                                <mat-option *ngFor="let staff of BindStaffList" [value]="staff.staffNo">
+                                <div class="search-wraper">
+                                    <input  placeholder="Search Staff" 
+                                    (input)="applyStaffFilter($event)" class="form-control search-mat-option">
+                                   </div>
+                                <mat-option *ngFor="let staff of filteredstaffList" [value]="staff.staffNo">
                                     {{ staff.staff }}
                                 </mat-option>
+                                <mat-option *ngIf="filteredstaffList.length === 0">No Data found</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -35,9 +40,14 @@
                         <mat-form-field appearance="outline">
                             <mat-label>Staff Replace </mat-label>
                             <mat-select formControlName="replace" name="replace">
-                                <mat-option *ngFor="let Replace of BindStaffReplaceList" [value]="Replace.staffNo">
+                                <div class="search-wraper">
+                                    <input  placeholder="Search Staff Replace" 
+                                    (input)="applyStaffReplaceFilter($event)" class="form-control search-mat-option">
+                                   </div>
+                                <mat-option *ngFor="let Replace of filteredstaffReplaceList" [value]="Replace.staffNo">
                                     {{Replace.staff}}
                                 </mat-option>
+                                <mat-option *ngIf="filteredstaffReplaceList.length === 0">No Data found</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
