@@ -50,10 +50,12 @@ body {
 }
 
 .content-wrapper {
-  margin-top: 103px;
+  
   padding-bottom: 60px !important;
   padding-left: 20px;
   padding-right: 20px;
+  position: relative;
+    top: 103px;
 }
 
 .content-wrapper-no-bredcrumb {
