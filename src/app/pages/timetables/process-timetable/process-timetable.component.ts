@@ -21,18 +21,22 @@ export class ProcessTimetableComponent implements OnInit {
   timetableList: SafeHtml | undefined;
   timetableName: any;
   ttlPercentage: any;
-  constructor(private service: CommonService, private fb: FormBuilder, private sanitizer: DomSanitizer, private loader: LoaderService) {
+  shiftId: any
+  shiftList: any = []
+  constructor(private service: CommonService, private fb: FormBuilder, private sanitizer: DomSanitizer, private loader: LoaderService , private cdr: ChangeDetectorRef ,) {
 
   }
   ngOnInit(): void {
     // this.getProcessTimetable();
-    this.getProcessTimetableList();
+    this.getShiftList()
+    // this.getProcessTimetableList();
+
   }
 
   getProcessTimetableList() {
     this.loader.show();
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode')
+      schoolcode: localStorage.getItem('schoolcode') ,sftid : this.shiftId
     }
 
     this.service.getHttpServiceWithDynamicParams(postData, 'ProcessTimetableList').subscribe(
@@ -65,14 +69,34 @@ export class ProcessTimetableComponent implements OnInit {
       }
     );
   }
+  getShiftList() {
+    let postData = {
+      schoolcode: localStorage.getItem('schoolcode'), 
+    }
+    this.service.getHttpServiceWithDynamicParams(postData, 'getCombinedShiftList').subscribe(response => {
+      if (response.status) {
+        this.shiftList = response.resultData
+        this.shiftId = this.shiftList.length > 0 ? this.shiftList[0].sftid : '';
+        console.log(this.shiftId);
+        
+       }
+    this.getProcessTimetableList();
+    this.cdr.detectChanges()    
+
+    })
+  }
+
   getProcessTimetable() {
     this.loader.show();
+   
+    
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode')
+      schoolcode: localStorage.getItem('schoolcode') 
     }
 
     this.service.postHttpService(postData, 'ProcessTimetable').subscribe(
       (response: any) => {
+
         if (response.statusCode == 200) {
 
           this.getProcessTimetableList()
