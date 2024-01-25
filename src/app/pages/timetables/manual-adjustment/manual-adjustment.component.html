@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body" *ngIf="BindNonFixPeriodsList">
                     <ul class="list-group" *ngFor="let staff of BindNonFixPeriodsList" cdkDropList>
-                        <li class="list-group-item" cdkDrag>{{staff}}</li>
+                        <li class="list-group-item" cdkDrag *ngIf="staff">{{staff}}</li>
                     </ul>
                     <div  *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">No data available!
                     </div>

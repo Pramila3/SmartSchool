@@ -8,6 +8,7 @@ declare var $: any; // Declare jQuery globally (not recommended, but works for d
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import * as ExcelJS from 'exceljs';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-timetables',
   templateUrl: './timetables.component.html',
@@ -21,9 +22,21 @@ export class TimetablesComponent implements OnInit {
   shiftId: any
   shiftList: any = []
   constructor(private service: CommonService, private fb: FormBuilder, private sanitizer: DomSanitizer,
-     private loader: LoaderService, private cdr: ChangeDetectorRef) { }
+     private loader: LoaderService, private cdr: ChangeDetectorRef, private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const schoolCode = params['schoolCode'];
+      const userName = params['userName'];
+      const password = params['password'];
+      const academicYear = params['academicyear'];
+  
+      // You can now use these parameters in your component logic
+      console.log('School Code:', schoolCode);
+      console.log('User Name:', userName);
+      console.log('Password:', password);
+      console.log('Academic Year:', academicYear);
+    });
     this.getShiftList()
   }
   getShiftList() {

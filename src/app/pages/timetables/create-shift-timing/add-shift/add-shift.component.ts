@@ -248,20 +248,93 @@ export class AddShiftComponent implements OnInit {
           const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
           formArray.push(newFormGroup);
         }
-      } 
+      }
+      else {
+        let columnLength: number
+
+        this.colvalues = []
+        for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
+          this.colvalues.push({ col: "period" + j })
+        }
+
+        let dayArr = (this.shiftForm.value.startingDay).split('@')
+        console.log(this.shiftForm.value.shiftFormArr);
+
+        for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
+          if (i >= this.shiftForm.value.shiftFormArr.length) {
+            let obj: { [key: string]: any } = {};
+            this.colvalues.forEach((element2: any, j: number) => {
+              obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
+            })
+            // this.shiftFormArray.push(this.fb.group({
+            //   day: dayArr[i], ...obj
+            // }))
+            const newFormGroup = this.fb.group({
+              day: dayArr[i], ...obj
+            });
+            const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
+            formArray.push(newFormGroup);
+          }
+        }
+        this.shiftForm.value.shiftFormArr.forEach((element: any, i: number) => {
+          columnLength = Object.keys(element).length - 1;
+          if (columnLength != this.colvalues.length) {
+            let lendiff = this.colvalues.length - columnLength;
+            this.colvalues.forEach((element2: any, j: number) => {
+              if (j >= columnLength) {
+                // let obj: { [key: string]: any } = {};
+                // obj = [this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })];
+                // element[element2.col] = obj
+
+                const dynamicFormGroup = this.fb.array([this.fb.group({
+                  startTime: ['', Validators.required],
+                  endTime: ['', Validators.required],
+                  periodType: ['', Validators.required]
+                })]);
+
+                // Get the form group at index i in the form array
+                const formGroup = formArray.at(i) as FormGroup;
+                formGroup.addControl(element2.col, dynamicFormGroup);
+              }
+            });
+
+          }
+
+        });
+        //If day change
+
+        if (this.shiftForm.value.shiftFormArr[0].day != dayArr[0]) {
+          let form = this.shiftForm.value.shiftFormArr
+          dayArr.forEach((element: any, i: number) => {
+            let checkDayIndex = form.findIndex((el: any) => el.day == dayArr[i])
+            if (0 <= checkDayIndex) {
+              const removedItem = formArray.at(checkDayIndex);
+              formArray.removeAt(checkDayIndex);
+              formArray.insert(i, removedItem);
+            } else {
+              if (this.shiftForm.value.noOfPeriodsPerDay > i) {
+                formArray.removeAt(i);
+                let obj: { [key: string]: any } = {};
+                this.colvalues.forEach((element2: any, j: number) => {
+                  obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
+                })
+                const newFormGroup = this.fb.group({
+                  day: dayArr[i], ...obj
+                });
+                formArray.insert(i, newFormGroup);
+
+              }
+            }
+
+          })
+
+        }
+      }
       // else {
       //   let columnLength: number
-
-      //   // this.colvalues = []
-      //   // for (let j = 0; j < this.shiftForm.value.noOfPeriodsPerDay; j++) {
-      //   //   this.colvalues.push({ col: "period" + j })
-      //   // }
-
       //   let dayArr = (this.shiftForm.value.startingDay).split('@')
-      //   console.log(this.shiftForm.value.shiftFormArr);
-
       //   for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
-      //     if (i >= this.shiftForm.value.shiftFormArr.length) {
+      //     if (i >= this.shiftFormArray.value.length) {
       //       let obj: { [key: string]: any } = {};
       //       this.colvalues.forEach((element2: any, j: number) => {
       //         obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
@@ -269,14 +342,9 @@ export class AddShiftComponent implements OnInit {
       //       this.shiftFormArray.push(this.fb.group({
       //         day: dayArr[i], ...obj
       //       }))
-      //       // const newFormGroup = this.fb.group({
-      //       //   day: dayArr[i], ...obj
-      //       // });
-      //       // const formArray = this.shiftForm.get('shiftFormArr') as FormArray;
-      //       // formArray.push(newFormGroup);
       //     }
       //   }
-      //   this.shiftForm.value.shiftFormArr.forEach((element: any, i: number) => {
+      //   this.shiftFormArray.value.forEach((element: any, i: number) => {
       //     columnLength = Object.keys(element).length - 1;
       //     if (columnLength != this.colvalues.length) {
       //       let lendiff = this.colvalues.length - columnLength;
@@ -284,43 +352,16 @@ export class AddShiftComponent implements OnInit {
       //         if (j >= columnLength) {
       //           let obj: { [key: string]: any } = {};
       //           element[element2.col] = [{ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] }];
-
+      //           // element.push(obj)
+      //           // this.shiftFormArray.insert(i, this.fb.group(obj))
       //         }
       //       });
 
       //     }
       //   });
       // }
-      else {
-        let columnLength: number
-        let dayArr = (this.shiftForm.value.startingDay).split('@')
-        for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
-          if (i >= this.shiftFormArray.value.length) {
-            let obj: { [key: string]: any } = {};
-            this.colvalues.forEach((element2: any, j: number) => {
-              obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
-            })
-            this.shiftFormArray.push(this.fb.group({
-              day: dayArr[i], ...obj
-            }))
-          }
-        }
-        this.shiftFormArray.value.forEach((element: any, i: number) => {
-          columnLength = Object.keys(element).length - 1;
-          if (columnLength != this.colvalues.length) {
-            let lendiff = this.colvalues.length - columnLength;
-            this.colvalues.forEach((element2: any, j: number) => {
-              if (j >= columnLength) {
-                let obj: { [key: string]: any } = {};
-                element[element2.col] = [{ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] }];
-                // element.push(obj)
-                // this.shiftFormArray.insert(i, this.fb.group(obj))
-              }
-            });
+      console.log(this.shiftForm.value.shiftFormArr);
 
-          }
-        });
-      }
       this.periodForm.get('startTime')?.setValue(this.shiftForm.value.startTime)
 
     }
@@ -336,17 +377,39 @@ export class AddShiftComponent implements OnInit {
       }
     })
   }
-  addPeriods(formValue: any, colValue: any, i: number) {
+  addPeriods(formValue: any, colValue: any, i: number, previousCol: any) {
     this.timeErr = false
-    // console.log(formValue);
+    this.periodForm.patchValue({
+      endTime: null
+    })
+    // let col = this.colvalues[j-1]
+    if (previousCol && !(formValue.value[colValue][0].startTime && formValue.value[colValue][0].endTime)) {
+      let rowArr = this.formControl[i].value[previousCol.col][0]
+      if (this.formControl[i].value[previousCol.col][0].endTime) { // Get the Current row previous col value
+        let sTime = this.formControl[i].value[previousCol.col][0].endTime ? this.convertTo24HourFormat(this.formControl[i].value[previousCol.col][0].endTime) : '';
+        this.periodForm.patchValue({
+          periodName: colValue,
+          periodIndex: i,
+          startTime: sTime,
+        })
+        return
+      } else if (this.formControl[i - 1].value[colValue][0].startTime) { // Get the Previous row col value
+        let sTime = this.formControl[i - 1].value[colValue][0].startTime ? this.convertTo24HourFormat(this.formControl[i - 1].value[colValue][0].startTime) : '';
+        this.periodForm.patchValue({
+          periodName: colValue,
+          periodIndex: i,
+          startTime: sTime,
+        })
+        return
+      }
+    }
+    // console.log(rowArr.value[col][0]);
     // console.log(colValue);
     // console.log(i);
     // let shour = (formValue.value[colValue][0].startTime.split(':'))[0] > 12 ? 'PM' : 'AM'
     // let ehour = (formValue.value[colValue][0].endTime.split(':'))[0] > 12 ? 'PM' : 'AM'
     // if (formValue.value[colValue][0].startTime && formValue.value[colValue][0].endTime && formValue.value[colValue][0].periodType) {
-    this.periodForm.patchValue({
-      endTime: null
-    })
+
 
     let sTime = formValue.value[colValue][0].startTime ? this.convertTo24HourFormat(formValue.value[colValue][0].startTime) : '';
     let eTime = formValue.value[colValue][0].endTime ? this.convertTo24HourFormat(formValue.value[colValue][0].endTime.trim()) : '';
@@ -358,7 +421,8 @@ export class AddShiftComponent implements OnInit {
         endTime: eTime,
         periodType: formValue.value[colValue][0].periodType ? formValue.value[colValue][0].periodType : 'Period',
       })
-    } else if (this.periodForm.value.startTime) {
+    }
+    else if (this.periodForm.value.startTime) {
       let sTime = this.periodForm.value.startTime ? this.convertTo24HourFormat(this.periodForm.value.startTime) : '';
       this.periodForm.patchValue({
         periodName: colValue,
@@ -373,6 +437,7 @@ export class AddShiftComponent implements OnInit {
         startTime: sTime,
       })
     }
+    this.cdr.detectChanges()
     console.log(this.periodForm.value);
 
     // }
@@ -529,6 +594,7 @@ export class AddShiftComponent implements OnInit {
     }
   }
   onEditShift(id: String) {
+    this.loader.show()
     this.shiftForm.get('shiftId')?.setValue(id);
     this.classSelectedValues = []
     this.classFormControl = new FormControl([], Validators.required)
@@ -603,8 +669,14 @@ export class AddShiftComponent implements OnInit {
           console.log(this.shiftForm);
 
         }
+        this.loader.hide()
+      } else {
+        this.loader.hide()
       }
+
       return null
+    }, error => {
+      this.loader.hide()
     })
   }
   onDeleteShift(id: string) {

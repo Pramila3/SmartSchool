@@ -13,7 +13,7 @@ import { LoaderService } from '../../common/loading/loader.service';
   styleUrls: ['./manual-adjustment.component.scss']
 })
 export class ManualAdjustmentComponent implements OnInit {
-  BindNonFixPeriodsList: any;
+  BindNonFixPeriodsList: any = [];
   BindGridManualAdjustment: any;
   NoOfDays: any;
   NoOfPeriods: any;
@@ -54,8 +54,8 @@ export class ManualAdjustmentComponent implements OnInit {
           // this.BindList = response.resultData
           // console.log('BindList' , this.BindList);
 
-          this.BindNonFixPeriodsList = response.resultData?.map((staff: { staff: any; }) => {
-            return staff.staff;
+          this.BindNonFixPeriodsList = response.resultData?.filter((staff: any) => {
+            return +(staff?.remaining) > 0 ? staff.staff : null;
           })
           console.log('BindNonFixPeriodsList-----', this.BindNonFixPeriodsList);
 
@@ -90,10 +90,10 @@ export class ManualAdjustmentComponent implements OnInit {
     this.loader.show()
     let postData = {
       schoolcode: localStorage.getItem('schoolcode'),
-      copiedcell: this.dragData.trim(),
+      copiedcell: this.dragData.trim() + ",undefined",
       pastedcell: this.dropData.trim(),
     }
-    this.service.getHttpServiceWithDynamicParams(postData, 'SaveManualAdjustmentPeriods').subscribe(
+    this.service.postHttpService(postData, 'SaveManualAdjustmentPeriods').subscribe(
       (response: any) => {
         if (response.statusCode == 200) {
           this.getManualAdjustmentPeriodsList()
