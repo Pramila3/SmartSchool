@@ -14,8 +14,8 @@
 
 <div class="content-wrapper">
     <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex col-lg-7 align-items-center">
-          <div class="col-lg-8">
+        <div class="d-flex col-lg-9 align-items-center">
+          <div class="">
             <div class="badge_group ms-3">
                 <div class="badge_items">
                     <div class="badge_label_box" style="background-color: #808080;"> </div>
@@ -39,8 +39,8 @@
                 </div>
             </div>
           </div>
-            <div class="col-lg-4">
-                <div class=" ms-4 ">
+            <div class="col-lg-2 ms-2">
+                <div class=" ">
                     <select *ngIf="shiftList.length > 0" name="" class="form-control" id="" [(ngModel)]="shiftId">
                         <option value="" selected disabled>-- Select --</option>
                         <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
