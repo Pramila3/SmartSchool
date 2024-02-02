@@ -490,7 +490,7 @@ export class AddShiftComponent implements OnInit {
           const selectedObjects = this.filteredClassList.find((option: any) => option.class == element);
 
           if (selectedObjects) {
-            classStr = selectedToppings.length - 1 == index ? (classStr + selectedObjects.classid) : index == 0 ? (selectedObjects.classid + ', ') : (classStr + selectedObjects.classid + ', ')
+            classStr = selectedToppings.length - 1 == index ? (classStr + selectedObjects.classid) : index == 0 ? (selectedObjects.classid + ',') : (classStr + selectedObjects.classid + ',')
           }
         });
       }
