@@ -1,0 +1,21 @@
+.imgbg{
+height: 600px;
+width: 600px;
+object-fit: cover;
+}
+
+.main_part{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+}
+.btn_custum_home {
+    background: #000;
+    color: #fff;
+    padding: 10px 40px !important;
+    border-radius: 20px;
+}

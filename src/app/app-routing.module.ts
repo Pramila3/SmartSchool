@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth/auth.guard';
+import { Error404Component } from './login/error404/error404.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -9,7 +10,10 @@ const routes: Routes = [
     path: 'login', component: LoginComponent,
     data: { returnUrl: window.location.pathname }
   },
-
+  {
+    path: 'error', component: Error404Component,
+    data: { returnUrl: window.location.pathname }
+  },
   {
     path: '',
     loadChildren: () =>

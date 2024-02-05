@@ -7,7 +7,6 @@
         background: #c76de8;
         color: white;
     }
-
 }
 
 .mat-button-toggle-standalone,
@@ -16,12 +15,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50px;
+    background: white;
+    border: none;
+  
+    .mat-button-toggle-checked {
+        background: #87ceeb;
+    }
 }
 
 .table_action_btns {
     display: flex;
     align-items: center;
-  
+
     padding-right: 20px;
 }
 
@@ -65,7 +71,7 @@
 }
 
 .time_table_card_break {
-    background: #87CEEB;
+    background: #87ceeb;
     border-radius: 15px;
     margin-bottom: 10px;
     color: #000;
@@ -82,10 +88,10 @@
     border-radius: 13px;
     color: #fff;
 }
-.list-group .active{
+.list-group .active {
     position: relative;
 }
-.list-group .active::after{
+.list-group .active::after {
     content: "";
     border-top: 11px solid transparent;
     border-left: 11px solid #0e6ffd;
@@ -94,19 +100,17 @@
     right: -14px;
 }
 
-.break{
+.break {
     background-color: #866fd8;
     color: #fff;
 }
-.custum_table tr th p{
+.custum_table tr th p {
     margin-bottom: 2px;
 }
 
-.assigned_subject{
+.assigned_subject {
     background-color: #56ec5694;
 }
-
-
 
 .card {
     border-radius: 11px;
@@ -117,7 +121,6 @@
         background: #c76de8;
         color: white;
     }
-
 }
 
 .mat-button-toggle-standalone,
@@ -131,7 +134,7 @@
 .table_action_btns {
     display: flex;
     align-items: center;
-    
+
     padding-right: 20px;
 }
 
@@ -175,7 +178,7 @@
 }
 
 .time_table_card_break {
-    background: #87CEEB;
+    background: #87ceeb;
     border-radius: 15px;
     margin-bottom: 10px;
     color: #000;

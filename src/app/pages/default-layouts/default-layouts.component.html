@@ -8,160 +8,136 @@
                         <mat-icon>menu</mat-icon>
                     </button>
                 </div>
-                <a class="navbar-brand ms-2">Smart School</a>
+                <!-- <a class="navbar-brand ms-2">
+                    <img src="../../../assets/onelinelogo.png" class="img-fluid logo_img" />
+                </a> -->
             </div>
-            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button> -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                 
+                    <li class="nav-item"  >
+                        <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+                            <span class="menu-icons">
+                                <img src="../../../assets/menu_icons/timetable.png" alt="" class="icon_img img-fluid">
+                            </span>
+                            Timetables</a>
+                    </li>
+    
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" routerLink="/home"
-                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Home</a>
+                        <a mat-menu-item routerLink="/timetable/CreateShiftTiming"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+                            <span class="menu-icons">
+                                <img src="../../../assets/menu_icons/shift.png" alt="" class="icon_img img-fluid">
+                            </span>
+                            Create Shift Timing</a>
                     </li>
+    
+                    <li  class="nav-item"  [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+                        <a mat-menu-item [matMenuTriggerFor]="Allotment" >
+                            <span class="menu-icons">
+                                <img src="../../../assets/menu_icons/schedule.png" alt="" class="icon_img img-fluid">
+                            </span>  
+                            Allotment</a>
+                    </li>
+    
+    
                     <li class="nav-item">
-                        <a class="nav-link" [matMenuTriggerFor]="Edit">Edit</a>
-                        <mat-menu #Edit="matMenu" class="mt-3">
-                            <a mat-menu-item [matMenuTriggerFor]="Admin">Admin</a>
-                            <a mat-menu-item>Academic Year</a>
-                            <a mat-menu-item>Calendar</a>
-                            <a mat-menu-item>Support Data</a>
-                            <a mat-menu-item>Password</a>
-                            <a mat-menu-item>Archive</a>
-                            <a mat-menu-item>News and Circulars</a>
-                            <a mat-menu-item>Holiday</a>
-                            <a mat-menu-item>Chronicles</a>
-                            <a mat-menu-item>View Portal Users</a>
-                            <a mat-menu-item>Database Backups</a>
-                        </mat-menu>
-                        <mat-menu #Admin="matMenu">
-                            <a mat-menu-item [matMenuTriggerFor]="StaffInterview">Staff Interview</a>
-                            <a mat-menu-item [matMenuTriggerFor]="Appraisal">Appraisal</a>
-                            <a mat-menu-item [matMenuTriggerFor]="Users">Users</a>
-
-                        </mat-menu>
-
-                        <mat-menu #StaffInterview="matMenu">
-                            <a mat-menu-item routerLink="/applicantlist" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Applicants List</a>
-                            <a mat-menu-item routerLink="/InterviewRecord" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Interview Record</a>
-                        </mat-menu>
-                        <mat-menu #Appraisal="matMenu">
-                            <a mat-menu-item >Appraisal List</a>
-                            <a mat-menu-item>Staff Appraisal</a>
-                        </mat-menu>
-                        <mat-menu #Users="matMenu">
-                            <a mat-menu-item >Existing Users</a>
-                            <a mat-menu-item>User Role</a>
-                        </mat-menu>
-                    </li>
-
-
-
-
-
-                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
-                        <a class="nav-link" [matMenuTriggerFor]="Module">Module</a>
-                    </li>
-                    <mat-menu #Module="matMenu" class="mt-3">
-                        <a mat-menu-item>Student</a>
-                        <a mat-menu-item>Student Attendance</a>
-                        <a mat-menu-item>Staff</a>
-                        <a mat-menu-item>Staff Attendance</a>
-                        <a mat-menu-item>Examination</a>
-                        <a mat-menu-item>Timetable</a>
-                        <a mat-menu-item>Fee</a>
-                        <a mat-menu-item>Transport</a>
-                        <a mat-menu-item>Library</a>
-                        <a mat-menu-item>SMS</a>
-                        <a mat-menu-item>Inventory</a>
-                        <a mat-menu-item>QuestionBank</a>
-                        <a mat-menu-item>CCE</a>
-                        <a mat-menu-item>Front Office</a>
-                    </mat-menu>
-                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
-                        <a class="nav-link" [matMenuTriggerFor]="Tools">Tools</a>
-                    </li>
-                    <mat-menu #Tools="matMenu" class="mt-3">
-                        <a mat-menu-item [matMenuTriggerFor]="Address">Address Book</a>
-                    </mat-menu>
-
-                    <mat-menu #Address="matMenu" class="mt-3">
-                        <a mat-menu-item>Student Address Book</a>
-                        <a mat-menu-item>Staff Address Book</a>
-                    </mat-menu>
-                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
-                        <a class="nav-link" [matMenuTriggerFor]="Reports">Reports</a>
-                    </li>
-                    <mat-menu #Reports="matMenu" class="mt-3">
-                        <a mat-menu-item>Create Shift Timing</a>
-                        <a mat-menu-item>Criteria</a>
-                        <a mat-menu-item>Set Combined & Continuous</a>
-                        <a mat-menu-item>Define Staff Combined</a>
-                        <a mat-menu-item>Create Timetable</a>
-                        <a mat-menu-item>Process Timetable</a>
-
-                    </mat-menu>
-                    <li class="nav-item" *ngIf="moduleName != 'Timtable'">
-                        <a class="nav-link" [matMenuTriggerFor]="Helps">Helps</a>
-                    </li>
-                    <mat-menu #Helps="matMenu" class="mt-3">
-                        <a mat-menu-item>Create Shift Timing</a>
-                        <a mat-menu-item>Criteria</a>
-                        <a mat-menu-item>Set Combined & Continuous</a>
-                        <a mat-menu-item>Define Staff Combined</a>
-                        <a mat-menu-item>Create Timetable</a>
-                        <a mat-menu-item>Process Timetable</a>
-
-                    </mat-menu>
-                    <li class="nav-item" *ngIf="moduleName == 'Timtable'">
-                        <a class="nav-link" [matMenuTriggerFor]="Timetables">Timetables</a>
-                    </li>
-
-                    <mat-menu #Timetables="matMenu" class="mt-3">
-                        <a mat-menu-item routerLink="/timetable/CreateShiftTiming" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Create Shift Timing</a>
-                        <!-- <a mat-menu-item [matMenuTriggerFor]="Allotment" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Allotment</a> -->
-
                         <a mat-menu-item routerLink="/timetable/FixCriteria" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Fix Criteria</a>
-                        <a mat-menu-item routerLink="/timetable/SetCombinedContinuous" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Set Combined & Continuous</a>
-                        <a mat-menu-item routerLink="/timetable/StaffCombinedCriteria" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Define Staff Combined</a>
+                            routerLinkActive="active">
+                            <span class="menu-icons">
+                                <img src="../../../assets/menu_icons/timetable.png" alt="" class="icon_img img-fluid">
+                            </span>
+                            Fix Criteria</a>
+                    </li>
+    
+    
+                    <li class="nav-item">
+                        <a mat-menu-item routerLink="/timetable/SetCombinedContinuous"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+                            <span class="menu-icons">
+                                <img src="../../../assets/menu_icons/timetable.png" alt="" class="icon_img img-fluid">
+                            </span>
+                            Set Combained &
+                            Continuous</a>
+                    </li>
+    
+    
+                    <li class="nav-item">
+    
+                        <a mat-menu-item routerLink="/timetable/StaffCombinedCriteria"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+                            <span class="menu-icons">
+                                <img src="../../../assets/menu_icons/timetable.png" alt="" class="icon_img img-fluid">
+                            </span>
+                            Define Staff Combined</a>
+                    </li>
+       
+                    <li class="nav-item">
+                        <a mat-menu-item  [matMenuTriggerFor]="Moreoption"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">More Options</a>
+                    </li>
+                    <mat-menu #Moreoption="matMenu">
                         <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
                             Timetable</a>
-                        <a mat-menu-item routerLink="/timetable/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Process
-                            Timetable</a>
-                        <a mat-menu-item routerLink="/timetable/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Manual Adjustment</a>
-                        <a mat-menu-item routerLink="/timetable/ImportTimeTable" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Import Timetables</a>
-                        <a mat-menu-item routerLink="/timetable/TemporaryTimetable" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Create Temporary Timetable</a>
-                        <a mat-menu-item routerLink="/timetable/StaffSubstitude" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Substitute Staff</a>
-                        <a mat-menu-item routerLink="/timetable/OnlineMonitor" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Online Monitor</a>
-                        <a mat-menu-item routerLink="/timetable/StaffReplacement" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Replace Staff</a>
-                        <a mat-menu-item routerLink="/timetable/SearchStaffstudent" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Search Student/Staff</a>
-                        <a mat-menu-item routerLink="/timetable/Customization" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Customize</a>
-                        <a mat-menu-item [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">View</a>
-
+                        <a mat-menu-item routerLink="/timetable/ProcessTimetable"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Process
+                        Timetable</a>
+                        <a mat-menu-item routerLink="/timetable/ManualAdjustment"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Manual Adjustment</a>
+                      
+    
+                            <a mat-menu-item routerLink="/timetable/ImportTimeTable"
+                                [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Import Timetables</a>
+                       
+        
+        
+                       
+                            <a mat-menu-item routerLink="/timetable/TemporaryTimetable"
+                                [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create Temporary
+                                Timetable</a>
+                       
+        
+                       
+        
+                            <a mat-menu-item routerLink="/timetable/StaffSubstitude"
+                                [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Substitute Staff</a>
+                      
+        
+        
+                        
+                            <a mat-menu-item routerLink="/timetable/OnlineMonitor"
+                                [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Online Monitor</a>
+                      
+        
+        
+                     
+                            <a mat-menu-item routerLink="/timetable/StaffReplacement"
+                                [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Replace Staff</a>
+                      
+        
+        
+                        
+                            <a mat-menu-item routerLink="/timetable/SearchStaffstudent"
+                                [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Search Student/Staff</a>
+                     
+        
+        
+                      
+                            <a mat-menu-item routerLink="/timetable/Customization"
+                                [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Customize</a>
+                       
+                       
+                            <a mat-menu-item [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
+                                routerLinkActive="active">View</a>
+                     
+    
                     </mat-menu>
-
+                  
                     <mat-menu #Allotment="matMenu">
-                        <a mat-menu-item routerLink="/timetable/AllotSubject" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">Allot Subject</a>
-                        <a mat-menu-item routerLink="/timetable/StaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active"> Staff Allotment</a>
+                        <a mat-menu-item routerLink="/timetable/AllotSubject"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Allot Subject</a>
+                        <a mat-menu-item routerLink="/timetable/StaffAllotment"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active"> Staff Allotment</a>
                         <a mat-menu-item routerLink="/timetable/ClasswiseStaffAllotment"
                             [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Classwise Staff
                             Alotment</a>
@@ -170,94 +146,66 @@
                     <mat-menu #View="matMenu">
                         <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }"
                             routerLinkActive="active">General Timetable</a>
-                        <a mat-menu-item routerLink="/timetable/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        <a mat-menu-item routerLink="/timetable/timetablebyclass"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                             Class</a>
-                        <a mat-menu-item  routerLink="/timetable/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        <a mat-menu-item routerLink="/timetable/timetablebysubject"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                             Subject</a>
-                        <a mat-menu-item routerLink="/timetable/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                        <a mat-menu-item routerLink="/timetable/timetablebystaff"
+                            [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                             Staff</a>
                     </mat-menu>
-    
 
-
-                    <!-- <li class="nav-item " *ngIf="moduleName == 'Timtable'">
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Timetables
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" routerLink="/CreateShiftTiming"
-                                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
-                                        Shift Timing</a></li>
-
-
-
-                                <li><a class=" dropdown-item dropdown-toggle" id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Fix
-                                        Criteria</a>
-
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item" routerLink="/CreateShiftTiming"
-                                                [routerLinkActiveOptions]="{ exact: true }"
-                                                routerLinkActive="active">Create Shift Timing</a></li>
-                                        <li><a class="dropdown-item" routerLink="/"
-                                                [routerLinkActiveOptions]="{ exact: true }"
-                                                routerLinkActive="active">Fix Criteria</a></li>
-                                        <li><a class="dropdown-item" routerLink="/"
-                                                [routerLinkActiveOptions]="{ exact: true }"
-                                                routerLinkActive="active">Set Compained & Continous</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Set Compained & Continous</a></li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Define Staff Compained</a></li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Create Timetable</a></li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Process Timetable</a></li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Manual Adjustment </a></li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Import Timetables </a></li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Create Temporary Timetable </a></li>
-                                <li><a class="dropdown-item" routerLink="/" [routerLinkActiveOptions]="{ exact: true }"
-                                        routerLinkActive="active">Subscribe Staff </a></li>
-                            </ul>
-                        </div>
-
-                    </li> -->
-                    <li class="nav-item" *ngIf="moduleName == 'Timtable'">
-                        <a class="nav-link" routerLink="/">Timetable Reports</a>
-                    </li>
                 </ul>
 
             </div>
-            <div class="location">
-                <a class="nav-link" aria-current="page">
-                    <span class="me-2">
+            <div class="col-lg-4 d-flex align-items-center justify-content-end">
+                <!-- <div class="Position-absolute col-lg-10">
+                    <div class="search_wraper">
+                        <input type="text" name="" class="form-control" placeholder="Search here..." id="">
+                    </div>
+                    <div class="wrapper_icon_search">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            class="bi bi-search" viewBox="0 0 16 16">
                             <path
-                                d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                         </svg>
-                    </span>
-                    Bangalore, India</a>
+                    </div>
+                </div> -->
+                <!-- <div class="location">
+                    <a class="nav-link" aria-current="page">
+                        <span class="me-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                            </svg>
+                        </span>
+                        Bangalore, India</a>
+                </div> -->
+
+                <a mat-fab class="user_part ms-4" [matMenuTriggerFor]="logout" color="light">
+                    <img src="../../../assets/login_pics/stud_login.png" class="userprofile" alt="">
+                </a>
+
+                <!-- (click)="logout()" -->
+                <mat-menu #logout="matMenu">
+                    <div class="">
+                        <button mat-menu-item href="javascript:void(0);" routerLink="/" aria-current="page"
+                            class="d-flex align-items-center"><span class="me-1 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-escape" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.538 1.02a.5.5 0 1 0-.076.998 6 6 0 1 1-6.445 6.444.5.5 0 0 0-.997.076A7 7 0 1 0 8.538 1.02" />
+                                    <path
+                                        d="M7.096 7.828a.5.5 0 0 0 .707-.707L2.707 2.025h2.768a.5.5 0 1 0 0-1H1.5a.5.5 0 0 0-.5.5V5.5a.5.5 0 0 0 1 0V2.732z" />
+                                </svg>
+                            </span> <span class="mt-1 hide_mobile_text">Logout</span></button>
+                    </div>
+                </mat-menu>
             </div>
-            <div class="" (click)="logout()">
-                <a class="nav-link " href="javascript:void(0);" mat-button aria-current="page"><span class="me-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />
-                            <path fill-rule="evenodd"
-                                d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
-                        </svg>
-                    </span> <span class="mt-1 hide_mobile_text">Logout</span></a>
-            </div>
+
 
         </div>
     </nav>
@@ -305,11 +253,11 @@
                         <a mat-menu-item>Interview Record</a>
                     </mat-menu>
                     <mat-menu #Appraisal="matMenu">
-                        <a mat-menu-item >Appraisal List</a>
+                        <a mat-menu-item>Appraisal List</a>
                         <a mat-menu-item>Staff Appraisal</a>
                     </mat-menu>
                     <mat-menu #Users="matMenu">
-                        <a mat-menu-item >Existing Users</a>
+                        <a mat-menu-item>Existing Users</a>
                         <a mat-menu-item>User Role</a>
                     </mat-menu>
 
@@ -375,65 +323,127 @@
 
                 </mat-menu>
                 <li class="nav-item" *ngIf="moduleName == 'Timtable'">
-                    <a class="nav-link" [matMenuTriggerFor]="Timetables">Timetables</a>
+                    <a class="nav-link" >Timetables</a>
                 </li>
 
-                <mat-menu #Timetables="matMenu" class="mt-3">
-                    <a mat-menu-item routerLink="/timetable/CreateShiftTiming" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Create Shift Timing</a>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/CreateShiftTiming"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create Shift Timing</a>
+                </li>
+
+                <li class="nav-item">
                     <a mat-menu-item [matMenuTriggerFor]="Allotment" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Allotment</a>
+                </li>
 
-                    <a mat-menu-item routerLink="/timetable/FixCriteria" [routerLinkActiveOptions]="{ exact: true }"
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/FixCriteria" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">Fix Criteria</a>
-                    <a mat-menu-item routerLink="/timetable/SetCombinedContinuous" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Set Combained & Continuous</a>
-                    <a mat-menu-item routerLink="/timetable/StaffCombinedCriteria" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Define Staff Combined</a>
-                    <a mat-menu-item [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
-                        Timetable</a>
-                    <a mat-menu-item routerLink="/timetable/ProcessTimetable" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Process
-                        Timetable</a>
-                    <a mat-menu-item routerLink="/timetable/ManualAdjustment" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Manual Adjustment</a>
-                    <a mat-menu-item routerLink="/timetable/ImportTimeTable" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Import Timetables</a>
-                    <a mat-menu-item routerLink="/timetable/TemporaryTimetable" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Create Temporary Timetable</a>
-                    <a mat-menu-item routerLink="/timetable/StaffSubstitude" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Substitute Staff</a>
-                    <a mat-menu-item routerLink="/timetable/OnlineMonitor" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Online Monitor</a>
-                    <a mat-menu-item routerLink="/timetable/StaffReplacement" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Replace Staff</a>
-                    <a mat-menu-item routerLink="/timetable/SearchStaffstudent" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Search Student/Staff</a>
-                    <a mat-menu-item routerLink="/timetable/Customization" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Customize</a>
-                    <a mat-menu-item [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">View</a>
+                </li>
 
-                </mat-menu>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/SetCombinedContinuous"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Set Combained &
+                        Continuous</a>
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" routerLink="/timetable/StaffCombinedCriteria"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Define Staff Combined</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create
+                        Timetable</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/ProcessTimetable"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Process
+                        Timetable</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/ManualAdjustment"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Manual Adjustment</a>
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" routerLink="/timetable/ImportTimeTable"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Import Timetables</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/TemporaryTimetable"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Create Temporary
+                        Timetable</a>
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" routerLink="/timetable/StaffSubstitude"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Substitute Staff</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/OnlineMonitor"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Online Monitor</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/StaffReplacement"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Replace Staff</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/SearchStaffstudent"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Search Student/Staff</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/timetable/Customization"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Customize</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [matMenuTriggerFor]="View" [routerLinkActiveOptions]="{ exact: true }"
+                        routerLinkActive="active">View</a>
+                </li>
+
 
                 <mat-menu #Allotment="matMenu">
-                    <a mat-menu-item routerLink="/timetable/timetable/AllotSubject" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Allot Subject</a>
-                    <a mat-menu-item routerLink="/timetable/timetable/StaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active"> Staff Allotment</a>
-                    <a mat-menu-item routerLink="/timetable/timetable/ClasswiseStaffAllotment" [routerLinkActiveOptions]="{ exact: true }"
-                        routerLinkActive="active">Classwise Staff
+                    <a mat-menu-item routerLink="/timetable/timetable/AllotSubject"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Allot Subject</a>
+                    <a mat-menu-item routerLink="/timetable/timetable/StaffAllotment"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active"> Staff Allotment</a>
+                    <a mat-menu-item routerLink="/timetable/timetable/ClasswiseStaffAllotment"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Classwise Staff
                         Alotment</a>
 
                 </mat-menu>
                 <mat-menu #View="matMenu">
                     <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }"
                         routerLinkActive="active">General Timetable</a>
-                    <a mat-menu-item routerLink="/timetable/timetablebyclass" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                    <a mat-menu-item routerLink="/timetable/timetablebyclass"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                         Class</a>
-                    <a mat-menu-item  routerLink="/timetable/timetablebysubject" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                    <a mat-menu-item routerLink="/timetable/timetablebysubject"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                         Subject</a>
-                    <a mat-menu-item routerLink="/timetable/timetablebystaff" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
+                    <a mat-menu-item routerLink="/timetable/timetablebystaff"
+                        [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                         Staff</a>
                 </mat-menu>
 
@@ -488,6 +498,7 @@
                     </div>
 
                 </li> -->
+
                 <li class="nav-item" *ngIf="moduleName == 'Timtable'">
                     <a class="nav-link" routerLink="/">Timetable Reports</a>
                 </li>
@@ -495,8 +506,9 @@
         </div>
     </div>
 </header>
+
 <router-outlet></router-outlet>
 
-<footer class="fixed-bottom bg-white footer_main p-2">
-    <p class="mb-0">Copyright © 2023 Smart School, All Rights Reserved. Powered by <b> Bosco Soft Tech</b></p>
+<footer class="fixed-bottom  footer_main  p-2">
+    <p class="mb-0">Copyright © 2023 Smart School, All Rights Reserved | Design by <b> Bosco Soft Technologies</b> </p>
 </footer>

@@ -33,7 +33,7 @@ export class AddShiftComponent implements OnInit {
   classFormControl = new FormControl([], Validators.required);
   searchTextboxControl = new FormControl();
   searchValue = '';
-  toppingList = ['LKG', '1 A', '1 B', '2 A', '2 B'];
+  toppingList = ['LKG','1 A','1 B','2 A','2 B'];
   submitted!: boolean;
   colvalues: any = [];
   status: any;
@@ -220,7 +220,7 @@ export class AddShiftComponent implements OnInit {
     this.timeErr = false
     const arrayValue = this.classFormControl.value;
     if (Array.isArray(arrayValue)) {
-      const arrayAsString = arrayValue.join(', ');
+      const arrayAsString = arrayValue.join(',');
       this.shiftForm.get('class')?.setValue(arrayAsString);
     }
     this.submitted = true;
@@ -783,7 +783,7 @@ export class AddShiftComponent implements OnInit {
     const selectedValue = event.value;
     if (selectedValue.length > 0) {
       this.shiftForm.patchValue({
-        class: selectedValue.join(', ')
+        class: selectedValue.join(',')
       })
     } else {
       this.shiftForm.patchValue({

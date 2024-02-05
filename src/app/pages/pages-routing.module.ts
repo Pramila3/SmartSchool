@@ -22,6 +22,7 @@ const routes: Routes = [
       {
         path: "timetables",
         component: TimetablesComponent,
+        data: { returnUrl: window.location.pathname }
       },
       {
         path: "students",

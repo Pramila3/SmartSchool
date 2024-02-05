@@ -3,19 +3,28 @@
     // background :linear-gradient(175deg, #fc3a3a, #6dd71f);
     // background: linear-gradient(45deg, #6768c7, #aa2fbf);
     // background: linear-gradient(45deg, #6768c7, #db6eee);
-    background: #4748ad !important;
+    // background: #4748ad !important;
+    // background: linear-gradient(184deg, #8BC34A, #4CAF50);
+    // background: linear-gradient(161deg, #173658, #2c71bb);
+    // background: linear-gradient(161deg, #048456, #2c71bb);
+    // background: linear-gradient(161deg, #17273c, #141d31);
+    background: #1B9FAB;
+    box-shadow: 0px 4px 8px 1px#cacaca8f;
 
     .navbar-brand {
         color: #fff;
     }
 
     .nav-link {
-        color: #fff;
+        color: #ffffff;
+        padding: 7px 14px ;
     }
 
     .dropdown .btn {
         color: #fff;
     }
+
+  
 }
 
 .footer_main {
@@ -23,6 +32,9 @@
     display: flex;
     align-items: center;
     padding-left: 20px;
+    justify-content: center;
+    background: #1B9FAB;
+    color: #e7e4e4;
 }
 
 .dropdown-item {
@@ -45,7 +57,7 @@
 
 // }
 .active {
-    background: #4749ae !important;
+    background: linear-gradient(93deg, #048456, #2c71bb) !important;
     color: white !important;
 
 }
@@ -72,9 +84,10 @@
 
 
     .active {
-        background-color: #fff !important;
-        color: black !important;
+        background:linear-gradient(93deg, #04626e, #035b67) !important;
+        color: rgb(255, 255, 255) !important;
         border-radius: 5px;
+        padding: 7px 14px;
     }
 }
 
@@ -105,8 +118,29 @@
     font-size: 12px !important;
     z-index: 2000;
     max-height: calc(100vh - 100px) !important;
+    background:  linear-gradient(161deg, #17273c, #141d31) !important;
+    color: #d5d5d5;
+    min-height :auto !important;
+    position: relative;
+    left: -19px;
+    top: 8px;
+    padding: 11px;
 }
 
+.mat-menu-content {
+  padding: 0px !important;
+}
+.cdk-overlay-connected-position-bounding-box{
+    top: 6px !important;
+    left: -11px !important;
+    height: 100%;
+    width: 100%;
+}
+
+::ng-deep.mat-menu-item {
+    background: transparent;
+    color: #d1d1d1de;
+}
 a {
     cursor: pointer;
 }
@@ -155,6 +189,105 @@ padding: 5px;
 }
 
 .active {
-    background-color: #3498db;
+    background-color: #162a92 !important;
     color: #fff;
+    border-radius: 10px;
   }
+
+  .logo_img{
+    height: 33px;
+    width: 199px;
+    object-fit: cover;
+  }
+
+  .search_wraper{
+    color: #fff;
+    .form-control{
+        border-radius: 20px;
+        padding-left: 35px;
+        color: #fff;
+        background: #00000062;
+        border: 1px solid #00000062;
+        font-size: 16px;
+    }
+    &::placeholder{
+        color: white !important;
+    }
+
+  }
+  .wrapper_icon_search{
+    position: relative;
+    top: -29px;
+    right: -10px;
+    height: 0px;
+    color: white;
+  }
+
+  .userprofile{
+    height: 40px;
+    width: 40px;
+ object-fit: contain;
+  }
+.user_part{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+}
+
+// sidebar wrapper
+
+
+
+
+a {
+    transition: .3s all ease;
+    color: #ffffff;
+}
+
+/* ... (similar changes for other styles) ... */
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #866ec7;
+    color: #fff;
+    transition: all 0.3s;
+    position: relative;
+}
+
+/* ... (similar changes for other styles) ... */
+
+.btn {
+    &.btn-primary {
+        background: #866ec7;
+        border-color: #866ec7;
+        &:hover, &:focus {
+            background: #866ec7 !important;
+            border-color: #866ec7 !important;
+        }
+    }
+}
+
+.form-control {
+    height: 40px !important;
+    background: #fff;
+    color: #000;
+    font-size: 13px;
+    border-radius: 4px;
+    box-shadow: none !important;
+    border: transparent;
+    &:focus, &:active {
+        border-color: #000;
+    }
+    &::-webkit-input-placeholder {
+        color: rgba(0, 0, 0, .3);
+    }
+    /* ... (similar changes for other placeholders) ... */
+}
+.icon_img{
+    height: 20px;
+    width: 20px;
+    margin-right: 2px;
+}

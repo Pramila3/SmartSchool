@@ -1,0 +1,69 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        <a routerLink="/applicantlist">Application List</a> <span class="ms-1 me-1">/</span> <a
+            routerLink="/addapplicantlist">Add Application List</a> <span class="ms-1 me-1">/</span> Conduct Interview
+    </div>
+
+</div>
+
+<div class="content-wrapper">
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <p class="fw-bold">Name of the Applicant : <span class="applicantname">LKG DAISY	</span></p>
+            <div class="row">
+
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Question Type <span class="text-danger">*</span></mat-label>
+                        <mat-select [(ngModel)]="selectedValue" name="food">
+                            <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Question <span class="text-danger">*</span></mat-label>
+                        <textarea matInput placeholder="Question"></textarea>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Answer <span class="text-danger">*</span></mat-label>
+                        <textarea matInput placeholder="Answer"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Subject <span class="text-danger">*</span></mat-label>
+                        <mat-select [(ngModel)]="selectedValue2" name="keys">
+                            <mat-option *ngFor="let keys of keys" [value]="keys.value">
+                                {{keys.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+
+            <div class="">
+                <button class="btn btn-secondary" routerLink="/applicantlist">Cancel</button>
+                <button class="btn btn-primary ms-2">Save</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

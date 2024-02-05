@@ -2,8 +2,10 @@
     <div class="breadcrumb ms-3 mb-0">
         Create Shift Timing
     </div>
+
+
 </div>
-<div class="content-wrapper p-3">
+<div class="content-wrapper">
 
     <div class="d-flex justify-content-between align-items-center">
         <div class="col-lg-2">
@@ -11,17 +13,20 @@
                 <mat-label>Search...</mat-label>
                 <input matInput (keyup)="onFilter($event)" placeholder="Search" #input>
             </mat-form-field>
+
+           
         </div>
-        <div class="ms-2">
-            <button class="btn btn-success" (click)="onAdd()" data-bs-toggle="modal"
+        <div class="ms-2 d-flex ">
+            <div class="text-end">
+                <button mat-raised-button  (click)="openDialog()" title="Import Shift Timing" class=" bg-info btn-sm">Import Shift Timing </button>
+            </div>
+            <button class="btn btn-success ms-3 btn-sm" (click)="onAdd()" data-bs-toggle="modal"
                 data-bs-target="#addCreateShift" title="Add">Add</button>
         </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="text-end">
-                <button mat-raised-button  (click)="openDialog()" title="Import Shift Timing" class="mb-2 bg-info">Import Shift Timing </button>
-            </div>
+    <div class="card rounded">
+        <div class="card-body p-0 ">
+           
             <div class="overflow-auto">
                 <table mat-table [dataSource]="dataSource"  matSort >
 

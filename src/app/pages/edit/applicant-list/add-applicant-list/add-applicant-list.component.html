@@ -1,0 +1,105 @@
+<div class="breadcrumb_with_back_option ">
+    <div class="breadcrumb ms-3 mb-0">
+        <a routerLink="/applicantlist">Application List</a> <span class="ms-1 me-1">/</span> Add Application List
+    </div>
+
+</div>
+
+<div class="content-wrapper">
+
+
+    <div class="card">
+        <div class="card-body">
+
+
+            <div class="row">
+
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Name of the Applicant <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="" class="fw-bold">Gender</label>
+                        <div class="d-flex mt-2">
+                            <div class="form-check">
+                                <input type="radio" name="male1" class="form-check-input" id="male">
+                                <label for="male" class="form-check-label">Male</label>
+                            </div>
+                            <div class="form-check ms-3">
+                                <input type="radio" name="male1" class="form-check-input" id="Female">
+                                <label for="Female" class="form-check-label">Female</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Qualification <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Post Applied <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Address <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Place <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Home Phone No <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mobile No <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>E-Mail <span class="text-danger">*</span></mat-label>
+                        <input matInput placeholder="Search" #input>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <div class="">
+                <button class="btn btn-info" routerLink="/ConductInterview"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-pc-display-horizontal mb-1"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M1.5 0A1.5 1.5 0 0 0 0 1.5v7A1.5 1.5 0 0 0 1.5 10H6v1H1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5v-1h4.5A1.5 1.5 0 0 0 16 8.5v-7A1.5 1.5 0 0 0 14.5 0h-13Zm0 1h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5ZM12 12.5a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0Zm2 0a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0ZM1.5 12h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1ZM1 14.25a.25.25 0 0 1 .25-.25h5.5a.25.25 0 1 1 0 .5h-5.5a.25.25 0 0 1-.25-.25Z" />
+                    </svg> Contuct Interview</button>
+
+            </div>
+            <div class="">
+                <button class="btn btn-secondary" routerLink="/applicantlist">Cancel</button>
+                <button class="btn btn-primary ms-2">Save</button>
+                <button class="btn btn-success ms-2">New</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

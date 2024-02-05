@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./default-layouts.component.scss']
 })
 export class DefaultLayoutsComponent implements OnInit {
-
+  showFiller = false;
   moduleName!: any
   constructor(private router: Router) {
 
@@ -24,7 +24,7 @@ export class DefaultLayoutsComponent implements OnInit {
     this.router.navigate(['/timetables'])
     console.log(this.moduleName);
   }
-  logout(){
+  logout() {
     localStorage.removeItem('modulName');
     localStorage.removeItem('Access-Token');
     localStorage.removeItem('');

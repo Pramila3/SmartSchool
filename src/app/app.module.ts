@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoaderService } from './pages/common/loading/loader.service';
 import { AuthService } from '../app/auth/auth.service';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { Error404Component } from './login/error404/error404.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AppComponent,
     // DefaultLayoutsComponent,
     LoginComponent,
-    PagesComponent
+    PagesComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,

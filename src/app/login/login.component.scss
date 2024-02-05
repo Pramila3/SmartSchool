@@ -13,15 +13,12 @@
 
 .login_main {
     // background-image: linear-gradient(123deg, #fc3a3a, #6dd71f);
-    background: linear-gradient(45deg, #6768c7, #aa2fbf);
-
+    // background: linear-gradient(45deg, #6768c7, #aa2fbf);
+background: linear-gradient(161deg, #006b97, #6cbdbf , #fff);
 }
 
 .login_field {
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // height: 100vh;
+    
     width: 100%;
     background-color: #ffffff;
     padding: 10px;
@@ -68,3 +65,8 @@
     }
 }
 
+.logo_login{
+    height: 100px;
+    width: 300px;
+    object-fit: contain;
+}
