@@ -118,8 +118,18 @@ export class ManualAdjustmentComponent implements OnInit {
 
 
   shouldDisableDrag(rowIndex: number, colIndex: number, colValue: any): boolean {
-    return (colIndex == 0 || colValue == 'Break') ? true : false; // Dragging is enabled by default
+    console.log(colValue);
+    let checkdoubleValue = colValue ? colValue.split('^') : null;
+    let colDisable = checkdoubleValue
+    if(checkdoubleValue){
+      colDisable = checkdoubleValue[1]
+    }
+    return (colIndex == 0 || colValue == 'Break' || colDisable == "NULL") ? true : false; // Dragging is enabled by default
+    
   }
+
+ 
+
 
   onDrop(event: CdkDragDrop<any[]>, item: any) {
     console.log(event);
@@ -230,5 +240,7 @@ export class ManualAdjustmentComponent implements OnInit {
       console.log("Drop" + this.dropData);
     }
   }
+
+ 
 }
 

@@ -26,7 +26,7 @@
 }
 
 .days_coloumn {
-    background-color: #6d6fcd;
+    background-color: #1c9fab;
     color: azure;
 }
 
@@ -148,4 +148,9 @@
   
   tr.cdk-drag-placeholder {
     opacity: 0;
+  }
+
+  .fixed_body_scroll{
+    height: calc(690px - 350px);
+    overflow-y: scroll;
   }

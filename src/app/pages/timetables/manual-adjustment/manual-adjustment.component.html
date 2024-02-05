@@ -12,14 +12,15 @@
                 <div class="card-header fw-bold ">
                     Non Fixed Periods
                 </div>
-                <div class="card-body" *ngIf="BindNonFixPeriodsList">
+                <div class="card-body fixed_body_scroll" *ngIf="BindNonFixPeriodsList">
                     <ul class="list-group" *ngFor="let staff of BindNonFixPeriodsList" cdkDropList>
                         <li class="list-group-item" cdkDrag *ngIf="staff">{{staff.staff}}</li>
                     </ul>
-                    <div  *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">No data available!
+                    <div *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">No data
+                        available!
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <div class="col-lg-9">
@@ -55,7 +56,9 @@
                                             [cdkDragData]="colIndex"
                                             (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event)"
                                             *ngFor="let col of generateArray(+classData.noofPeriods +1); let colIndex = index"
-                                            [cdkDragDisabled]="shouldDisableDrag(rowIndex, colIndex, getSubject(classData.timetableData, rowIndex, colIndex))">
+                                            [cdkDragDisabled]="shouldDisableDrag(rowIndex, colIndex, getSubject(classData.timetableData, rowIndex, colIndex))"
+                                            [ngStyle]="{'background-color':getSubject(classData.timetableData, rowIndex, colIndex) == 'Break' ? 'lightgray' : '' }"
+                                            >
                                             {{ getSubject(classData.timetableData, rowIndex, colIndex).split("^")[0] }}
                                             <span style="display: none;"> {{ getSubject(classData.timetableData,
                                                 rowIndex, colIndex).split("^")[1] }}</span>
@@ -65,7 +68,8 @@
                             </table>
                         </div>
                     </div>
-                    <div *ngIf="!BindGridManualAdjustment" class="text-center p-3 text-danger"> No data Available! </div>
+                    <div *ngIf="!BindGridManualAdjustment" class="text-center p-3 text-danger"> No data Available!
+                    </div>
 
                     <!-- <table class="table table-bordered custum_table">
                         <tbody>
