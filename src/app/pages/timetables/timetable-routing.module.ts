@@ -41,6 +41,10 @@ const routes: Routes = [
 
     children: [
       {
+        path: "timetables",
+        component: TimetablesComponent,
+      },
+      {
         path: "CreateShiftTiming",
         component: CreateShiftTimingComponent,
       },

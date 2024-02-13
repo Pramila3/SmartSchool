@@ -1,6 +1,6 @@
 <div class="breadcrumb_with_back_option ">
     <div class="breadcrumb ms-3 mb-0">
-         General Timetable - {{timetableName}}
+        General Timetable - {{timetableName}}
     </div>
     <!-- <div class="back_action me-3">
         <button class="btn-outline-danger btn btn-sm" routerLink="/home"><svg
@@ -13,25 +13,46 @@
 </div>
 
 <div class="content-wrapper">
-    
+
     <div class="mt-2">
         <div class="ps-2 mb-2 d-flex align-items-center justify-content-between flex-wrap">
-           
+
             <div class="d-flex align-items-center justify-content-start mb-2">
 
                 <div class="pe-3">
-                    <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                        <mat-button-toggle  (click)="ViewTimetableClasswise()">By Class</mat-button-toggle>
-                        <mat-button-toggle  (click)="ViewTimetableStaffwise()">By Staff</mat-button-toggle>
-                        <mat-button-toggle  (click)="ViewTimetableSubjectwise()">By Subject</mat-button-toggle>
+                    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="checkedOption">
+                        <mat-button-toggle value="ByClass" (click)="ViewTimetableClasswise()" checked >By Class</mat-button-toggle>
+                        <mat-button-toggle value="ByStaff" (click)="ViewTimetableStaffwise()" >By Staff</mat-button-toggle>
+                        <mat-button-toggle  value="BySubject" (click)="ViewTimetableSubjectwise()">By Subject</mat-button-toggle>
                     </mat-button-toggle-group>
                 </div>
-               <div class="col-lg-10 ">
-                <select *ngIf="shiftList.length > 0" name="" class="form-control" id="" [(ngModel)]= "shiftId">
-                    <option value="" selected disabled>-- Select --</option>
-                    <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
-                </select>
-               </div>
+                <div class="col-lg-10 row"  *ngIf="timetableview == 'subject'">
+                    <div class="col-lg-6">
+                        <!-- <label for="">Shift</label> -->
+                        <!-- *ngIf="shiftList.length > 0"  -->
+                        <!-- <select name="" class="form-control" id="" [(ngModel)]="shiftId" (selectionChange)="getpagingList()">
+                            <option value="" selected disabled>-- Select --</option>
+                            <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
+                        </select> -->
+                        <select name=""  class="form-control" id="" [(ngModel)]="shiftId" (change)="getpagingList()">
+                            <option value="" selected disabled>-- Select --</option>
+                            <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
+                        </select>
+                        
+                    </div>
+                    <div class="col-lg-6" >
+                      
+                        <!-- <select name="" class="form-control" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()">
+                            <option value="" selected disabled>-- Select --</option>
+                            <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
+                        </select> -->
+                        <select name="" class="form-control" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()" >
+                            <option value="" selected disabled>-- Select --</option>
+                            <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
+                        </select>
+                        
+                    </div>
+                </div>
             </div>
 
             <div class="table_action_btns">
@@ -44,10 +65,14 @@
                     Preview
                 </button>
 
-                <button mat-icon-button class="text-primary" (click)="downloadDocument()"> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-word" viewBox="0 0 16 16">
-                    <path d="M5.485 6.879a.5.5 0 1 0-.97.242l1.5 6a.5.5 0 0 0 .967.01L8 9.402l1.018 3.73a.5.5 0 0 0 .967-.01l1.5-6a.5.5 0 0 0-.97-.242l-1.036 4.144-.997-3.655a.5.5 0 0 0-.964 0l-.997 3.655L5.485 6.88z"/>
-                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-                  </svg></button>
+                <button mat-icon-button class="text-primary" (click)="downloadDocument()"> <svg
+                        xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                        class="bi bi-file-earmark-word" viewBox="0 0 16 16">
+                        <path
+                            d="M5.485 6.879a.5.5 0 1 0-.97.242l1.5 6a.5.5 0 0 0 .967.01L8 9.402l1.018 3.73a.5.5 0 0 0 .967-.01l1.5-6a.5.5 0 0 0-.97-.242l-1.036 4.144-.997-3.655a.5.5 0 0 0-.964 0l-.997 3.655L5.485 6.88z" />
+                        <path
+                            d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                    </svg></button>
                 <button mat-icon-button class="text-success" (click)="downloadAsExcel()"> <svg
                         xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
                         class="bi bi-filetype-xls" viewBox="0 0 16 16">
@@ -57,7 +82,7 @@
 
             </div>
         </div>
-        <div class="ps-2 mb-2">
+        <!-- <div class="ps-2 mb-2">
             <div class="badge_group flex-wrap ">
                 <div class="badge_items">
                     <div class="badge_label_box" style="background-color: #808080;"> </div>
@@ -80,7 +105,7 @@
                     <div class="label_name">Staff Substituted</div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="" id="exceldownload">
             <div class="card " id="docx">
                 <div class="card-body" id="divToPrint">
@@ -89,24 +114,22 @@
                     </div>
                     <div class="overflow-auto">
                         <div *ngIf="timetableList">
-                            <div [innerHTML]="timetableList"></div>
-                            <!-- <table>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Age</th>
-                                    <th>Class</th>
-                                </tr>
-                                <tr>
-                                    <td>Franklin</td>
-                                    <td>24</td>
-                                    <td>1std</td>
-                                </tr>
-                                <tr>
-                                    <td>Pathis</td>
-                                    <td>25</td>
-                                    <td>0std</td>
-                                </tr>
-                            </table> -->
+                           
+                            <div *ngIf="checkedOption === 'ByClass'">
+                                <!-- Content for "By Class" -->
+                                <div [innerHTML]="timetableList"></div>
+                                <!-- Add your content here -->
+                            </div>
+                            <div *ngIf="checkedOption === 'ByStaff'">
+                                <!-- Content for "By Staff" -->
+                                <div [innerHTML]="timetableList"></div>
+                                <!-- Add your content here -->
+                            </div>
+                            <div *ngIf="checkedOption === 'BySubject'">
+                                <!-- Content for "By Subject" -->
+                                <div [innerHTML]="timetableList"></div>
+                                <!-- Add your content here -->
+                            </div>
                         </div>
                         <div *ngIf="!timetableList" class="text-danger text-center">
                             No data found.

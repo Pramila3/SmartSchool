@@ -19,6 +19,8 @@ import { LoaderComponent } from './common/loading/loader.component';
 import { EditModule } from './edit/edit.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { MatListModule } from '@angular/material/list';
+
 @NgModule({
   declarations: [
     DefaultLayoutsComponent,
@@ -41,7 +43,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     TimetableModule,
     MatMenuModule,
     EditModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatListModule
   ],
   exports: [LoaderComponent]
 })

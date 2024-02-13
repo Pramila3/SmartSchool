@@ -11,32 +11,11 @@ import { TimetablesComponent } from './timetables/timetables.component';
 
 
 const routes: Routes = [
+
   {
-    path: '', component: DefaultLayoutsComponent,
-
-    children: [
-      {
-        path: "home",
-        component: HomeComponent,
-      },
-      {
-        path: "timetables",
-        component: TimetablesComponent,
-        data: { returnUrl: window.location.pathname }
-      },
-      {
-        path: "students",
-        component: StudentsComponent,
-      },
-      {
-        path: 'timetable',
-        loadChildren: () =>
-          import('../pages/timetables/timetable.module').then((m) => m.TimetableModule),
-      },
-     
-    ],
-    
-
+    path: 'timetable',
+    loadChildren: () =>
+      import('../pages/timetables/timetable.module').then((m) => m.TimetableModule),
   },
   
 

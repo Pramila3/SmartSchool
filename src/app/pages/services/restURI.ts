@@ -65,6 +65,7 @@ let URI = {
     'ViewTimetableClasswise':'View/ViewTimetableClasswise',
     'ViewTimetableSubjectwise':'View/ViewTimetableSubwise',
     'ViewTimetableStaff':'View/ViewTimetableStaff',
+    'getpagingList' : 'View/Pagingsubject',
 
     // manual adjustments 
     'BindNonFixedSubjects':'ManualAdjustment/BindNonFixedSubjects',

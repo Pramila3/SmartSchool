@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,22 @@ import { Router } from '@angular/router';
 export class DefaultLayoutsComponent implements OnInit {
   showFiller = false;
   moduleName!: any
+  isDropdownOpen: boolean = false;
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  @Output() closeDropdownEvent = new EventEmitter<void>();
+
+  closeDropdown() {
+    this.closeDropdownEvent.emit();
+  }
+
+  isSidebarOpen: boolean = true;
+ 
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
   constructor(private router: Router) {
 
   }
