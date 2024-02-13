@@ -28,6 +28,7 @@ export class ProcessTimetableComponent implements OnInit {
   }
   ngOnInit(): void {
     // this.getProcessTimetable();
+    this.loader.show();
     this.getShiftList()
     // this.getProcessTimetableList();
 
@@ -36,7 +37,8 @@ export class ProcessTimetableComponent implements OnInit {
   getProcessTimetableList() {
     this.loader.show();
     let postData = {
-      schoolcode: localStorage.getItem('schoolcode') ,sftid : this.shiftId
+      schoolcode: localStorage.getItem('schoolcode') ,
+      sftid : this.shiftId
     }
 
     this.service.getHttpServiceWithDynamicParams(postData, 'ProcessTimetableList').subscribe(
@@ -78,9 +80,9 @@ export class ProcessTimetableComponent implements OnInit {
         this.shiftList = response.resultData
         this.shiftId = this.shiftList.length > 0 ? this.shiftList[0].sftid : '';
         console.log(this.shiftId);
-        
+        this.getProcessTimetableList();
        }
-    this.getProcessTimetableList();
+    
     this.cdr.detectChanges()    
 
     })
@@ -105,6 +107,7 @@ export class ProcessTimetableComponent implements OnInit {
         else {
           this.loader.hide();
         }
+        this.cdr.detectChanges()    
       }
 
     );
