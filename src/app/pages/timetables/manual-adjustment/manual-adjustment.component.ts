@@ -226,7 +226,9 @@ export class ManualAdjustmentComponent implements OnInit {
     }
   }
 
-  dragMoved(rowIndex: any, dragData: any, event: any, colIndex: any) {
+  dragMoved(rowIndex: any, dragData: any, event: any, colIndex: any, item: any) {
+    console.log(item);
+    
     let dragDataSplit = dragData ? dragData.split("^") : "";
     if (dragData) {
       this.dropData = "";
@@ -238,6 +240,10 @@ export class ManualAdjustmentComponent implements OnInit {
       // console.log(match[1]);
       if (match) {
         this.dropData = match[1];
+        if(!isNaN(+(this.dropData))){
+          let data = item.class_id + ',' + rowIndex + ',' + (this.dropData).trim()
+          this.dropData  = data
+        }
       }
       console.log("Index" + rowIndex , colIndex);
 

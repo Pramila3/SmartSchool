@@ -67,13 +67,14 @@
 
                                         <td cdkDrag [ngClass]="colIndex==0 ? 'days_coloumn' : ' '"
                                             [cdkDragData]="colIndex"
-                                            (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event, colIndex)"
+                                            (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event, colIndex, classData)"
                                             *ngFor="let col of generateArray(+classData.noofPeriods +1); let colIndex = index"
                                             [cdkDragDisabled]="shouldDisableDrag(rowIndex, colIndex, getSubject(classData.timetableData, rowIndex, colIndex))"
                                             [ngStyle]="{'background-color':getSubject(classData.timetableData, rowIndex, colIndex) == 'Break' ? 'lightgray' : '' }">
                                             {{ getSubject(classData.timetableData, rowIndex, colIndex).split("^")[0] }}
                                             <span style="display: none;"> {{ getSubject(classData.timetableData,
-                                                rowIndex, colIndex).split("^")[1] }}</span>
+                                                rowIndex, colIndex).split("^")[1] ? getSubject(classData.timetableData,
+                                                rowIndex, colIndex).split("^")[1] : colIndex }}</span>
                                         </td>
                                     </tr>
                                 </tbody>
