@@ -151,6 +151,7 @@
   }
 
   .fixed_body_scroll{
-    height: calc(690px - 350px);
+    max-height: 340px;
     overflow-y: scroll;
+    min-height: fit-content;
   }

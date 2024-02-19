@@ -8,18 +8,30 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-lg-3">
-            <div class="card h-auto  non-fixed-periods">
+            <!-- non-fixed-periods -->
+            <div class="card h-auto non-fixed-periods ">
                 <div class="card-header fw-bold ">
                     Non Fixed Periods
                 </div>
                 <div class="card-body fixed_body_scroll" *ngIf="BindNonFixPeriodsList">
-                    <ul class="list-group" *ngFor="let staff of BindNonFixPeriodsList" cdkDropList>
-                        <li class="list-group-item" cdkDrag *ngIf="staff">{{staff.staff}}</li>
+                    <ul class="list-group" *ngFor="let staff of BindNonFixPeriodsList" cdkDropList >
+                        <li class="list-group-item" cdkDrag *ngIf="staff"  [cdkDragData]="staff">{{staff.staff}}</li>
                     </ul>
                     <div *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">No data
                         available!
                     </div>
                 </div>
+                <!-- <div class="card-body fixed_body_scroll" *ngIf="BindNonFixPeriodsList">
+                    <ul class="list-group" cdkDropList (cdkDropListDropped)="onDrop($event)">
+                      <li class="list-group-item" *ngFor="let staff of BindNonFixPeriodsList" cdkDrag [cdkDragData]="staff.staffid">
+                        {{ staff.staff }}
+                      </li>
+                    </ul>
+                    <div *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">
+                      No data available!
+                    </div>
+                  </div> -->
+                  
 
             </div>
         </div>
@@ -52,64 +64,28 @@
                                         cdkDropList #List[rowIndex]="cdkDropList"
                                         (cdkDropListDropped)="onDrop($event, classData.timetableData.split('#'))"
                                         [cdkDropListData]="classData.timetableData.split('#')[rowIndex].split('@')">
+
                                         <td cdkDrag [ngClass]="colIndex==0 ? 'days_coloumn' : ' '"
                                             [cdkDragData]="colIndex"
-                                            (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event)"
+                                            (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event, colIndex)"
                                             *ngFor="let col of generateArray(+classData.noofPeriods +1); let colIndex = index"
                                             [cdkDragDisabled]="shouldDisableDrag(rowIndex, colIndex, getSubject(classData.timetableData, rowIndex, colIndex))"
-                                            [ngStyle]="{'background-color':getSubject(classData.timetableData, rowIndex, colIndex) == 'Break' ? 'lightgray' : '' }"
-                                            >
+                                            [ngStyle]="{'background-color':getSubject(classData.timetableData, rowIndex, colIndex) == 'Break' ? 'lightgray' : '' }">
                                             {{ getSubject(classData.timetableData, rowIndex, colIndex).split("^")[0] }}
                                             <span style="display: none;"> {{ getSubject(classData.timetableData,
                                                 rowIndex, colIndex).split("^")[1] }}</span>
                                         </td>
                                     </tr>
                                 </tbody>
+                            
+                                
                             </table>
                         </div>
                     </div>
                     <div *ngIf="!BindGridManualAdjustment" class="text-center p-3 text-danger"> No data Available!
                     </div>
 
-                    <!-- <table class="table table-bordered custum_table">
-                        <tbody>
-                            <tr cdkDropList cdkDropListOrientation="horizontal" #day2List="cdkDropList"
-                                [cdkDropListData]="day2"
-                                [cdkDropListConnectedTo]="[day2List,day3List, day4List , day5List,day6List]"
-                                (cdkDropListDropped)="onDrop1($event)">
-                                <td *ngFor="let item of day2" [style]="item.color" [cdkDragDisabled]="item.disabled"
-                                    cdkDrag>{{item.name}}</td>
-                            </tr>
-                            <tr cdkDropList cdkDropListOrientation="horizontal" #day3List="cdkDropList"
-                                [cdkDropListData]="day3"
-                                [cdkDropListConnectedTo]="[day2List,day3List, day4List , day5List,day6List]"
-                                (cdkDropListDropped)="onDrop1($event)">
-                                <td *ngFor="let item of day3" [style]="item.color" [cdkDragDisabled]="item.disabled"
-                                    cdkDrag>{{item.name}}</td>
-                            </tr>
-                            <tr cdkDropList cdkDropListOrientation="horizontal" #day4List="cdkDropList"
-                                [cdkDropListData]="day4"
-                                [cdkDropListConnectedTo]="[day2List,day3List, day4List , day5List,day6List]"
-                                (cdkDropListDropped)="onDrop1($event)">
-                                <td *ngFor="let item of day4" [style]="item.color" [cdkDragDisabled]="item.disabled"
-                                    cdkDrag>{{item.name}}</td>
-                            </tr>
-                            <tr cdkDropList cdkDropListOrientation="horizontal" #day5List="cdkDropList"
-                                [cdkDropListData]="day5"
-                                [cdkDropListConnectedTo]="[day2List,day3List, day4List , day5List,day6List]"
-                                (cdkDropListDropped)="onDrop1($event)">
-                                <td *ngFor="let item of day5" [style]="item.color" [cdkDragDisabled]="item.disabled"
-                                    cdkDrag>{{item.name}}</td>
-                            </tr>
-                            <tr cdkDropList cdkDropListOrientation="horizontal" #day6List="cdkDropList"
-                                [cdkDropListData]="day6"
-                                [cdkDropListConnectedTo]="[day2List,day3List, day4List , day5List,day6List]"
-                                (cdkDropListDropped)="onDrop1($event)">
-                                <td *ngFor="let item of day6" [style]="item.color" [cdkDragDisabled]="item.disabled"
-                                    cdkDrag>{{item.name}}</td>
-                            </tr>
-                        </tbody>
-                    </table> -->
+
                 </div>
             </div>
         </div>
