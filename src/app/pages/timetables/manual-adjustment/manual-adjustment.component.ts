@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, Renderer2, ViewChild } from "@angular/core";
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { CommonService } from "../../services/common.service";
@@ -23,19 +23,25 @@ export class ManualAdjustmentComponent implements OnInit {
   dragData: string = "";
   dropData: string = "";
   classids: any;
+
+  @Output('cdkDropListDropped') dropped: EventEmitter<CdkDragDrop<any, any>> = new EventEmitter<CdkDragDrop<any, any>>();
+  saveType: string = '';
+
   ngOnInit(): void {
     this.loader.show();
     this.getNonFixPeriodsList();
     this.getManualAdjustmentPeriodsList();
   }
+
+
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private service: CommonService,
     private fb: FormBuilder,
     private loader: LoaderService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef, private renderer: Renderer2
+  ) { }
 
   getNonFixPeriodsList() {
     this.loader.show();
@@ -78,15 +84,24 @@ export class ManualAdjustmentComponent implements OnInit {
           this.classids = this.BindGridManualAdjustment.map(
             (item: { class_id: any }) => item.class_id
           );
+          this.loader.hide();
           // console.log(
           //   "BindGridManualAdjustment----- classids",
           //   this.BindGridManualAdjustment,
           //   this.classids
           // );
+          // this.BindGridManualAdjustment.forEach((element: any, i: number) => {
+
+          //   element.table = this.transformResponseData(element)
+          // })
+        } else {
           this.loader.hide();
+
         }
-        this.cdr.detectChanges();
+      }, error => {
+        this.loader.hide();
       });
+    this.cdr.detectChanges();
   }
 
   // SaveManualAdjustment() {
@@ -137,8 +152,9 @@ export class ManualAdjustmentComponent implements OnInit {
       // copiedcell: dropValueIsZero
       //   ? resultString
       //   : this.dragData.trim() + ",undefined",
-      copiedcell: this.dragData.trim() + ",undefined",
+      copiedcell: this.dragData.trim(),
       pastedcell: this.dropData.trim(),
+      type: this.saveType
     };
     console.log("this.dragData", this.dragData);
 
@@ -177,8 +193,8 @@ export class ManualAdjustmentComponent implements OnInit {
       dayData[colIndex] != "0"
       ? dayData[colIndex]
       : dayData[colIndex] == "0"
-      ? ""
-      : "Break";
+        ? ""
+        : "Break";
   }
 
   shouldDisableDrag(
@@ -201,9 +217,8 @@ export class ManualAdjustmentComponent implements OnInit {
       ? true
       : false; // Dragging is enabled by default
   }
-
+  droppedItems: any[] = [];
   onDrop(event: CdkDragDrop<any[]>, item: any) {
-    console.log("event" + event.container);
 
     if (event.previousContainer !== event.container) {
       // Handle the transfer logic if dropping into a different container
@@ -212,13 +227,6 @@ export class ManualAdjustmentComponent implements OnInit {
         event.previousIndex,
         event.currentIndex;
     }
-    moveItemInArray(item, event.previousIndex, event.currentIndex);
-
-    console.log(
-      "moveItemInArray " ,
-      event.previousIndex,
-      event.currentIndex
-    );
 
     // Handle other drop logic as needed
     if (this.dragData && this.dropData) {
@@ -226,9 +234,102 @@ export class ManualAdjustmentComponent implements OnInit {
     }
   }
 
+  onDrop1(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      // Move item within the same list
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      // Move item from source list to destination list
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+
+    this.findClosestCell(event.dropPoint);
+
+  }
+  nonFixDragMoved(data: any) {
+    console.log(data);
+    if (data) {
+      this.dragData = data.staffId + ',' + data.staff;
+    }
+  }
+
+  findClosestCell(dropPoint: { x: number, y: number }): any {
+    const tables = document.querySelectorAll('.table');
+    let tableIndex;
+    if (tables.length > 0) {
+      tables.forEach((table, index) => {
+        const rect = table.getBoundingClientRect();
+        if (dropPoint.x >= rect.left && dropPoint.x <= rect.right && dropPoint.y >= rect.top && dropPoint.y <= rect.bottom) {
+          tableIndex = index;
+        }
+      });
+
+      if (tableIndex != undefined) {
+        const table = document.getElementById('dragTable' + tableIndex);
+        if (!table) {
+          // Table element not found
+          return { rowIndex: -1, colIndex: -1 };
+        }
+
+        const cells = table.getElementsByTagName('td');
+        let minDistance = Infinity;
+        let closestCell: HTMLElement | null = null;
+
+        // Iterate over each cell to find the closest one to the drop point
+        for (let i = 0; i < cells.length; i++) {
+          const cell = cells[i];
+          const cellRect = cell.getBoundingClientRect();
+
+          // Calculate the distance between the cell center and the drop point
+          const cellCenterX = cellRect.left + cellRect.width / 2;
+          const cellCenterY = cellRect.top + cellRect.height / 2;
+          const distance = Math.sqrt((dropPoint.x - cellCenterX) ** 2 + (dropPoint.y - cellCenterY) ** 2);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestCell = cell;
+          }
+        }
+
+        // Find the row and column index of the closest cell
+        if (closestCell) {
+          const parentRow = closestCell.parentElement;
+          if (parentRow) {
+            const parentElement = closestCell.parentElement;
+            if (parentElement && parentElement.children) {
+              // const table2: HTMLTableElement | null = document.querySelector('.table');
+              const table2: HTMLTableElement | null = tables[tableIndex] as HTMLTableElement;
+              const rowIndex = Array.from(parentRow.parentElement!.children).indexOf(parentRow);
+              const colIndex = Array.from(parentElement.children).indexOf(closestCell);
+              const rowData = table2?.rows[rowIndex + 1];
+              const cellData = rowData?.cells[colIndex].textContent;
+              console.log(rowIndex, colIndex, cellData);
+              if (rowIndex && colIndex && cellData) {
+                let staff = rowData?.cells[colIndex].innerHTML.match(/<span[^>]*>(.*?)<\/span>/)
+                console.log(staff);
+
+                if (staff) {
+                  this.dropData = staff[1]
+                  this.saveType = "nonfixed"
+                  this.SaveManualAdjustment()
+                }
+              }
+              // return true;
+            }
+          }
+        }
+
+        // No cells found
+        return { rowIndex: 0, colIndex: 0 };
+      }
+    }
+  }
   dragMoved(rowIndex: any, dragData: any, event: any, colIndex: any, item: any) {
     console.log(item);
-    
+
     let dragDataSplit = dragData ? dragData.split("^") : "";
     if (dragData) {
       this.dropData = "";
@@ -240,15 +341,52 @@ export class ManualAdjustmentComponent implements OnInit {
       // console.log(match[1]);
       if (match) {
         this.dropData = match[1];
-        if(!isNaN(+(this.dropData))){
+        if (!isNaN(+(this.dropData))) {
           let data = item.class_id + ',' + rowIndex + ',' + (this.dropData).trim()
-          this.dropData  = data
+          this.dropData = data
+          this.saveType = "empty"
+        } else {
+          this.dragData = this.dragData.trim() + ",undefined"
+          this.saveType = "dragable"
         }
       }
-      console.log("Index" + rowIndex , colIndex);
+      console.log("Index" + rowIndex, colIndex);
 
       console.log("Drag" + this.dragData);
       console.log("Drop" + this.dropData);
     }
   }
+
+
+  transformResponseData(item: any) {
+    const timetableData = item.timetableData.split(/#/).filter(Boolean);
+    const table: any = [];
+    for (let i = 0; i < timetableData.length; i++) {
+      let arr: string[] = []
+
+      const dayParts = timetableData[i].split('@');
+      dayParts.forEach((element: any) => {
+        arr.push(element)
+      });
+      table.push(arr)
+      // }
+    }
+    timetableData.forEach((data: any, index: number) => {
+
+    });
+
+    return table;
+  }
+
+  onDrop3(event: CdkDragDrop<string[]>, rowIndex: number) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+  }
 }
+

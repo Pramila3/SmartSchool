@@ -13,13 +13,11 @@
                 <div class="card-header fw-bold ">
                     Non Fixed Periods
                 </div>
-                <div class="card-body fixed_body_scroll" *ngIf="BindNonFixPeriodsList">
-                    <ul class="list-group" *ngFor="let staff of BindNonFixPeriodsList" cdkDropList >
-                        <li class="list-group-item" cdkDrag *ngIf="staff"  [cdkDragData]="staff">{{staff.staff}}</li>
+                <div class="card-body fixed_body_scroll" *ngIf="BindNonFixPeriodsList" cdkDropList [cdkDropListData]="BindNonFixPeriodsList" (cdkDropListDropped)="onDrop1($event)">
+                    <ul class="list-group" *ngFor="let staff of BindNonFixPeriodsList; let i = index" cdkDrag [cdkDragData]="staff" >
+                        <li class="list-group-item" cdkDrag *ngIf="staff" (cdkDragMoved)="nonFixDragMoved(staff)">{{ staff.staff }}</li>
                     </ul>
-                    <div *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">No data
-                        available!
-                    </div>
+                    <div *ngIf="BindNonFixPeriodsList.length == 0" class="text-center p-3 text-danger">No data available!</div>
                 </div>
                 <!-- <div class="card-body fixed_body_scroll" *ngIf="BindNonFixPeriodsList">
                     <ul class="list-group" cdkDropList (cdkDropListDropped)="onDrop($event)">
@@ -48,7 +46,7 @@
                     <div class="" *ngFor="let classData of BindGridManualAdjustment; let i = index">
                         <p class="classes text-primary fw-bold">{{ classData.classes }}</p>
                         <div class="overflow-auto">
-                            <table class="table custum_table table-bordered ">
+                            <table class="table custum_table table-bordered " id="dragTable{{i}}">
                                 <thead>
                                     <tr>
                                         <th>Days/Periods</th>
@@ -59,9 +57,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let row of generateArray(+classData.noofDays); let rowIndex = index"
-                                        [cdkDropListConnectedTo]="classData.timetableData.split('#')[rowIndex].split('@')"
-                                        cdkDropList #List[rowIndex]="cdkDropList"
+                                    <!-- <tr *ngFor="let row of generateArray(+classData.noofDays); let rowIndex = index"
+                                    [cdkDropListConnectedTo]="['BindNonFixPeriodsList']"
+                                        cdkDropList 
                                         (cdkDropListDropped)="onDrop($event, classData.timetableData.split('#'))"
                                         [cdkDropListData]="classData.timetableData.split('#')[rowIndex].split('@')">
 
@@ -76,11 +74,71 @@
                                                 rowIndex, colIndex).split("^")[1] ? getSubject(classData.timetableData,
                                                 rowIndex, colIndex).split("^")[1] : colIndex }}</span>
                                         </td>
-                                    </tr>
+                                    </tr> -->
+                                    <tr *ngFor="let row of generateArray(+classData.noofDays); let rowIndex = index"
+                                    [cdkDropListConnectedTo]="['sourceList']" 
+                                    cdkDropList 
+                                    (cdkDropListDropped)="onDrop($event, classData.timetableData.split('#'))"
+                                    [cdkDropListData]="classData.timetableData.split('#')[rowIndex].split('@')">
+                        
+                                    <td #yourElement cdkDrag [ngClass]="colIndex==0 ? 'days_coloumn' : ' '"
+                                        [cdkDragData]="{ value: getSubject(classData.timetableData, rowIndex, colIndex), rowIndex: rowIndex, colIndex: colIndex }"
+                                        (cdkDragMoved)="dragMoved(rowIndex,getSubject(classData.timetableData, rowIndex, colIndex), $event, colIndex, classData)"
+                                        *ngFor="let col of generateArray(+classData.noofPeriods +1); let colIndex = index"
+                                        [cdkDragDisabled]="shouldDisableDrag(rowIndex, colIndex, getSubject(classData.timetableData, rowIndex, colIndex))"
+                                        [ngStyle]="{'background-color':getSubject(classData.timetableData, rowIndex, colIndex) == 'Break' ? 'lightgray' : '' }">
+                                        {{ getSubject(classData.timetableData, rowIndex, colIndex).split("^")[0] }}
+                                        <span style="display: none;"> {{ getSubject(classData.timetableData,
+                                            rowIndex, colIndex).split("^")[1] ? getSubject(classData.timetableData,
+                                            rowIndex, colIndex).split("^")[1] : colIndex }}</span>
+                                    </td>
+                                </tr>
                                 </tbody>
                             
                                 
                             </table>
+                            <!-- <table class="table custum_table table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>Days/Periods</th>
+                                        <th
+                                            *ngFor="let period of generateArray(+classData.noofPeriods); let periodIndex = index">
+                                            Period {{ periodIndex + 1 }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody> -->
+                                <!-- <tr *ngFor="let data of classData.table; let rowIndex = index">
+                                    <td *ngFor="let item of data; let j = index"
+                                    [ngStyle]="{'background-color':item == '' ? 'lightgray' : '' }">{{(item != 0 && item != '') ? item.split('^')[0] : (item == '') ? 'Break' : ''}}</td> 
+                                </tr> -->
+                                <!-- <tr *ngFor="let data of classData.table; let rowIndex = index" cdkDropList [cdkDropListData]="data" (cdkDropListDropped)="onDrop3($event, rowIndex, -1)"> 
+                                    <td *ngFor="let item of data; let j = index" cdkDrag 
+                                        (cdkDragStarted)="dragStarted(rowIndex, j)" 
+                                        (cdkDragEnded)="dragEnded()" 
+                                        [ngStyle]="{'background-color':item == '' ? 'lightgray' : '' }"
+                                        [cdkDragDisabled]="item ==0 || item == '' || j == 0">
+                                            {{(item != 0 && item != '') ? item.split('^')[0] : (item == '') ? 'Break' : ''}}
+                                    </td> 
+                                </tr> -->
+                                <!-- <tr *ngFor="let data of classData.table; let rowIndex = index" cdkDropList (cdkDropListDropped)="onDrop3($event, rowIndex, -1)" [cdkDropListData]="classData.table[rowIndex]">
+                                    <td *ngFor="let item of data; let j = index" cdkDrag (cdkDragStarted)="dragStarted(rowIndex, j)" (cdkDragEnded)="dragEnded()" [cdkDragData]="{ rowIndex, colIndex: j }"
+                                        [ngStyle]="{'background-color': item == '' ? 'lightgray' : '' }"
+                                        [cdkDragDisabled]="item == 0 || item == '' || j == 0">
+                                      {{ (item != 0 && item != '') ? item.split('^')[0] : (item == '') ? 'Break' : '' }}
+                                    </td>
+                                  </tr> -->
+                                  <!-- <ng-container *ngFor="let row of classData.table; let rowIndex = index">
+                                    <tr>
+                                      <td cdkDropList (cdkDropListDropped)="onDrop3($event, rowIndex)" [cdkDropListData]="row">
+                                        <div *ngFor="let cell of row; let j = index" cdkDrag (cdkDragStarted)="dragStarted(rowIndex, j)" (cdkDragEnded)="dragEnded()" [cdkDragData]="{ rowIndex, colIndex: j }" [ngStyle]="{'background-color': cell == '' ? 'lightgray' : '' }">
+                                          {{ (cell != 0 && cell != '') ? cell.split('^')[0] : (cell == '') ? 'Break' : '' }}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </ng-container> -->
+                                <!-- </tbody>
+                            </table> -->
                         </div>
                     </div>
                     <div *ngIf="!BindGridManualAdjustment" class="text-center p-3 text-danger"> No data Available!
