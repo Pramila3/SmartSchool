@@ -106,7 +106,7 @@ export class ByStaffComponent implements OnInit {
         }
         this.cdr.detectChanges();
 
-        this.loader.hide();
+        // this.loader.hide();
       });
   }
 

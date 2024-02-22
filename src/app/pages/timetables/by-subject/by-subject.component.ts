@@ -107,7 +107,7 @@ export class BySubjectComponent implements OnInit {
         }
         this.cdr.detectChanges();
 
-        this.loader.hide();
+        // this.loader.hide();
       });
   }
 

@@ -106,7 +106,7 @@ export class ByClassComponent implements OnInit {
         }
         this.cdr.detectChanges();
 
-        this.loader.hide();
+        // this.loader.hide();
       });
   }
 
