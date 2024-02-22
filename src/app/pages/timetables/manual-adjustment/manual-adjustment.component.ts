@@ -312,9 +312,18 @@ export class ManualAdjustmentComponent implements OnInit {
                 console.log(staff);
 
                 if (staff) {
-                  this.dropData = staff[1]
-                  this.saveType = "nonfixed"
-                  this.SaveManualAdjustment()
+                  if (!isNaN(+(this.dropData))) {
+                    let obj = this.BindGridManualAdjustment[tableIndex];
+                    if (obj) {
+                      this.dropData = obj.class_id + ',' + (rowIndex + 1) + ',' + colIndex
+                      this.saveType = "empty"
+                      this.SaveManualAdjustment()
+                    }
+                  } else {
+                    this.dropData = staff[1]
+                    this.saveType = "nonfixed"
+                    this.SaveManualAdjustment()
+                  }
                 }
               }
               // return true;
