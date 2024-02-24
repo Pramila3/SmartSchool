@@ -156,7 +156,6 @@ export class ManualAdjustmentComponent implements OnInit {
       pastedcell: this.dropData.trim(),
       type: this.saveType
     };
-    console.log("this.dragData", this.dragData);
 
     this.service
       .postHttpService(postData, "SaveManualAdjustmentPeriods")
@@ -229,8 +228,26 @@ export class ManualAdjustmentComponent implements OnInit {
     }
 
     // Handle other drop logic as needed
-    if (this.dragData && this.dropData) {
+    if (this.dragData && this.dropData && this.checkWithinTable(event.dropPoint, item)) {
       this.SaveManualAdjustment();
+    }
+  }
+  checkWithinTable(dropPoint: { x: number, y: number }, currentItem: any){
+    const tables = document.querySelectorAll('.table');
+    let tableIndex;
+    if (tables.length > 0) {
+      tables.forEach((table, index) => {
+        const rect = table.getBoundingClientRect();
+        if (dropPoint.x >= rect.left && dropPoint.x <= rect.right && dropPoint.y >= rect.top && dropPoint.y <= rect.bottom) {
+          tableIndex = index;
+        }
+      });
+    }
+    if(tableIndex != undefined){      
+      let pasedCellId = this.BindGridManualAdjustment[tableIndex]?.class_id
+      return  pasedCellId === currentItem.class_id ? true : false
+    }else{
+      return false
     }
   }
 
@@ -250,7 +267,6 @@ export class ManualAdjustmentComponent implements OnInit {
 
   }
   nonFixDragMoved(data: any) {
-    console.log(data);
     if (data) {
       this.dragData = data.staffId + ',' + data.staff;
     }
@@ -306,10 +322,8 @@ export class ManualAdjustmentComponent implements OnInit {
               const colIndex = Array.from(parentElement.children).indexOf(closestCell);
               const rowData = table2?.rows[rowIndex + 1];
               const cellData = rowData?.cells[colIndex].textContent;
-              console.log(rowIndex, colIndex, cellData);
               if (rowIndex && colIndex && cellData) {
                 let staff = rowData?.cells[colIndex].innerHTML.match(/<span[^>]*>(.*?)<\/span>/)
-                console.log(staff);
 
                 if (staff) {
                   if (!isNaN(+(this.dropData))) {

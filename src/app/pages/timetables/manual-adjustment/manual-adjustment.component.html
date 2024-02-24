@@ -78,7 +78,7 @@
                                     <tr *ngFor="let row of generateArray(+classData.noofDays); let rowIndex = index"
                                     [cdkDropListConnectedTo]="['sourceList']" 
                                     cdkDropList 
-                                    (cdkDropListDropped)="onDrop($event, classData.timetableData.split('#'))"
+                                    (cdkDropListDropped)="onDrop($event, classData)"
                                     [cdkDropListData]="classData.timetableData.split('#')[rowIndex].split('@')">
                         
                                     <td #yourElement cdkDrag [ngClass]="colIndex==0 ? 'days_coloumn' : ' '"
