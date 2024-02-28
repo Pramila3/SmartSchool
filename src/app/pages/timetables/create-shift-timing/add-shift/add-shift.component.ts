@@ -192,7 +192,8 @@ export class AddShiftComponent implements OnInit {
     this.getClassList()
     this.periodFormGroup()
     this.colvalues = []
-    this.classFormControl = new FormControl([], Validators.required)
+    this.classSelectedValues = []
+    this.classFormControl = new FormControl([], Validators.required);
     this.isAddShiftShow = true;
 
   }
@@ -857,7 +858,7 @@ export class AddShiftComponent implements OnInit {
     this.searchTextboxControl.patchValue('');
     this.searchValue = '';
     if (e == true) {
-      this.searchTextBox.nativeElement.focus();
+      this.searchTextBox?.nativeElement?.focus();
     }
   }
   setSelectedClassValues() {
@@ -867,6 +868,13 @@ export class AddShiftComponent implements OnInit {
           this.classSelectedValues.push(e);
         }
       });
+    }
+  }
+  classSelectionChange(event: any) {
+    if (event.isUserInput && event.source.selected == false) {
+      let index = this.classSelectedValues.indexOf(event.source.value);
+      this.classSelectedValues.splice(index, 1)
+      console.log(this.classSelectedValues.length);
     }
   }
 }

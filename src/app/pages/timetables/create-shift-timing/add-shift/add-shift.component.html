@@ -123,7 +123,7 @@
                                     </mat-select-trigger>
                                         <!-- <input matInput placeholder="Search Class" formControlName="class"
                                             (input)="applyFilter($event)" class="search-mat-option" [formControl]="searchTextboxControl"> -->
-                                        <mat-option *ngFor="let item of filteredClassList" [value]="item.class">
+                                        <mat-option *ngFor="let item of filteredClassList" [value]="item.class" (onSelectionChange)="classSelectionChange($event)">
                                             {{ item.class }}
                                         </mat-option>
                                         <mat-option *ngIf="filteredClassList.length === 0" disabled>No Data found</mat-option>
