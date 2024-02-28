@@ -31,9 +31,8 @@ export class TimetablesComponent implements OnInit {
   pageId: any = [];
   selectedOption: string = ""; // or any appropriate type
   previousShiftId: string = ""; // Initialize previous shift ID
-  timetableview: string = "";
-  checkedOption: string = "ByClass"; // Set the initially checked option
- 
+  timetableview: string = "General";
+  checkedOption: string = "General"; // Set the initially checked option
 
   constructor(
     private service: CommonService,
@@ -50,21 +49,52 @@ export class TimetablesComponent implements OnInit {
     this.loader.show();
     // this.authLogin();
     this.getShiftList();
-    if (this.checkedOption === "ByClass") {
-      this.ViewTimetableClasswise();
-    } else if (this.checkedOption === "ByStaff") {
-      this.ViewTimetableStaffwise();
-      
-    } else if (this.checkedOption === "BySubject") {
-      this.ViewTimetableSubjectwise();
-    }
-  
+    
+
   }
 
+  getProcessTimetableList() {
+    this.timetableview = "General";
+    this.loader.show();
+    let postData = {
+      schoolcode: localStorage.getItem("schoolcode"),
+      sftid: this.shiftId,
+    };
 
+    this.service
+      .getHttpServiceWithDynamicParams(postData, "ProcessTimetableList")
+      .subscribe(
+        (response: any) => {
+          if (response.status) {
+            this.timetableList = this.sanitizer.bypassSecurityTrustHtml(
+              response.resultData
+            );
+            this.timetableName = response.timetableName;
+            this.ttlPercentage = response.ttlPercentage;
+            this.loader.hide();
+          } else {
+            // Handle the case where no data is found
+            this.timetableList = ""; // Set timetableList to null or an empty array, whichever you prefer
+            this.timetableName = ""; // Clear the timetableName
+            this.ttlPercentage = ""; // Clear the ttlPercentage
+            this.loader.hide();
+          }
+        },
+        (error) => {
+          // Handle API error here and show an alert
+          console.error("API Error:", error);
+          this.loader.hide();
 
- 
-
+          // Show an alert using a library like Swal (SweetAlert2) or your preferred alert mechanism
+          Swal.fire({
+            title: "API Error",
+            text: "An error occurred while fetching data from the API.",
+            icon: "error",
+            // timer: 3000 // Adjust the timer as needed
+          });
+        }
+      );
+  }
 
   // authLogin() {
   //   this.route.queryParams.subscribe(async (params) => {
@@ -112,9 +142,18 @@ export class TimetablesComponent implements OnInit {
           this.shiftId =
             this.shiftList.length > 0 ? this.shiftList[0].sftid : "";
           console.log("this.shiftId", this.shiftId);
-          this.getpagingList();
-        }
 
+        }
+        if (this.checkedOption === "General") {
+          this.getProcessTimetableList();
+        } else if (this.checkedOption === "ByClass") {
+          this.ViewTimetableClasswise();
+        } else if (this.checkedOption === "ByStaff") {
+          this.ViewTimetableStaffwise();
+        } else if (this.checkedOption === "BySubject") {
+          this.getpagingList();
+          this.ViewTimetableSubjectwise();
+        }
         this.cdr.detectChanges();
       });
   }
@@ -148,12 +187,10 @@ export class TimetablesComponent implements OnInit {
           this.previousShiftId = this.shiftId;
           if (this.checkedOption === "BySubject") {
             this.ViewTimetableSubjectwise();
-           
           }
-         
         }
         this.cdr.detectChanges();
-      
+
         // this.loader.hide();
       });
   }
@@ -293,7 +330,9 @@ export class TimetablesComponent implements OnInit {
       .subscribe(
         (response: any) => {
           if (response.status) {
-            this.timetableList = this.sanitizer.bypassSecurityTrustHtml(response.resultData);
+            this.timetableList = this.sanitizer.bypassSecurityTrustHtml(
+              response.resultData
+            );
             // this.timetableList = this.sanitizer.bypassSecurityTrustHtml(
             //   " <html><head></head><body>  <style  type='text/css'> /* CSS Document */ body { margin:0px;padding:0px;} .tblBorder { /*background-color: #BED9EE;*/ border: 1px solid #BED9EE;}  #ttlview td{border: 1px solid #BED9EE;} #ttlborder td{border: 1px solid #BED9EE;} /* Used for fee structure definition */  .subtitle {font-family:Arial;font-size:13px;line-height:20px;color:#121C8B;font-weight:bold;text-align: left;padding: 3px 5px;}  .title1 {font-family:Arial;font-size:15px;line-height:20px;color: #AD1010;text-align: left;padding-right: 5px;padding-left: 5px;padding-top: 3px;}  .menu1 {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 11px;line-height: 20px;font-weight: bold;color: #FFFFFF;text-decoration: none;text-align: left;padding-right: 3px;padding-left: 3px;}  .Border {background-color: #F3FBFE;border: 1px solid #BCE2F9;}  .CerTableBorder {background-color: #F3FBFE;border: 1px solid ##333333;}  .tblTitle {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;line-height: 20px;/*font-weight: bold;*/color: #000000;text-decoration: none;padding: 3px;background-color: #9CC1E2;}  .tblText {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;color: #000000;text-decoration: none;padding: 3px;background-color: #FFFFFF;text-align: left;vertical-align: top;}  .tblBreak{font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;line-height: 20px;text-decoration: none;padding: 3px;background-color: darkgray;vertical-align: middle;text-align: center;}  .tblSubstitute{font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;line-height: 20px;color: #000000;text-decoration: none;padding: 3px;background-color: aquamarine;}  .tblReserve {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;line-height: 20px;color: #000000;text-decoration: none;padding: 3px;background-color: Lavender;}  .tblStfComb {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;line-height: 20px;color: #000000;text-decoration: none;padding: 3px;background-color: Ivory;}  .tblCombCont {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;line-height: 20px;color: #000000;text-decoration: none;padding: 3px;background-color: Yellow;}  .tblCell{font-family: Goudy Old Style, Arial, Helvetica, sans-serif;font-size: 12px;color: #000000;text-decoration: none;padding: 3px;background-color: lavender;text-align: left;vertical-align: top;}  .tblHighlight{font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;text-decoration: none;padding: 3px;background-color: lightgoldenrodyellow;text-align: left;vertical-align: top;}  .tblGeneral {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;color: peru;text-decoration: none;padding: 3px;background-color: #FFFFFF;text-align: left;vertical-align: top;}  .tblName {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;font-weight: bold;color: #000000;text-decoration: none;width: 150px;float: left;}  .tblvTitle {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px;line-height: 20px;font-weight: bold;color: #000000;text-decoration: none;padding: 3px;background-color: #D9E8F4;} </style> <table width=100% border=0 cellpadding=0 cellspacing=0 class=tblBorder id=ttlview><tr><td class=subtitle colspan=5>API Class A</td></tr><tr><tr><th width=6% class=tblTitle><strong>Days_Periods</strong></th> <th width=23% class=tblTitle><strong>1</strong></th> <th width=23% class=tblTitle><strong>2</strong></th> <th width=23% class=tblTitle><strong>3</strong></th> <th width=23% class=tblTitle><strong>4</strong></th> </tr><tr><td width=6% class=tblvTitle>Day 1</td> <td width=23% class=tblReserve>ENG (BKMHSS20) </td><td width=23% class=tblBreak>Break</td><td width=23% class=tblCombCont>MAT (BKMHSS140) </td><td width=23% class=tblStfComb>MAT (BKMHSS140) </td></tr><tr><td width=6% class=tblvTitle>Day 2</td> <td width=23% class=tblReserve>ENG (BKMHSS20) </td><td width=23% class=tblBreak>Break</td><td width=23% class=tblCombCont>MAT (BKMHSS140) </td><td width=23% class=tblText>TAM (BKMHSS136) </td></tr><tr><td width=6% class=tblvTitle>Day 3</td> <td width=23% class=tblReserve>ENG (BKMHSS20) </td><td width=23% class=tblBreak>Break</td><td width=23% class=tblText>&nbsp;</td><td width=23% class=tblText>MAT (BKMHSS140) </td></tr><tr><td width=6% class=tblvTitle>Day 4</td> <td width=23% class=tblReserve>ENG (BKMHSS20) </td><td width=23% class=tblBreak>Break</td><td width=23% class=tblText>&nbsp;</td><td width=23% class=tblText>MAT (BKMHSS140) </td></tr><tr><td width=6% class=tblvTitle>Day 5</td> <td width=23% class=tblReserve>ENG (BKMHSS20) </td><td width=23% class=tblBreak>Break</td><td width=23% class=tblText>&nbsp;</td><td width=23% class=tblCombCont>ENG (BKMHSS20) </td></tr></table>  </body></html>"
             // );

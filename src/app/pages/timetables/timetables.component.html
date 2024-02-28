@@ -21,36 +21,30 @@
 
                 <div class="pe-3">
                     <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="checkedOption">
-                        <mat-button-toggle value="ByClass" (click)="ViewTimetableClasswise()" checked >By Class</mat-button-toggle>
-                        <mat-button-toggle value="ByStaff" (click)="ViewTimetableStaffwise()" >By Staff</mat-button-toggle>
-                        <mat-button-toggle  value="BySubject" (click)="ViewTimetableSubjectwise()">By Subject</mat-button-toggle>
+                        <mat-button-toggle value="General" (click)="getProcessTimetableList()"
+                            checked>General</mat-button-toggle>
+                        <mat-button-toggle value="ByClass" (click)="ViewTimetableClasswise()">By
+                            Class</mat-button-toggle>
+                        <mat-button-toggle value="ByStaff" (click)="ViewTimetableStaffwise()">By
+                            Staff</mat-button-toggle>
+                        <mat-button-toggle value="BySubject" (click)="ViewTimetableSubjectwise()">By
+                            Subject</mat-button-toggle>
                     </mat-button-toggle-group>
                 </div>
-                <div class="col-lg-10 row"  >
+                <div class="col-lg-10 row" *ngIf="timetableview === 'subject' || timetableview === 'General'">
                     <div class="col-lg-6">
-                        <!-- <label for="">Shift</label> -->
-                        <!-- *ngIf="shiftList.length > 0"  -->
-                        <!-- <select name="" class="form-control" id="" [(ngModel)]="shiftId" (selectionChange)="getpagingList()">
-                            <option value="" selected disabled>-- Select --</option>
-                            <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
-                        </select> -->
-                        <select name=""  class="form-control" id="" [(ngModel)]="shiftId" (change)="getpagingList()">
+                        <select name="" class="form-select" id="" [(ngModel)]="shiftId" (change)="timetableview === 'subject'? getpagingList(): getProcessTimetableList() ">
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
                         </select>
-                        
                     </div>
-                    <div class="col-lg-6" *ngIf="timetableview == 'subject'">
-                      
-                        <!-- <select name="" class="form-control" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()">
-                            <option value="" selected disabled>-- Select --</option>
-                            <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
-                        </select> -->
-                        <select name="" class="form-control" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()" >
+                    <div class="col-lg-6" *ngIf="timetableview != 'General'">
+                        <select name="" class="form-select" id="" [(ngModel)]="selectedOption"
+                            (change)="ViewTimetableSubjectwise()">
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
                         </select>
-                        
+
                     </div>
                 </div>
             </div>
@@ -114,7 +108,12 @@
                     </div>
                     <div class="overflow-auto">
                         <div *ngIf="timetableList">
-                           
+                            <div *ngIf="checkedOption === 'General'">
+                                <!-- Content for "By Class" -->
+                                <div [innerHTML]="timetableList"></div>
+                                <!-- Add your content here -->
+                            </div>
+
                             <div *ngIf="checkedOption === 'ByClass'">
                                 <!-- Content for "By Class" -->
                                 <div [innerHTML]="timetableList"></div>

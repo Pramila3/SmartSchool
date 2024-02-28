@@ -27,7 +27,7 @@
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
                         </select> -->
-                        <select name=""  class="form-control" id="" [(ngModel)]="shiftId" (change)="getpagingList()">
+                        <select name=""  class="form-select" id="" [(ngModel)]="shiftId" (change)="getpagingList()">
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
                         </select>
@@ -39,7 +39,7 @@
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
                         </select> -->
-                        <select name="" class="form-control" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()" >
+                        <select name="" class="form-select" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()" >
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
                         </select>

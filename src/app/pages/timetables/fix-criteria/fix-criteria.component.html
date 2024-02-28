@@ -6,12 +6,19 @@
 </div>
 
 <div class="content-wrapper">
-
-    <div class="mb-2 text-end">
+ <div class="row">
+    <div class="col-lg-2">
+        <mat-form-field>
+            <mat-label>Search...</mat-label>
+            <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+        </mat-form-field>
+    </div>
+    <div class="mb-2 text-end col-lg-10">
         <button class="btn btn-success" routerLink="/timetable/AddFixCriteria" title="Add">Add</button>
     </div>
-    <div class="card">
-        <div class="card-body">
+ </div>
+    <div class="card rounded">
+        <div class="card-body p-0">
             <div class="d-flex justify-content-between align-items-end">
                 <div class="col-lg-4 row">
 
@@ -25,12 +32,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div> -->
-                    <div class="col-lg-6">
-                        <mat-form-field>
-                            <mat-label>Search...</mat-label>
-                            <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
-                        </mat-form-field>
-                    </div>
+                 
                 </div>
                 <!-- <div class="">
 

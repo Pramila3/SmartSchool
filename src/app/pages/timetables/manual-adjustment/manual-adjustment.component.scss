@@ -124,6 +124,7 @@
 
   td.cdk-drag {
     cursor: move;
+    word-break: break-all;
   }
   
   .cdk-drag-preview, .cdk-drag-placeholder {
@@ -155,3 +156,13 @@
     overflow-y: scroll;
     min-height: fit-content;
   }
+
+
+  .mat-expansion-panel-header.mat-expanded {
+    height: 50px;
+    background: #bdd9f2 !important;
+    color: #fff !important;
+}
+.mat-accordion .mat-expansion-panel{
+border-radius: 15px !important;
+}

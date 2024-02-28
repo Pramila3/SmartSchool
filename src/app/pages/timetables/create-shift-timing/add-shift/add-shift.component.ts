@@ -176,7 +176,7 @@ export class AddShiftComponent implements OnInit {
   }
   getClassList() {
     let postData = {
-      shiftclstimetableid: this.shiftTimingId,
+      clstimetableid: this.shiftTimingId,
       schoolcode: localStorage.getItem('schoolcode'),
       academicyear: localStorage.getItem('academicYear'),
       isadd: this.shiftForm.value.shiftId ? 1 : 0

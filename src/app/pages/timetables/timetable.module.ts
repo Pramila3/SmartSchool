@@ -51,6 +51,7 @@ import { BySubjectComponent } from './by-subject/by-subject.component';
 import { DatePipe } from '@angular/common';
 import { OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { SelectedStaffSubstituteComponent } from './staff-substitude/selected-staff-substitute/selected-staff-substitute.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { SelectedStaffSubstituteComponent } from './staff-substitude/selected-st
     DragDropModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   providers: [
     DatePipe, // Add DatePipe to the providers array
