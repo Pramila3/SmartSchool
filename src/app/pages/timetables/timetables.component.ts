@@ -15,6 +15,7 @@ import * as XLSX from "xlsx";
 import * as ExcelJS from "exceljs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
+
 @Component({
   selector: "app-timetables",
   templateUrl: "./timetables.component.html",
@@ -424,104 +425,94 @@ export class TimetablesComponent implements OnInit {
 
     saveAs(blob, "Timetable.doc");
   }
-  downloadAsExcel(): void {
-    // const content = document.getElementById('exceldownload'); // Adjust accordingly
 
-    // if (content instanceof HTMLElement) {
-    //   const table = content.querySelector('table');
+   downloadAsExcel() {
+    const content = document.getElementById("exceldownload"); // Get the HTML container element
 
-    //   if (table) {
-    //     const wb = XLSX.utils.book_new();
-    //     const ws = XLSX.utils.table_to_sheet(table);
-    //     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    if (content instanceof HTMLElement) { // Check if the content is an HTML element
+        const tables = content.querySelectorAll("table"); // Find all tables within the content
 
-    //     // Use XLSX.writeFile instead of XLSX.write
-    //     XLSX.writeFile(wb, 'Timetable.xlsx');
-    //   } else {
-    //     console.error("No table found in the 'docx' element.");
-    //   }
-    // } else {
-    //   console.error("Element with id 'docx' not found in the document.");
-    // }
+        if (tables.length > 0) { // If tables are found
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet("CombinedSheet"); // Create a single worksheet for all tables
+            let currentRowIndex = 1; // Initialize the current row index
 
-    const content = document.getElementById("exceldownload"); // Adjust accordingly
+            tables.forEach((table, tableIndex) => {
+                // Reset the column index for each table
+                let currentColIndex = 1;
 
-    if (content instanceof HTMLElement) {
-      const table = content.querySelector("table");
+                // Add an empty row between tables
+                if (tableIndex > 0) {
+                    currentRowIndex += 2; // Add 2 to create an empty row
+                }
 
-      if (table) {
-        // Create a new workbook and add a worksheet
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet("Sheet1");
+                table.querySelectorAll("tr").forEach((row, rowIndex) => {
+                    // Skip the first row if it contains table header (th)
+                    if (rowIndex === 0 && table.querySelector("th")) {
+                        return;
+                    }
 
-        // Iterate over rows and cells to add data and apply styles
-        table.querySelectorAll("tr").forEach((row, rowIndex) => {
-          const excelRow = worksheet.getRow(rowIndex + 1); // Excel uses 1-based indexing
+                    // Increase the row index for each new row
+                    currentRowIndex++;
 
-          row.querySelectorAll("td, th").forEach((cell, colIndex) => {
-            const bgColor = window.getComputedStyle(cell).backgroundColor;
-            const textContent = cell.textContent!.trim();
+                    // Reset the column index for each new row
+                    currentColIndex = 1;
 
-            // Add data to the cell
-            excelRow.getCell(colIndex + 1).value = textContent;
+                    row.querySelectorAll("td, th").forEach((cell, colIndex) => {
+                        const bgColor = window.getComputedStyle(cell).backgroundColor;
+                        const textContent = cell.textContent?.trim(); // Use optional chaining
 
-            // Parse the RGB values from the computed background color
-            const rgbValues = bgColor.match(/\d+/g);
+                        const excelCell = worksheet.getCell(currentRowIndex, currentColIndex);
+                        excelCell.value = textContent || ''; // Ensure textContent is not null
 
-            if (rgbValues && rgbValues.length === 3) {
-              // Apply background color to the cell
-              excelRow.getCell(colIndex + 1).fill = {
-                type: "pattern",
-                pattern: "solid",
-                fgColor: {
-                  argb: `FF${rgbValues
-                    .map((value) => (+value).toString(16).padStart(2, "0"))
-                    .join("")}`,
-                },
-              };
-            }
-            // Apply border styles to the cell
-            excelRow.border = {
-              top: { style: "thin", color: { argb: "ced4da" } },
-              left: { style: "thin", color: { argb: "ced4da" } },
-              bottom: { style: "thin", color: { argb: "ced4da" } },
-              right: { style: "thin", color: { argb: "ced4da" } },
-            };
-          });
-        });
+                        const rgbValues = bgColor.match(/\d+/g);
+                        if (rgbValues && rgbValues.length === 3) {
+                            excelCell.fill = {
+                                type: "pattern",
+                                pattern: "solid",
+                                fgColor: { argb: `FF${rgbValues.map(value => (+value).toString(16).padStart(2, "0")).join("")}` }
+                            };
+                        }
 
-        // Auto-adjust column widths based on content
-        worksheet.columns.forEach((column, colIndex) => {
-          let maxLength = 0;
-          worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
-            const cell = row.getCell(colIndex + 1);
-            if (cell && cell.text) {
-              const length = cell.text.length;
-              if (length > maxLength) {
-                maxLength = length;
-              }
-            }
-          });
-          column.width = maxLength < 10 ? 10 : maxLength + 2; // Set a minimum width
-        });
+                        excelCell.border = {
+                            top: { style: "thin", color: { argb: "ced4da" } },
+                            left: { style: "thin", color: { argb: "ced4da" } },
+                            bottom: { style: "thin", color: { argb: "ced4da" } },
+                            right: { style: "thin", color: { argb: "ced4da" } }
+                        };
 
-        // Save the workbook
-        workbook.xlsx.writeBuffer().then((buffer) => {
-          const blob = new Blob([buffer], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          });
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.download = "Timetable.xlsx";
-          link.click();
-        });
-      } else {
-        console.error("No table found in the 'exceldownload' element.");
-      }
+                        currentColIndex++; // Move to the next column
+                    });
+                });
+            });
+
+            // Auto-adjust column widths based on content
+            worksheet.columns.forEach((column, colIndex) => {
+                let maxLength = 0;
+                worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
+                    const cell = row.getCell(colIndex + 1);
+                    if (cell && cell.text) {
+                        const length = cell.text.length;
+                        if (length > maxLength) {
+                            maxLength = length;
+                        }
+                    }
+                });
+                column.width = maxLength < 10 ? 10 : maxLength + 2;
+            });
+
+            workbook.xlsx.writeBuffer().then(buffer => {
+                const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                const link = document.createElement("a");
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "Timetable.xlsx";
+                link.click();
+            });
+        } else {
+            console.error("No tables found in the 'exceldownload' element.");
+        }
     } else {
-      console.error(
-        "Element with id 'exceldownload' not found in the document."
-      );
+        console.error("Element with id 'exceldownload' not found in the document.");
     }
-  }
+}
 }

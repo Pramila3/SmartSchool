@@ -18,7 +18,7 @@
     // border-radius: 50px;
     background: white;
     border: none;
-  
+
     .mat-button-toggle-checked {
         background: #87ceeb;
     }
@@ -88,9 +88,11 @@
     border-radius: 13px;
     color: #fff;
 }
+
 .list-group .active {
     position: relative;
 }
+
 .list-group .active::after {
     content: "";
     border-top: 11px solid transparent;
@@ -104,6 +106,7 @@
     background-color: #866fd8;
     color: #fff;
 }
+
 .custum_table tr th p {
     margin-bottom: 2px;
 }
@@ -234,6 +237,56 @@
         gap: 10px;
     }
 }
+
 .hide {
     display: none;
+}
+
+
+::ng-deep.tblBorder {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: top;
+    border-color: #dee2e6;
+
+    tbody {
+        vertical-align: inherit;
+
+        tr td,
+        th {
+            padding: 10px;
+        }
+
+        .tblReserve {
+            background: #72c972fc;
+        }
+
+        .tblCombCont {
+            background: #f9f970;
+        }
+        .tblvTitle {
+            background-color: #1c9fab !important;
+            color: #fff;
+        }
+
+        .tblTitle {
+            background-color: #1c9fab !important;
+            color: #fff;
+        }
+
+        .tblBreak {
+            background: #f1f1f1 !important;
+        }
+    }
+
+
 }
