@@ -109,7 +109,7 @@
                                     <mat-select  multiple  [formControl]="classFormControl" (selectionChange)="onSelectChange($event)" 
                                     (openedChange)="multiSelectChange($event)">
                                     <div class="search-wraper">
-                                        <input (input)="applyFilter($event)" placeholder="Search..."
+                                        <input (input)="applyFilter($event)" placeholder="Search..." (keydown)="$event.stopPropagation()"
                                             class="form-control search-mat-option" [formControl]="searchTextboxControl">
                                     </div>
                                     <mat-select-trigger>
@@ -203,6 +203,10 @@
                                 *ngIf=" shiftFormControl.noOfdaysPerWeek.errors?.min">
                                Please enter valid number
                             </span>
+                            <span class="text-danger form-check-under-mat"
+                                *ngIf=" shiftFormControl.noOfdaysPerWeek.errors?.max">
+                                No of Days should be between 1 and 7
+                            </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -210,7 +214,7 @@
                             <div class="form-group">
                                 <mat-form-field appearance="outline">
                                     <mat-label>No of Periods per Day</mat-label>
-                                    <input matInput type="number" maxlength="2" min="1" (keypress)="doubleLengthValidator($event)" placeholder="No of Periods per Day" 
+                                    <input matInput type="number"  placeholder="No of Periods per Day" 
                                         formControlName="noOfPeriodsPerDay" (change)="!shiftForm.value.shiftId ? onChangePeriod($event) : ''" >
 
                                 </mat-form-field>
@@ -222,6 +226,10 @@
                                     *ngIf=" shiftFormControl.noOfPeriodsPerDay.errors?.min">
                                    Please enter valid number
                                 </span>
+                                <span class="text-danger form-check-under-mat"
+                                *ngIf=" shiftFormControl.noOfPeriodsPerDay.errors?.max">
+                                No of Periods should be between 1 and 20
+                            </span>
                             </div>
                         </div>
                         <div class="col-lg-4">

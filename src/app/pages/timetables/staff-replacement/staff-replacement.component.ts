@@ -111,7 +111,7 @@ export class StaffReplacementComponent implements OnInit {
   }
   get filteredstaffReplaceList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
-    return this.BindStaffReplaceList.filter((element: any) =>
+    return this.BindStaffReplaceList?.filter((element: any) =>
       element.staff.toLowerCase().includes(lowerCaseSearch)
     );
   }

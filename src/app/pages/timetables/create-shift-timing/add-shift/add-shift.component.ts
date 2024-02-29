@@ -111,8 +111,8 @@ export class AddShiftComponent implements OnInit {
       class: [null, Validators.required],
       startTime: [null, Validators.required],
       endTime: [null, Validators.required],
-      noOfdaysPerWeek: [null, [Validators.required, Validators.pattern('^[0-9]$'), Validators.min(1)]],
-      noOfPeriodsPerDay: [null, [Validators.required, Validators.min(1)]],
+      noOfdaysPerWeek: [null, [Validators.required, Validators.pattern('^[0-9]$'), Validators.min(1), Validators.max(7)]],
+      noOfPeriodsPerDay: [null, [Validators.required, Validators.min(1), Validators.max(20)]],
       startingDay: [null, Validators.required],
       saveType: 'add',
       shiftFormArr: this.fb.array([])
@@ -231,7 +231,7 @@ export class AddShiftComponent implements OnInit {
       && this.shiftForm.controls['startingDay'].valid) {
       let dayArr = (this.shiftForm.value.startingDay).split('@')
       if (!this.shiftForm.value.shiftId) {
-        // formArray.clear()
+        formArray.clear()
         for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
           let arr = []
           let obj: { [key: string]: any } = {};
@@ -791,8 +791,8 @@ export class AddShiftComponent implements OnInit {
         class: null
       })
     }
-    this.searchTextboxControl.patchValue('');
-    this.searchValue = ''
+    // this.searchTextboxControl.patchValue('');
+    // this.searchValue = ''
   }
   onStartTimeChange(event: any) {
     let currentDate = new Date()

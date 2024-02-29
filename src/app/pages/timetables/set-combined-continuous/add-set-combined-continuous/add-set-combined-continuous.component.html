@@ -19,7 +19,7 @@
                             <mat-select name="classes" (selectionChange)="getClassList()" formControlName="shift">
                                 <div class="search-wraper">
                                     <input (input)="applyShiftFilter($event)" placeholder="Search Shift"
-                                        class="form-control search-mat-option">
+                                        class="form-control search-mat-option" (keydown)="$event.stopPropagation()">
                                 </div>
 
                                 <mat-option *ngFor="let item of filteredShiftList" [value]="item.sftid" >
@@ -39,7 +39,7 @@
                             <mat-label>Classes </mat-label>
                             <mat-select [formControl]="classFormControl" (selectionChange)="getClassSubjectList()"  (openedChange)="classMultiSelectChange($event)" multiple>
                                 <div class="search-wraper">
-                                    <input (input)="applyClassFilter($event)" placeholder="Search"
+                                    <input (input)="applyClassFilter($event)" placeholder="Search" (keydown)="$event.stopPropagation()"
                                         class=" form-control search-mat-option" [formControl]="clasSearchTextboxControl">
                                 </div>
                                 <mat-select-trigger>
@@ -68,7 +68,7 @@
                             <mat-select multiple  [formControl]="staffFormControl"
                                 (selectionChange)="getBindPeriodtable($event)" (openedChange)="multiSelectChange($event)">
                                 <div class="search-wraper">
-                                    <input (input)="applyClassStaffSubjectFilter($event)" placeholder="Search..."
+                                    <input (input)="applyClassStaffSubjectFilter($event)" placeholder="Search..." (keydown)="$event.stopPropagation()"
                                         class="form-control search-mat-option" [formControl]="searchTextboxControl">
                                 </div>
                                 <mat-select-trigger>

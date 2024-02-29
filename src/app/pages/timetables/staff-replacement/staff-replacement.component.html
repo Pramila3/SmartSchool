@@ -26,7 +26,7 @@
                             <mat-label>Staff</mat-label>
                             <mat-select formControlName="Staff" name="Staff" (selectionChange)="getBindGridList($event.value)">
                                 <div class="search-wraper">
-                                    <input  placeholder="Search Staff" 
+                                    <input  placeholder="Search Staff"  (keydown)="$event.stopPropagation()"
                                     (input)="applyStaffFilter($event)" class="form-control search-mat-option">
                                    </div>
                                 <mat-option *ngFor="let staff of filteredstaffList" [value]="staff.staffNo">
@@ -41,13 +41,13 @@
                             <mat-label>Staff Replace </mat-label>
                             <mat-select formControlName="replace" name="replace">
                                 <div class="search-wraper">
-                                    <input  placeholder="Search Staff Replace" 
+                                    <input  placeholder="Search Staff Replace"  (keydown)="$event.stopPropagation()"
                                     (input)="applyStaffReplaceFilter($event)" class="form-control search-mat-option">
                                    </div>
                                 <mat-option *ngFor="let Replace of filteredstaffReplaceList" [value]="Replace.staffNo">
                                     {{Replace.staff}}
                                 </mat-option>
-                                <mat-option *ngIf="filteredstaffReplaceList.length === 0">No Data found</mat-option>
+                                <mat-option *ngIf="filteredstaffReplaceList?.length === 0">No Data found</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>

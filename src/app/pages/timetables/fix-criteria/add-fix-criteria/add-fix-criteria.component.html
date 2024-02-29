@@ -19,7 +19,7 @@
                             <mat-select [(ngModel)]="selectedValue1" formControlName="classes" name="classes"
                                 (selectionChange)="getSubjectList($event.value)">
                                <div class="search-wraper">
-                                <input  placeholder="Search Class" 
+                                <input  placeholder="Search Class"  (keydown)="$event.stopPropagation()"
                                 (input)="applyClassFilter($event)" class="form-control search-mat-option">
                                </div>
                                 
@@ -42,7 +42,7 @@
                             <mat-select [(ngModel)]="selectedValue2" formControlName="subjectList" name="subjectList"
                                 (selectionChange)="getStaffListdata($event.value)">
                                 <div class="search-wraper">
-                                    <input  placeholder="Search Subject" 
+                                    <input  placeholder="Search Subject"  (keydown)="$event.stopPropagation()"
                                     (input)="applySubjectFilter($event)" class="form-control search-mat-option">
                                 </div>
                                 <mat-option *ngFor="let subjects of filteredSubjectList" [value]="subjects.subjectid">
@@ -65,7 +65,7 @@
                             <mat-select [(ngModel)]="selectedValue3" formControlName="staffs" name="staffs"
                                 (selectionChange)="getBindTableData($event.value)">
                                <div class="search-wraper">
-                                <input  placeholder="Search Staff" 
+                                <input  placeholder="Search Staff"  (keydown)="$event.stopPropagation()"
                                 (input)="applyStaffFilter($event)" class="form-control search-mat-option">
                                </div>
                                 <mat-option *ngFor="let staffs of filteredStaffList" [value]="staffs.staffId">

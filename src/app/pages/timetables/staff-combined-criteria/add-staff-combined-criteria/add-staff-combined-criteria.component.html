@@ -36,7 +36,7 @@
                             <mat-select name="class" (selectionChange)="getSubjectList()" formControlName="class">
                                 <div class="search-wraper">
                                     <input (input)="applyShiftFilter($event)" placeholder="Search class"
-                                        class="form-control search-mat-option">
+                                        class="form-control search-mat-option" (keydown)="$event.stopPropagation()">
                                 </div>
 
                                 <mat-option *ngFor="let item of filteredClassList" [value]="item.classid">
@@ -53,7 +53,7 @@
                             <mat-select name="subject" (selectionChange)="getStaffList()" formControlName="subject">
                                 <div class="search-wraper">
                                     <input (input)="applySubjectFilter($event)" placeholder="Search Subject"
-                                        class="form-control search-mat-option">
+                                        class="form-control search-mat-option" (keydown)="$event.stopPropagation()">
                                 </div>
 
                                 <mat-option *ngFor="let item of filteredSubjectList" [value]="item.subjectID">
@@ -70,8 +70,8 @@
                             <mat-label>Staff </mat-label>
                             <mat-select  formControlName="staff" multiple>
                                 <div class="search-wraper">
-                                    <input (input)="applyStaffFilter($event)" placeholder="Search"
-                                        class=" form-control search-mat-option">
+                                    <input (input)="applyStaffFilter($event)" placeholder="Search" (keydown)="$event.stopPropagation()"
+                                        class=" form-control search-mat-option" (keydown)="$event.stopPropagation()">
                                 </div>
                                 <mat-select-trigger>
                                     {{ form.value.staff?.[0] || '' }}
