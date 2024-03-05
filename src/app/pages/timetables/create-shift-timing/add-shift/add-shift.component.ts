@@ -619,6 +619,9 @@ export class AddShiftComponent implements OnInit {
     this.shiftFormArray.clear()
     this.service.getHttpServiceWithDynamicParams(postData, 'findShiftDetails').subscribe((response: any) => {
       if (response.status) {
+        let formArray = this.shiftForm.get('shiftFormArr') as FormArray;
+        this.colvalues = []
+        formArray.clear()
         let day = this.dayList.filter((item: any) => {
           // let splitDay = item.dayName.split(' ')[1]
           let splitDay = item.dayID;
