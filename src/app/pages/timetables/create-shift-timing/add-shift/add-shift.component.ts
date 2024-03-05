@@ -330,6 +330,17 @@ export class AddShiftComponent implements OnInit {
           })
 
         }
+        // if Day reduced
+        if (this.shiftForm.value.shiftFormArr.length > this.shiftForm.value.noOfdaysPerWeek){
+          // this.shiftForm.value.shiftFormArr.forEach((element: any, index : any) => {
+          //   if(index >= this.shiftForm.value.noOfdaysPerWeek){
+          //     formArray.removeAt(index);
+          //   }
+          // });
+          for (let i = this.shiftForm.value.shiftFormArr.length - 1; i >= this.shiftForm.value.noOfdaysPerWeek; i--) {
+            formArray.removeAt(i);
+          }
+        }
       }
       // else {
       //   let columnLength: number
