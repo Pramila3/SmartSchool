@@ -38,6 +38,7 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
   searchValue2: string = '';
   isShowWarningMsg!: boolean;
   definedClassId: any;
+  staffSelectedValues: any = [];
 
   constructor(private service: CommonService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private loader: LoaderService,
     private router: Router) { }
@@ -84,6 +85,8 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
   }
   applyStaffFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
+    this.setSelectedValues();
+    this.form.get("staff").patchValue(this.staffSelectedValues);
     this.searchValue2 = inputValue;
   }
   getSubjectList() {
@@ -342,5 +345,31 @@ export class AddStaffCombinedCriteriaComponent implements OnInit {
         this.cdr.detectChanges()
       }
     })
+  }
+  selectStatff(data: any){
+    console.log(data);
+    this.form.get('staff').setValue(data.value);
+    console.log(this.form.value);
+  }
+
+  setSelectedValues() {
+    if (this.form.value.staff && this.form.value.staff.length > 0) {
+      this.form.value.staff.forEach((e: any) => {
+        if (this.staffSelectedValues.indexOf(e) == -1) {
+          this.staffSelectedValues.push(e);
+        }
+      });
+    }
+  }
+  selectionChange(event: any) {
+    if (event.isUserInput && event.source.selected == false) {
+      let index = this.staffSelectedValues.indexOf(event.source.value);
+      this.staffSelectedValues.splice(index, 1)
+      console.log(this.staffSelectedValues.length);
+
+      if (this.staffSelectedValues.length == 0) {
+        this.data = []
+      }
+    }
   }
 }

@@ -68,10 +68,10 @@
                     <div class="col-lg-4">
                         <mat-form-field appearance="outline">
                             <mat-label>Staff </mat-label>
-                            <mat-select  formControlName="staff" multiple>
+                            <mat-select  formControlName="staff"  multiple>
                                 <div class="search-wraper">
                                     <input (input)="applyStaffFilter($event)" placeholder="Search" (keydown)="$event.stopPropagation()"
-                                        class=" form-control search-mat-option" (keydown)="$event.stopPropagation()">
+                                        class=" form-control search-mat-option" >
                                 </div>
                                 <mat-select-trigger>
                                     {{ form.value.staff?.[0] || '' }}
@@ -82,7 +82,7 @@
                                     </span>
                                 </mat-select-trigger>
                                 <mat-option *ngFor="let item of filteredStaffList" [value]="item.staff"
-                                    [disabled]="item.disabled">{{ item.staff}}</mat-option>
+                                    [disabled]="item.disabled" (onSelectionChange)="selectionChange($event)" >{{ item.staff}}</mat-option>
                                 <mat-option *ngIf="filteredStaffList.length === 0" disabled>No Data found</mat-option>
                             </mat-select>
                         </mat-form-field>
