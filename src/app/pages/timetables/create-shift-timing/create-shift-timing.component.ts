@@ -275,7 +275,7 @@ export class ImportShiftTimingModal {
     this.form = this.fb.group({
       importTimetableTemplateId: [null, [Validators.required]],
       timetbleName: [null, [Validators.required]],
-      isOverwrite: [null],
+      isOverwrite: [true],
       isActive: [null]
     })
   }
