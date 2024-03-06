@@ -19,7 +19,7 @@
                         <mat-button-toggle  value="BySubject" (click)="ViewTimetableSubjectwise()">By Subject</mat-button-toggle>
                     </mat-button-toggle-group>
                 </div>
-                <div class="col-lg-10 row"  >
+                <div class="col-lg-10 row" *ngIf="timetableview == 'subject'" >
                     <div class="col-lg-6">
                         <!-- <label for="">Shift</label> -->
                         <!-- *ngIf="shiftList.length > 0"  -->
@@ -27,19 +27,19 @@
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
                         </select> -->
-                        <select name=""  class="form-control" id="" [(ngModel)]="shiftId" (change)="getpagingList()">
+                        <select name=""  class="form-select" id="" [(ngModel)]="shiftId" (change)="getpagingList()">
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.sftid}}" *ngFor="let data of shiftList">{{data.shift}}</option>
                         </select>
                         
                     </div>
-                    <div class="col-lg-6" *ngIf="timetableview == 'subject'">
+                    <div class="col-lg-6" >
                       
                         <!-- <select name="" class="form-control" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()">
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
                         </select> -->
-                        <select name="" class="form-control" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()" >
+                        <select name="" class="form-select" id="" [(ngModel)]="selectedOption" (change)="ViewTimetableSubjectwise()" >
                             <option value="" selected disabled>-- Select --</option>
                             <option value="{{data.id}}" *ngFor="let data of pageList">{{data.page}}</option>
                         </select>

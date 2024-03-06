@@ -304,7 +304,7 @@ export class ImportShiftTimingModal {
           this.dialogRef.close()
           Swal.fire({
             title: "Success",
-            text: "Record saved successfully",
+            text: response.statusMessage ,
             icon: 'success',
             width: '350px',
             heightAuto: false
