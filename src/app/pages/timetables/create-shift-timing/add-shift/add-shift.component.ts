@@ -51,6 +51,7 @@ export class AddShiftComponent implements OnInit {
   modalTarget!: string;
   classSelectedValues: any = []
   @ViewChild('search') searchTextBox!: ElementRef;
+  timetableId: number | undefined;
 
   get filteredClassList() {
     const lowerCaseSearch = this.searchValue.toLowerCase();
@@ -163,6 +164,8 @@ export class AddShiftComponent implements OnInit {
       timetableid: id,
       schoolcode: localStorage.getItem('schoolcode')
     }
+
+    this.timetableId  = postData.timetableid;
     this.service.getHttpServiceWithDynamicParams(postData, 'getShiftList').subscribe((response: any) => {
       if (response.status) {
         this.loader.hide();
@@ -176,7 +179,8 @@ export class AddShiftComponent implements OnInit {
   }
   getClassList() {
     let postData = {
-      clstimetableid: this.shiftTimingId,
+      clstimetableid:this.timetableId,
+      shiftclassid: this.shiftForm.value.shiftId,
       schoolcode: localStorage.getItem('schoolcode'),
       academicyear: localStorage.getItem('academicYear'),
       isadd: this.shiftForm.value.shiftId ? 1 : 0
