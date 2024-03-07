@@ -304,16 +304,51 @@ export class AddShiftComponent implements OnInit {
         });
         //If day change
 
+        // if (this.shiftForm.value.shiftFormArr[0].day != dayArr[0]) {
+        //   let form = this.shiftForm.value.shiftFormArr
+        //   dayArr.forEach((element: any, i: number) => {
+        //     let checkDayIndex = form.findIndex((el: any) => el.day == dayArr[i])
+        //     if (0 <= checkDayIndex) {
+        //       const removedItem = formArray.at(checkDayIndex);
+        //       formArray.removeAt(checkDayIndex);
+        //       formArray.insert(i, removedItem);
+        //     } else {
+        //       if (this.shiftForm.value.noOfPeriodsPerDay > i) {
+        //         formArray.removeAt(i);
+        //         let obj: { [key: string]: any } = {};
+        //         this.colvalues.forEach((element2: any, j: number) => {
+        //           obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
+        //         })
+        //         const newFormGroup = this.fb.group({
+        //           day: dayArr[i], ...obj
+        //         });
+        //         formArray.insert(i, newFormGroup);
+
+        //       }
+        //     }
+
+        //   })
+
+        // }
         if (this.shiftForm.value.shiftFormArr[0].day != dayArr[0]) {
           let form = this.shiftForm.value.shiftFormArr
           dayArr.forEach((element: any, i: number) => {
             let checkDayIndex = form.findIndex((el: any) => el.day == dayArr[i])
             if (0 <= checkDayIndex) {
-              const removedItem = formArray.at(checkDayIndex);
-              formArray.removeAt(checkDayIndex);
-              formArray.insert(i, removedItem);
+              const removedItem = form[checkDayIndex];
+              formArray.removeAt(i);
+              const newFormGroup: { [key: string]: any } = {
+                day: dayArr[i]
+              };
+              for (const [key, value] of Object.entries(removedItem)) {
+                if (key.startsWith('period')) {
+                  newFormGroup[key] = [value];
+                }
+              }
+              formArray.insert(i, this.fb.group(newFormGroup));
+
             } else {
-              if (this.shiftForm.value.noOfPeriodsPerDay > i) {
+              // if (this.shiftForm.value.noOfPeriodsPerDay > i) {
                 formArray.removeAt(i);
                 let obj: { [key: string]: any } = {};
                 this.colvalues.forEach((element2: any, j: number) => {
@@ -325,53 +360,18 @@ export class AddShiftComponent implements OnInit {
                 formArray.insert(i, newFormGroup);
 
               }
-            }
+            // }
 
           })
 
         }
         // if Day reduced
         if (this.shiftForm.value.shiftFormArr.length > this.shiftForm.value.noOfdaysPerWeek){
-          // this.shiftForm.value.shiftFormArr.forEach((element: any, index : any) => {
-          //   if(index >= this.shiftForm.value.noOfdaysPerWeek){
-          //     formArray.removeAt(index);
-          //   }
-          // });
           for (let i = this.shiftForm.value.shiftFormArr.length - 1; i >= this.shiftForm.value.noOfdaysPerWeek; i--) {
             formArray.removeAt(i);
           }
         }
       }
-      // else {
-      //   let columnLength: number
-      //   let dayArr = (this.shiftForm.value.startingDay).split('@')
-      //   for (let i = 0; i < this.shiftForm.value.noOfdaysPerWeek; i++) {
-      //     if (i >= this.shiftFormArray.value.length) {
-      //       let obj: { [key: string]: any } = {};
-      //       this.colvalues.forEach((element2: any, j: number) => {
-      //         obj[element2.col] = this.fb.array([this.fb.group({ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] })]);
-      //       })
-      //       this.shiftFormArray.push(this.fb.group({
-      //         day: dayArr[i], ...obj
-      //       }))
-      //     }
-      //   }
-      //   this.shiftFormArray.value.forEach((element: any, i: number) => {
-      //     columnLength = Object.keys(element).length - 1;
-      //     if (columnLength != this.colvalues.length) {
-      //       let lendiff = this.colvalues.length - columnLength;
-      //       this.colvalues.forEach((element2: any, j: number) => {
-      //         if (j >= columnLength) {
-      //           let obj: { [key: string]: any } = {};
-      //           element[element2.col] = [{ startTime: ['', Validators.required], endTime: ['', Validators.required], periodType: ['', Validators.required] }];
-      //           // element.push(obj)
-      //           // this.shiftFormArray.insert(i, this.fb.group(obj))
-      //         }
-      //       });
-
-      //     }
-      //   });
-      // }
       console.log(this.shiftForm.value.shiftFormArr);
 
       this.periodForm.get('startTime')?.setValue(this.shiftForm.value.startTime)
