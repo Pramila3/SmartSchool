@@ -436,34 +436,26 @@ export class TimetablesComponent implements OnInit {
             const workbook = new ExcelJS.Workbook();
             const worksheet = workbook.addWorksheet("CombinedSheet"); // Create a single worksheet for all tables
             let currentRowIndex = 1; // Initialize the current row index
+            let maxColIndex = 1; // Initialize the maximum column index
 
             tables.forEach((table, tableIndex) => {
-                // Reset the column index for each table
-                let currentColIndex = 1;
-
                 // Add an empty row between tables
                 if (tableIndex > 0) {
                     currentRowIndex += 2; // Add 2 to create an empty row
                 }
 
                 table.querySelectorAll("tr").forEach((row, rowIndex) => {
-                    // Skip the first row if it contains table header (th)
-                    if (rowIndex === 0 && table.querySelector("th")) {
-                        return;
-                    }
-
                     // Increase the row index for each new row
                     currentRowIndex++;
 
-                    // Reset the column index for each new row
-                    currentColIndex = 1;
+                    let currentColIndex = 1; // Reset the column index for each new row
 
                     row.querySelectorAll("td, th").forEach((cell, colIndex) => {
                         const bgColor = window.getComputedStyle(cell).backgroundColor;
-                        const textContent = cell.textContent?.trim(); // Use optional chaining
+                        const textContent = cell.textContent?.trim() || ''; // Use optional chaining and handle null case
 
                         const excelCell = worksheet.getCell(currentRowIndex, currentColIndex);
-                        excelCell.value = textContent || ''; // Ensure textContent is not null
+                        excelCell.value = textContent; // Value should not be null
 
                         const rgbValues = bgColor.match(/\d+/g);
                         if (rgbValues && rgbValues.length === 3) {
@@ -483,14 +475,17 @@ export class TimetablesComponent implements OnInit {
 
                         currentColIndex++; // Move to the next column
                     });
+
+                    // Update the maximum column index encountered
+                    maxColIndex = Math.max(maxColIndex, currentColIndex);
                 });
             });
 
             // Auto-adjust column widths based on content
-            worksheet.columns.forEach((column, colIndex) => {
+            for (let colIndex = 1; colIndex <= maxColIndex; colIndex++) {
                 let maxLength = 0;
                 worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
-                    const cell = row.getCell(colIndex + 1);
+                    const cell = row.getCell(colIndex);
                     if (cell && cell.text) {
                         const length = cell.text.length;
                         if (length > maxLength) {
@@ -498,9 +493,10 @@ export class TimetablesComponent implements OnInit {
                         }
                     }
                 });
-                column.width = maxLength < 10 ? 10 : maxLength + 2;
-            });
+                worksheet.getColumn(colIndex).width = maxLength < 10 ? 10 : maxLength + 2;
+            }
 
+            // Write the workbook to a buffer and initiate download
             workbook.xlsx.writeBuffer().then(buffer => {
                 const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
                 const link = document.createElement("a");
