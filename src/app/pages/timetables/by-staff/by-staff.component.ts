@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 declare var $: any; // Declare jQuery globally (not recommended, but works for demonstration)
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
+import * as ExcelJS from "exceljs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 @Component({
@@ -340,24 +341,89 @@ export class ByStaffComponent implements OnInit {
 
     saveAs(blob, "Timetable.doc");
   }
-  downloadAsExcel(): void {
-    const content = document.getElementById("exceldownload"); // Adjust accordingly
+  downloadAsExcel() {
+    const content = document.getElementById("exceldownload"); // Get the HTML container element
 
-    if (content instanceof HTMLElement) {
-      const table = content.querySelector("table");
+    if (content instanceof HTMLElement) { // Check if the content is an HTML element
+        const tables = content.querySelectorAll("table"); // Find all tables within the content
 
-      if (table) {
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.table_to_sheet(table);
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+        if (tables.length > 0) { // If tables are found
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet("CombinedSheet"); // Create a single worksheet for all tables
+            let currentRowIndex = 1; // Initialize the current row index
+            let maxColIndex = 1; // Initialize the maximum column index
 
-        // Use XLSX.writeFile instead of XLSX.write
-        XLSX.writeFile(wb, "Timetable.xlsx");
-      } else {
-        console.error("No table found in the 'docx' element.");
-      }
+            tables.forEach((table, tableIndex) => {
+                // Add an empty row between tables
+                if (tableIndex > 0) {
+                    currentRowIndex += 2; // Add 2 to create an empty row
+                }
+
+                table.querySelectorAll("tr").forEach((row, rowIndex) => {
+                    // Increase the row index for each new row
+                    currentRowIndex++;
+
+                    let currentColIndex = 1; // Reset the column index for each new row
+
+                    row.querySelectorAll("td, th").forEach((cell, colIndex) => {
+                        const bgColor = window.getComputedStyle(cell).backgroundColor;
+                        const textContent = cell.textContent?.trim() || ''; // Use optional chaining and handle null case
+
+                        const excelCell = worksheet.getCell(currentRowIndex, currentColIndex);
+                        excelCell.value = textContent; // Value should not be null
+
+                        const rgbValues = bgColor.match(/\d+/g);
+                        if (rgbValues && rgbValues.length === 3) {
+                            excelCell.fill = {
+                                type: "pattern",
+                                pattern: "solid",
+                                fgColor: { argb: `FF${rgbValues.map(value => (+value).toString(16).padStart(2, "0")).join("")}` }
+                            };
+                        }
+
+                        excelCell.border = {
+                            top: { style: "thin", color: { argb: "ced4da" } },
+                            left: { style: "thin", color: { argb: "ced4da" } },
+                            bottom: { style: "thin", color: { argb: "ced4da" } },
+                            right: { style: "thin", color: { argb: "ced4da" } }
+                        };
+
+                        currentColIndex++; // Move to the next column
+                    });
+
+                    // Update the maximum column index encountered
+                    maxColIndex = Math.max(maxColIndex, currentColIndex);
+                });
+            });
+
+            // Auto-adjust column widths based on content
+            for (let colIndex = 1; colIndex <= maxColIndex; colIndex++) {
+                let maxLength = 0;
+                worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
+                    const cell = row.getCell(colIndex);
+                    if (cell && cell.text) {
+                        const length = cell.text.length;
+                        if (length > maxLength) {
+                            maxLength = length;
+                        }
+                    }
+                });
+                worksheet.getColumn(colIndex).width = maxLength < 10 ? 10 : maxLength + 2;
+            }
+
+            // Write the workbook to a buffer and initiate download
+            workbook.xlsx.writeBuffer().then(buffer => {
+                const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+                const link = document.createElement("a");
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "Timetable.xlsx";
+                link.click();
+            });
+        } else {
+            console.error("No tables found in the 'exceldownload' element.");
+        }
     } else {
-      console.error("Element with id 'docx' not found in the document.");
+        console.error("Element with id 'exceldownload' not found in the document.");
     }
-  }
+}
 }
