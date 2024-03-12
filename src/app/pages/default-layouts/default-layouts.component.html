@@ -144,8 +144,8 @@
 
                     </mat-menu>
                     <mat-menu #View="matMenu">
-                        <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }"
-                            routerLinkActive="active">General Timetable</a>
+                        <a mat-menu-item [routerLink]="['/timetables']" [routerLinkActiveOptions]="{ exact: true }"
+                            routerLinkActive="active" [queryParams]="{state: 'generalTimetable'}">General Timetable</a>
                         <a mat-menu-item routerLink="/timetable/timetablebyclass"
                             [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Timetable by
                             Class</a>

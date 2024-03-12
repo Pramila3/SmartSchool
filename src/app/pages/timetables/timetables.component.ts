@@ -44,12 +44,20 @@ export class TimetablesComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loader.show();
-    this.authLogin();
-    // this.getShiftList();
+    this.route.queryParams.subscribe(params => {
+      const paramValue = params['state'];
+      console.log(paramValue);
+      if (paramValue == 'generalTimetable') {
+        console.log(paramValue);
+        this.getShiftList();
+      } else {
+        this.authLogin();
+      }
+    })
   }
 
   getProcessTimetableList() {
@@ -113,20 +121,22 @@ export class TimetablesComponent implements OnInit {
         schoolCode: schoolCode,
         academicYear: academicYear,
       };
-
-      let data = await this.authService
-        .postHttpServicesighIn(postData, "usersLogin")
-        .toPromise();
-      if (data.status) {
-        this.getShiftList();
-        // this.ViewTimetableClasswise();
-        this.loader.hide();
-      } else {
-        this.loader.hide();
-        this.router.navigate(['/error'])
+      if (params['state'] == undefined) {
+        let data = await this.authService
+          .postHttpServicesighIn(postData, "usersLogin")
+          .toPromise();
+        if (data.status) {
+          this.getShiftList();
+          // this.ViewTimetableClasswise();
+          this.loader.hide();
+        } else {
+          this.loader.hide();
+          this.router.navigate(['/error'])
+        }
+        this.cdr.detectChanges();
       }
-      this.cdr.detectChanges();
     });
+
   }
 
   getShiftList() {
@@ -194,7 +204,7 @@ export class TimetablesComponent implements OnInit {
       });
   }
 
- 
+
 
   ViewTimetableClasswise() {
     this.timetableview = "class";
@@ -393,89 +403,89 @@ export class TimetablesComponent implements OnInit {
     saveAs(blob, "Timetable.doc");
   }
 
-   downloadAsExcel() {
+  downloadAsExcel() {
     const content = document.getElementById("exceldownload"); // Get the HTML container element
 
     if (content instanceof HTMLElement) { // Check if the content is an HTML element
-        const tables = content.querySelectorAll("table"); // Find all tables within the content
+      const tables = content.querySelectorAll("table"); // Find all tables within the content
 
-        if (tables.length > 0) { // If tables are found
-            const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet("CombinedSheet"); // Create a single worksheet for all tables
-            let currentRowIndex = 1; // Initialize the current row index
-            let maxColIndex = 1; // Initialize the maximum column index
+      if (tables.length > 0) { // If tables are found
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("CombinedSheet"); // Create a single worksheet for all tables
+        let currentRowIndex = 1; // Initialize the current row index
+        let maxColIndex = 1; // Initialize the maximum column index
 
-            tables.forEach((table, tableIndex) => {
-                // Add an empty row between tables
-                if (tableIndex > 0) {
-                    currentRowIndex += 2; // Add 2 to create an empty row
-                }
+        tables.forEach((table, tableIndex) => {
+          // Add an empty row between tables
+          if (tableIndex > 0) {
+            currentRowIndex += 2; // Add 2 to create an empty row
+          }
 
-                table.querySelectorAll("tr").forEach((row, rowIndex) => {
-                    // Increase the row index for each new row
-                    currentRowIndex++;
+          table.querySelectorAll("tr").forEach((row, rowIndex) => {
+            // Increase the row index for each new row
+            currentRowIndex++;
 
-                    let currentColIndex = 1; // Reset the column index for each new row
+            let currentColIndex = 1; // Reset the column index for each new row
 
-                    row.querySelectorAll("td, th").forEach((cell, colIndex) => {
-                        const bgColor = window.getComputedStyle(cell).backgroundColor;
-                        const textContent = cell.textContent?.trim() || ''; // Use optional chaining and handle null case
+            row.querySelectorAll("td, th").forEach((cell, colIndex) => {
+              const bgColor = window.getComputedStyle(cell).backgroundColor;
+              const textContent = cell.textContent?.trim() || ''; // Use optional chaining and handle null case
 
-                        const excelCell = worksheet.getCell(currentRowIndex, currentColIndex);
-                        excelCell.value = textContent; // Value should not be null
+              const excelCell = worksheet.getCell(currentRowIndex, currentColIndex);
+              excelCell.value = textContent; // Value should not be null
 
-                        const rgbValues = bgColor.match(/\d+/g);
-                        if (rgbValues && rgbValues.length === 3) {
-                            excelCell.fill = {
-                                type: "pattern",
-                                pattern: "solid",
-                                fgColor: { argb: `FF${rgbValues.map(value => (+value).toString(16).padStart(2, "0")).join("")}` }
-                            };
-                        }
+              const rgbValues = bgColor.match(/\d+/g);
+              if (rgbValues && rgbValues.length === 3) {
+                excelCell.fill = {
+                  type: "pattern",
+                  pattern: "solid",
+                  fgColor: { argb: `FF${rgbValues.map(value => (+value).toString(16).padStart(2, "0")).join("")}` }
+                };
+              }
 
-                        excelCell.border = {
-                            top: { style: "thin", color: { argb: "ced4da" } },
-                            left: { style: "thin", color: { argb: "ced4da" } },
-                            bottom: { style: "thin", color: { argb: "ced4da" } },
-                            right: { style: "thin", color: { argb: "ced4da" } }
-                        };
+              excelCell.border = {
+                top: { style: "thin", color: { argb: "ced4da" } },
+                left: { style: "thin", color: { argb: "ced4da" } },
+                bottom: { style: "thin", color: { argb: "ced4da" } },
+                right: { style: "thin", color: { argb: "ced4da" } }
+              };
 
-                        currentColIndex++; // Move to the next column
-                    });
-
-                    // Update the maximum column index encountered
-                    maxColIndex = Math.max(maxColIndex, currentColIndex);
-                });
+              currentColIndex++; // Move to the next column
             });
 
-            // Auto-adjust column widths based on content
-            for (let colIndex = 1; colIndex <= maxColIndex; colIndex++) {
-                let maxLength = 0;
-                worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
-                    const cell = row.getCell(colIndex);
-                    if (cell && cell.text) {
-                        const length = cell.text.length;
-                        if (length > maxLength) {
-                            maxLength = length;
-                        }
-                    }
-                });
-                worksheet.getColumn(colIndex).width = maxLength < 10 ? 10 : maxLength + 2;
+            // Update the maximum column index encountered
+            maxColIndex = Math.max(maxColIndex, currentColIndex);
+          });
+        });
+
+        // Auto-adjust column widths based on content
+        for (let colIndex = 1; colIndex <= maxColIndex; colIndex++) {
+          let maxLength = 0;
+          worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
+            const cell = row.getCell(colIndex);
+            if (cell && cell.text) {
+              const length = cell.text.length;
+              if (length > maxLength) {
+                maxLength = length;
+              }
             }
-
-            // Write the workbook to a buffer and initiate download
-            workbook.xlsx.writeBuffer().then(buffer => {
-                const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-                const link = document.createElement("a");
-                link.href = window.URL.createObjectURL(blob);
-                link.download = "Timetable.xlsx";
-                link.click();
-            });
-        } else {
-            console.error("No tables found in the 'exceldownload' element.");
+          });
+          worksheet.getColumn(colIndex).width = maxLength < 10 ? 10 : maxLength + 2;
         }
+
+        // Write the workbook to a buffer and initiate download
+        workbook.xlsx.writeBuffer().then(buffer => {
+          const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "Timetable.xlsx";
+          link.click();
+        });
+      } else {
+        console.error("No tables found in the 'exceldownload' element.");
+      }
     } else {
-        console.error("Element with id 'exceldownload' not found in the document.");
+      console.error("Element with id 'exceldownload' not found in the document.");
     }
-}
+  }
 }
