@@ -16,7 +16,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                  
                     <li class="nav-item"  >
-                        <a mat-menu-item routerLink="/timetables" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+                        <a mat-menu-item [routerLink]="['/timetables']" [queryParams]="{state: 'generalTimetable'}" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
                             <span class="menu-icons">
                                 <img src="../../../assets/menu_icons/timetable.png" alt="" class="icon_img img-fluid">
                             </span>
