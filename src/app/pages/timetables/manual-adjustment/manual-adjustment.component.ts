@@ -322,7 +322,7 @@ export class ManualAdjustmentComponent implements OnInit {
               const colIndex = Array.from(parentElement.children).indexOf(closestCell);
               const rowData = table2?.rows[rowIndex + 1];
               const cellData = rowData?.cells[colIndex].textContent;
-              if (rowIndex && colIndex && cellData) {
+              if ((rowIndex != undefined)  && (colIndex != undefined) && cellData) {
                 let staff = rowData?.cells[colIndex].innerHTML.match(/<span[^>]*>(.*?)<\/span>/)
 
                 if (staff) {
