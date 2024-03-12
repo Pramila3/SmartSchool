@@ -10,6 +10,7 @@ const routes: Routes = [
   //   path: 'login', component: LoginComponent,
   //   data: { returnUrl: window.location.pathname }
   // },
+  { path: '', component: Error404Component },
   {
     path: 'error', component: Error404Component,
     data: { returnUrl: window.location.pathname }
