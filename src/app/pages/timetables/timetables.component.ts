@@ -48,10 +48,8 @@ export class TimetablesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loader.show();
-    // this.authLogin();
-    this.getShiftList();
-    
-
+    this.authLogin();
+    // this.getShiftList();
   }
 
   getProcessTimetableList() {
@@ -97,39 +95,39 @@ export class TimetablesComponent implements OnInit {
       );
   }
 
-  // authLogin() {
-  //   this.route.queryParams.subscribe(async (params) => {
-  //     const schoolCode = params["schoolCode"];
-  //     const userName = params["userName"];
-  //     // const password = params["password"];
-  //     const academicYear = params["academicyear"];
+  authLogin() {
+    this.route.queryParams.subscribe(async (params) => {
+      const schoolCode = params["schoolCode"];
+      const userName = params["userName"];
+      // const password = params["password"];
+      const academicYear = params["academicyear"];
 
-  //     // You can now use these parameters in your component logic
-  //     console.log("School Code:", schoolCode);
-  //     console.log("User Name:", userName);
-  //     // console.log("Password:", password);
-  //     console.log("Academic Year:", academicYear);
-  //     let postData = {
-  //       userName: userName,
-  //       // password: password,
-  //       schoolCode: schoolCode,
-  //       academicYear: academicYear,
-  //     };
+      // You can now use these parameters in your component logic
+      console.log("School Code:", schoolCode);
+      console.log("User Name:", userName);
+      // console.log("Password:", password);
+      console.log("Academic Year:", academicYear);
+      let postData = {
+        userName: userName,
+        // password: password,
+        schoolCode: schoolCode,
+        academicYear: academicYear,
+      };
 
-  //     let data = await this.authService
-  //       .postHttpServicesighIn(postData, "usersLogin")
-  //       .toPromise();
-  //     if (data.status) {
-  //       this.getShiftList();
-  //       this.ViewTimetableClasswise();
-  //       this.loader.hide();
-  //     } else {
-  //       this.loader.hide();
-  //       // this.router.navigate(['/error'])
-  //     }
-  //     this.cdr.detectChanges();
-  //   });
-  // }
+      let data = await this.authService
+        .postHttpServicesighIn(postData, "usersLogin")
+        .toPromise();
+      if (data.status) {
+        this.getShiftList();
+        // this.ViewTimetableClasswise();
+        this.loader.hide();
+      } else {
+        this.loader.hide();
+        this.router.navigate(['/error'])
+      }
+      this.cdr.detectChanges();
+    });
+  }
 
   getShiftList() {
     let postData = {
@@ -196,38 +194,7 @@ export class TimetablesComponent implements OnInit {
       });
   }
 
-  // getpagingList(shiftId: string) {
-  //   this.loader.show();
-  //   let postData = {
-  //     schoolcode: localStorage.getItem("schoolcode"),
-  //     shiftId: shiftId,
-  //   };
-
-  //   console.log("shiftid", this.shiftId);
-
-  //   this.service
-  //     .getHttpServiceWithDynamicParams(postData, "getpagingList")
-  //     .subscribe((response) => {
-  //       if (response.status) {
-  //         this.pageList = response.resultData;
-  //         this.pageId = this.pageList.length > 0 ? this.pageList[0].id : "";
-  //         console.log("pageinglist", this.pageList);
-  //         this.ViewTimetableClasswise();
-
-  //         this.loader.hide();
-  //       }
-  //       this.cdr.detectChanges();
-  //     });
-  // }
-  // showTab(tabId: string): void {
-  //   const tabs = document.querySelectorAll(".nav-link");
-  //   tabs.forEach((tab) => tab.classList.remove("active"));
-
-  //   const tabContent = document.querySelector(tabId);
-  //   if (tabContent) {
-  //     tabContent.classList.add("show", "active");
-  //   }
-  // }
+ 
 
   ViewTimetableClasswise() {
     this.timetableview = "class";

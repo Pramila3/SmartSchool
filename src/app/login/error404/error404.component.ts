@@ -12,7 +12,7 @@ export class Error404Component implements OnInit {
 
   ngOnInit(): void {
   }
-  backhome(){
-    this.router.navigate(['/'])
-  }
+  // backhome(){
+  //   this.router.navigate(['https://staging.smartschoolplus.co.in/'])
+  // }
 }
