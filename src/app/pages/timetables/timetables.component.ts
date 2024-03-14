@@ -92,13 +92,13 @@ export class TimetablesComponent implements OnInit {
           console.error("API Error:", error);
           this.loader.hide();
 
-          // Show an alert using a library like Swal (SweetAlert2) or your preferred alert mechanism
-          Swal.fire({
-            title: "API Error",
-            text: "An error occurred while fetching data from the API.",
-            icon: "error",
-            // timer: 3000 // Adjust the timer as needed
-          });
+          // // Show an alert using a library like Swal (SweetAlert2) or your preferred alert mechanism
+          // Swal.fire({
+          //   title: "API Error",
+          //   text: "An error occurred while fetching data from the API.",
+          //   icon: "error",
+          //   // timer: 3000 // Adjust the timer as needed
+          // });
         }
       );
   }
@@ -241,12 +241,12 @@ export class TimetablesComponent implements OnInit {
           this.loader.hide();
 
           // Show an alert using a library like Swal (SweetAlert2) or your preferred alert mechanism
-          Swal.fire({
-            title: "API Error",
-            text: "An error occurred while fetching data from the API.",
-            icon: "error",
-            // timer: 3000 // Adjust the timer as needed
-          });
+          // Swal.fire({
+          //   title: "API Error",
+          //   text: "An error occurred while fetching data from the API.",
+          //   icon: "error",
+          //   // timer: 3000 // Adjust the timer as needed
+          // });
         }
       );
   }
@@ -284,12 +284,12 @@ export class TimetablesComponent implements OnInit {
           this.loader.hide();
 
           // Show an alert using a library like Swal (SweetAlert2) or your preferred alert mechanism
-          Swal.fire({
-            title: "API Error",
-            text: "An error occurred while fetching data from the API.",
-            icon: "error",
-            // timer: 3000 // Adjust the timer as needed
-          });
+          // Swal.fire({
+          //   title: "API Error",
+          //   text: "An error occurred while fetching data from the API.",
+          //   icon: "error",
+          //   // timer: 3000 // Adjust the timer as needed
+          // });
         }
       );
   }
@@ -332,12 +332,12 @@ export class TimetablesComponent implements OnInit {
           this.loader.hide();
 
           // Show an alert using a library like Swal (SweetAlert2) or your preferred alert mechanism
-          Swal.fire({
-            title: "API Error",
-            text: "An error occurred while fetching data from the API.",
-            icon: "error",
-            // timer: 3000 // Adjust the timer as needed
-          });
+          // Swal.fire({
+          //   title: "API Error",
+          //   text: "An error occurred while fetching data from the API.",
+          //   icon: "error",
+          //   // timer: 3000 // Adjust the timer as needed
+          // });
         }
       );
   }
